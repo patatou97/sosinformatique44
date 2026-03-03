@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRM — SOS Informatique 44 | Gestion Atelier &amp; Power Sourcing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8FAFC; --surface: #FFFFFF; --text: #0F172A; --text-secondary: #475569;
+  --border: #E2E8F0; --accent: #0EA5E9; --accent-dark: #0284C7; --accent-light: #E0F2FE;
+  --green: #10B981; --green-dark: #059669; --green-light: #D1FAE5;
+  --whatsapp: #25D366; --whatsapp-dark: #1EBE5D;
+  --danger: #DC2626; --danger-light: #FEE2E2;
+  --warning: #F59E0B; --warning-light: #FEF3C7;
+  --purple: #8B5CF6; --purple-light: #EDE9FE;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06); --shadow-md: 0 4px 12px rgba(15,23,42,.08);
+  --radius: 12px; --radius-sm: 8px;
+  --font-heading: 'Outfit', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+button{cursor:pointer;font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Header */
+.crm-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+.crm-logo{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--text)}
+.crm-logo svg{color:var(--accent)}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px;overflow-x:auto}
+.tab{padding:8px 16px;border-radius:6px;font-size:.8125rem;font-weight:600;border:none;background:none;color:var(--text-secondary);white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text);background:var(--surface)}
+.tab.active{background:var(--accent);color:#fff}
+@media(max-width:700px){.tab{padding:8px 10px;font-size:.75rem}}
+
+/* Content */
+.crm-content{max-width:1400px;margin:0 auto;padding:24px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* Cards */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:900px){.stat-row{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.stat-row{grid-template-columns:1fr}}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm)}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-icon-blue{background:var(--accent-light);color:var(--accent)}
+.stat-icon-green{background:var(--green-light);color:var(--green-dark)}
+.stat-icon-purple{background:var(--purple-light);color:var(--purple)}
+.stat-icon-yellow{background:var(--warning-light);color:#92400E}
+.stat-value{font-family:var(--font-heading);font-size:1.75rem;font-weight:700;line-height:1}
+.stat-label{font-size:.75rem;color:var(--text-secondary)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);font-weight:600;font-size:.8125rem;border:none;transition:all .2s}
+.btn:hover{transform:translateY(-1px);text-decoration:none}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:var(--accent-dark)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dark)}
+.btn-whatsapp{background:var(--whatsapp);color:#fff}.btn-whatsapp:hover{background:var(--whatsapp-dark)}
+.btn-outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}.btn-outline:hover{background:var(--accent-light)}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#B91C1C}
+.btn-purple{background:var(--purple);color:#fff}.btn-purple:hover{background:#7C3AED}
+.btn-sm{padding:6px 10px;font-size:.75rem}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+
+/* Table */
+.table-wrapper{overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--bg);text-align:left;padding:10px 14px;font-size:.75rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;font-size:.8125rem;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+
+/* Status badges */
+.status{display:inline-flex;padding:3px 10px;border-radius:12px;font-size:.6875rem;font-weight:600;white-space:nowrap}
+.status-nouveau{background:var(--accent-light);color:var(--accent-dark)}
+.status-contacte{background:var(--warning-light);color:#92400E}
+.status-reparation{background:var(--purple-light);color:var(--purple)}
+.status-repare{background:var(--green-light);color:var(--green-dark)}
+.status-avis{background:#FEF3C7;color:#92400E}
+.status-fidelise{background:#DBEAFE;color:#1E40AF}
+
+/* Forms */
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:3px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.875rem;font-family:var(--font-body);background:var(--bg);color:var(--text)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.form-group textarea{resize:vertical;min-height:60px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius);padding:28px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(15,23,42,.2)}
+.modal h2{font-family:var(--font-heading);font-size:1.25rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.25rem;color:var(--text-secondary);padding:4px}
+
+/* Contact sheet */
+.contact-sheet{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm)}
+.contact-sheet h2{font-family:var(--font-heading);font-size:1.25rem;margin-bottom:16px}
+.contact-detail{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.contact-detail .cd-item{padding:8px 12px;background:var(--bg);border-radius:var(--radius-sm);font-size:.8125rem}
+.cd-label{font-weight:600;color:var(--text-secondary);font-size:.6875rem;text-transform:uppercase;letter-spacing:.3px}
+.timeline{border-left:2px solid var(--border);padding-left:16px;margin:16px 0}
+.timeline-item{margin-bottom:12px;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-21px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--surface)}
+.timeline-item .tl-date{font-size:.6875rem;color:var(--text-secondary)}
+.timeline-item .tl-text{font-size:.8125rem}
+
+/* Search */
+.search-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.875rem;background:var(--surface)}
+.search-input:focus{outline:none;border-color:var(--accent)}
+.filter-select{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8125rem;background:var(--surface);color:var(--text)}
+
+/* Code blocks (installation tab) */
+.code-block{background:#1E293B;color:#E2E8F0;border-radius:var(--radius-sm);padding:16px;margin:12px 0;font-family:var(--font-mono);font-size:.75rem;overflow-x:auto;position:relative;line-height:1.5}
+.code-block .copy-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.15);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:.6875rem;font-family:var(--font-body)}
+.code-block .copy-btn:hover{background:rgba(255,255,255,.25)}
+.install-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.install-section h3{font-family:var(--font-heading);font-size:1rem;margin-bottom:8px}
+.install-section p{font-size:.8125rem;color:var(--text-secondary);margin-bottom:8px}
+
+/* Settings form */
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.settings-section h3{font-family:var(--font-heading);font-size:1rem;margin-bottom:12px}
+
+/* Part status */
+.part-status{display:inline-flex;padding:3px 10px;border-radius:12px;font-size:.6875rem;font-weight:600}
+.part-acommander{background:var(--danger-light);color:var(--danger)}
+.part-commandee{background:var(--warning-light);color:#92400E}
+.part-recue{background:var(--accent-light);color:var(--accent-dark)}
+.part-installee{background:var(--green-light);color:var(--green-dark)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;box-shadow:var(--shadow-md);z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Checkbox */
+.checkbox-label{display:flex;align-items:center;gap:6px;font-size:.8125rem;cursor:pointer}
+.checkbox-label input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="crm-header">
+  <div class="crm-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    CRM — SOS Informatique 44
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="dashboard">Tableau de bord</button>
+    <button class="tab" data-tab="contacts">Tous les contacts</button>
+    <button class="tab" data-tab="tracking">Suivi des clics</button>
+    <button class="tab" data-tab="install">Installation</button>
+    <button class="tab" data-tab="sourcing">Power Sourcing</button>
+  </div>
+</header>
+
+<div class="crm-content">
+  <!-- TAB: Dashboard -->
+  <div class="tab-panel active" id="panel-dashboard">
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><div class="stat-value" id="dashTotal">0</div><div class="stat-label">Contacts total</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg></div>
+        <div><div class="stat-value" id="dashNew">0</div><div class="stat-label">Nouveaux</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" opacity=".7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg></div>
+        <div><div class="stat-value" id="dashWA">0</div><div class="stat-label">Clics WhatsApp</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="stat-value" id="dashPhone">0</div><div class="stat-label">Clics téléphone</div></div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-accent" onclick="openAddContact()">+ Ajouter un contact</button>
+      <button class="btn btn-outline" onclick="exportCSV()">Exporter CSV</button>
+    </div>
+    <h3 style="font-family:var(--font-heading);margin-bottom:12px">10 derniers contacts</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Date</th><th>Nom</th><th>Email</th><th>Tél</th><th>Appareil</th><th>Source</th><th>Statut</th><th>Actions</th></tr></thead>
+        <tbody id="dashTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: All contacts -->
+  <div class="tab-panel" id="panel-contacts">
+    <div class="search-bar">
+      <input type="text" class="search-input" id="searchContacts" placeholder="Rechercher un contact…">
+      <select class="filter-select" id="filterStatus">
+        <option value="">Tous les statuts</option>
+        <option value="Nouveau">Nouveau</option>
+        <option value="Contacté">Contacté</option>
+        <option value="En réparation">En réparation</option>
+        <option value="Réparé">Réparé</option>
+        <option value="Réparé – En attente d'avis">En attente d'avis</option>
+        <option value="Fidélisé">Fidélisé</option>
+      </select>
+      <button class="btn btn-accent" onclick="openAddContact()">+ Ajouter</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Date</th><th>Nom</th><th>Email</th><th>Tél</th><th>Appareil</th><th>Source</th><th>Statut</th><th>Actions</th></tr></thead>
+        <tbody id="contactsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: Tracking -->
+  <div class="tab-panel" id="panel-tracking">
+    <div class="stat-row" style="grid-template-columns:repeat(3,1fr)">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" opacity=".7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg></div>
+        <div><div class="stat-value" id="trackWA">0</div><div class="stat-label">Clics WhatsApp</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="stat-value" id="trackPhone">0</div><div class="stat-label">Clics téléphone</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon-blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div><div class="stat-value" id="trackForm">0</div><div class="stat-label">Formulaires</div></div>
+      </div>
+    </div>
+    <h3 style="font-family:var(--font-heading);margin-bottom:12px">Historique des événements</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Date</th><th>Type</th><th>Détail</th></tr></thead>
+        <tbody id="eventsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: Installation -->
+  <div class="tab-panel" id="panel-install">
+    <h2 style="font-family:var(--font-heading);margin-bottom:16px">Installation &amp; Snippets</h2>
+    <p style="color:var(--text-secondary);margin-bottom:24px;font-size:.875rem">Copiez-collez ces blocs de code dans votre site pour capturer des contacts et suivre les clics.</p>
+
+    <div class="install-section">
+      <h3>1. Popup de capture (après 8 secondes, 1 fois par session)</h3>
+      <p>Affiche un formulaire popup pour capturer le nom, email et appareil du visiteur.</p>
+      <div class="code-block" id="code1">
+        <button class="copy-btn" onclick="copyCode('code1')">Copier</button>
+&lt;!-- SOS44 Popup Capture --&gt;
+&lt;script&gt;
+(function(){
+  if(sessionStorage.getItem('sos44_popup')) return;
+  setTimeout(function(){
+    sessionStorage.setItem('sos44_popup','1');
+    var d=document.createElement('div');
+    d.id='sos44popup';
+    d.innerHTML='&lt;div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px"&gt;&lt;div style="background:#fff;border-radius:12px;padding:28px;max-width:420px;width:100%"&gt;&lt;h3 style="margin:0 0 4px"&gt;Besoin d\\\'aide informatique ?&lt;/h3&gt;&lt;p style="color:#475569;font-size:.875rem;margin:0 0 16px"&gt;Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare&lt;/p&gt;&lt;form id="sos44form"&gt;&lt;input name="name" placeholder="Votre nom" required style="width:100%;padding:8px 12px;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:8px;font-size:.875rem"&gt;&lt;input name="email" type="email" placeholder="Email" style="width:100%;padding:8px 12px;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:8px;font-size:.875rem"&gt;&lt;select name="device" style="width:100%;padding:8px 12px;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:12px;font-size:.875rem"&gt;&lt;option value=""&gt;Appareil concern\u00e9&lt;/option&gt;&lt;option&gt;PC Windows&lt;/option&gt;&lt;option&gt;Mac / MacBook&lt;/option&gt;&lt;option&gt;iPhone&lt;/option&gt;&lt;option&gt;Smartphone Android&lt;/option&gt;&lt;option&gt;Tablette&lt;/option&gt;&lt;option&gt;Autre&lt;/option&gt;&lt;/select&gt;&lt;button type="submit" style="width:100%;padding:10px;background:#0EA5E9;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:.875rem;cursor:pointer"&gt;Diagnostic gratuit&lt;/button&gt;&lt;/form&gt;&lt;button onclick="this.closest(\\\'#sos44popup\\\').remove()" style="margin-top:8px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center"&gt;Non merci&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;';
+    document.body.appendChild(d);
+    document.getElementById('sos44form').onsubmit=function(e){
+      e.preventDefault();
+      var c=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
+      c.push({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString(),lastRelance:''});
+      localStorage.setItem('sos44_crm_contacts',JSON.stringify(c));
+      d.remove();
+    };
+  },8000);
+})();
+&lt;/script&gt;</div>
+    </div>
+
+    <div class="install-section">
+      <h3>2. Formulaire de contact amélioré</h3>
+      <p>Remplacez votre formulaire actuel par celui-ci pour capturer automatiquement les contacts dans le CRM.</p>
+      <div class="code-block" id="code2">
+        <button class="copy-btn" onclick="copyCode('code2')">Copier</button>
+&lt;!-- SOS44 Contact Form --&gt;
+&lt;form id="sos44ContactForm" style="max-width:500px"&gt;
+  &lt;input name="name" placeholder="Nom" required style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #E2E8F0;border-radius:8px"&gt;
+  &lt;input name="email" type="email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #E2E8F0;border-radius:8px"&gt;
+  &lt;input name="phone" type="tel" placeholder="T&eacute;l&eacute;phone" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #E2E8F0;border-radius:8px"&gt;
+  &lt;textarea name="message" placeholder="D&eacute;crivez votre probl&egrave;me" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #E2E8F0;border-radius:8px;min-height:80px"&gt;&lt;/textarea&gt;
+  &lt;button type="submit" style="padding:10px 24px;background:#0EA5E9;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;
+&lt;script&gt;
+document.getElementById('sos44ContactForm').onsubmit=function(e){
+  e.preventDefault();
+  var c=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
+  c.push({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:this.phone.value,device:'',source:'Formulaire',status:'Nouveau',message:this.message.value,date:new Date().toISOString(),lastRelance:''});
+  localStorage.setItem('sos44_crm_contacts',JSON.stringify(c));
+  var ev=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
+  ev.push({date:new Date().toISOString(),type:'formulaire',detail:'Formulaire envoy&eacute; par '+this.name.value});
+  localStorage.setItem('sos44_crm_events',JSON.stringify(ev));
+  alert('Merci ! Nous vous recontacterons rapidement.');
+  this.reset();
+};
+&lt;/script&gt;</div>
+    </div>
+
+    <div class="install-section">
+      <h3>3. Tracking clics WhatsApp &amp; Téléphone</h3>
+      <p>Ajoutez ce script pour comptabiliser les clics sur vos liens WhatsApp et téléphone.</p>
+      <div class="code-block" id="code3">
+        <button class="copy-btn" onclick="copyCode('code3')">Copier</button>
+&lt;!-- SOS44 Click Tracking --&gt;
+&lt;script&gt;
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a');
+  if(!a) return;
+  var h=a.href||'';
+  var ev=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
+  if(h.indexOf('wa.me')!==-1){
+    ev.push({date:new Date().toISOString(),type:'whatsapp',detail:'Clic WhatsApp'});
+  } else if(h.indexOf('tel:')===0){
+    ev.push({date:new Date().toISOString(),type:'telephone',detail:'Clic T&eacute;l&eacute;phone : '+h.replace('tel:','')});
+  }
+  localStorage.setItem('sos44_crm_events',JSON.stringify(ev));
+});
+&lt;/script&gt;</div>
+    </div>
+
+    <div class="settings-section">
+      <h3>Paramètres</h3>
+      <div class="form-group">
+        <label for="settingGBP">Lien Google Business Profile</label>
+        <input type="url" id="settingGBP" placeholder="https://g.page/r/votre-lien/review">
+      </div>
+      <div class="form-group">
+        <label for="settingWAmsg">Message WhatsApp "Avis Google"</label>
+        <textarea id="settingWAmsg" rows="4">Bonjour [Nom], merci d'avoir fait confiance à SOS Informatique 44 ! 😊
+Votre avis nous aide beaucoup. Pourriez-vous nous laisser un petit commentaire ?
+[LIEN_GOOGLE]
+Merci et à bientôt !
+— SOS Informatique 44</textarea>
+      </div>
+      <div class="form-group">
+        <label for="settingRelance">Message de relance post-réparation</label>
+        <textarea id="settingRelance" rows="5">Bonjour [Nom], c'est SOS Informatique 44 🛠️
+Nous avons réparé votre [Appareil]. Tout fonctionne bien ?
+Pensez au nettoyage annuel pour éviter la surchauffe.
+Bonus Réparation 50€ toujours disponible ✅
+À bientôt — SOS Informatique 44
+02.85.52.38.14</textarea>
+      </div>
+      <button class="btn btn-accent" onclick="saveSettingsCRM()">Enregistrer les paramètres</button>
+    </div>
+  </div>
+
+  <!-- TAB: Power Sourcing -->
+  <div class="tab-panel" id="panel-sourcing">
+    <h2 style="font-family:var(--font-heading);margin-bottom:16px">Power Sourcing — Pièces détachées</h2>
+    <div class="search-bar">
+      <select class="filter-select" id="filterPartStatus">
+        <option value="">Tous les statuts</option>
+        <option value="À commander">À commander</option>
+        <option value="Commandée">Commandée</option>
+        <option value="Reçue">Reçue</option>
+        <option value="Installée">Installée</option>
+      </select>
+      <button class="btn btn-accent" onclick="openAddPart()">+ Ajouter une pièce</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Pièce</th><th>Catégorie</th><th>Contact</th><th>Statut</th><th>Prix est.</th><th>Fournisseur</th><th>Admin</th><th>Actions</th></tr></thead>
+        <tbody id="partsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add/Edit Contact -->
+<div class="modal-overlay" id="modalContact">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('modalContact')">&times;</button>
+    <h2 id="modalContactTitle">Ajouter un contact</h2>
+    <form id="formContact" onsubmit="saveContact(event)">
+      <input type="hidden" id="contactId">
+      <div class="form-row">
+        <div class="form-group"><label for="cName">Nom *</label><input type="text" id="cName" required></div>
+        <div class="form-group"><label for="cEmail">Email</label><input type="email" id="cEmail"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="cPhone">Téléphone</label><input type="tel" id="cPhone"></div>
+        <div class="form-group"><label for="cDevice">Appareil</label><input type="text" id="cDevice" placeholder="ex: MacBook Pro 2019"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cSource">Source</label>
+          <select id="cSource"><option>WhatsApp</option><option>Téléphone</option><option>Formulaire</option><option>Popup</option><option>Sur place</option><option>Autre</option></select>
+        </div>
+        <div class="form-group">
+          <label for="cStatus">Statut</label>
+          <select id="cStatus">
+            <option>Nouveau</option><option>Contacté</option><option>En réparation</option><option>Réparé</option><option>Réparé – En attente d'avis</option><option>Fidélisé</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label for="cMessage">Message / Notes</label><textarea id="cMessage"></textarea></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalContact')">Annuler</button>
+        <button type="submit" class="btn btn-accent">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Contact Sheet -->
+<div class="modal-overlay" id="modalSheet">
+  <div class="modal" style="position:relative;max-width:700px">
+    <button class="modal-close" onclick="closeModal('modalSheet')">&times;</button>
+    <div id="sheetContent"></div>
+  </div>
+</div>
+
+<!-- Modal: Add Part -->
+<div class="modal-overlay" id="modalPart">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('modalPart')">&times;</button>
+    <h2 id="modalPartTitle">Ajouter une pièce</h2>
+    <form id="formPart" onsubmit="savePart(event)">
+      <input type="hidden" id="partId">
+      <input type="hidden" id="partContactId">
+      <div class="form-group">
+        <label for="pName">Nom de la pièce *</label>
+        <input type="text" id="pName" required placeholder="ex: Écran LCD iPhone 13">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pCategory">Catégorie</label>
+          <select id="pCategory"><option>Écran</option><option>Batterie</option><option>Connecteur</option><option>Puce</option><option>SSD</option><option>RAM</option><option>Nappe</option><option>Autre</option></select>
+        </div>
+        <div class="form-group">
+          <label for="pStatus">Statut</label>
+          <select id="pStatus"><option>À commander</option><option>Commandée</option><option>Reçue</option><option>Installée</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="pPrice">Prix estimé (€)</label><input type="number" id="pPrice" step="0.01" min="0"></div>
+        <div class="form-group">
+          <label for="pContact">Contact associé</label>
+          <select id="pContact"></select>
+        </div>
+      </div>
+      <div class="form-group"><label for="pUrl">URL fournisseur</label><input type="url" id="pUrl" placeholder="https://..."></div>
+      <div class="form-group"><label for="pNotes">Notes</label><textarea id="pNotes" rows="2"></textarea></div>
+      <div class="form-group">
+        <label class="checkbox-label"><input type="checkbox" id="pAdmin"> Validé par Admin</label>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalPart')">Annuler</button>
+        <button type="submit" class="btn btn-accent">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== STORAGE ===== */
+var SK = {
+  contacts: 'sos44_crm_contacts',
+  events: 'sos44_crm_events',
+  settings: 'sos44_crm_settings',
+  parts: 'sos44_parts'
+};
+function getC(){ try{return JSON.parse(localStorage.getItem(SK.contacts))||[]}catch(e){return[]} }
+function setC(a){ localStorage.setItem(SK.contacts,JSON.stringify(a)) }
+function getE(){ try{return JSON.parse(localStorage.getItem(SK.events))||[]}catch(e){return[]} }
+function setE(a){ localStorage.setItem(SK.events,JSON.stringify(a)) }
+function getS(){ try{return JSON.parse(localStorage.getItem(SK.settings))||{}}catch(e){return{}} }
+function setS(o){ localStorage.setItem(SK.settings,JSON.stringify(o)) }
+function getP(){ try{return JSON.parse(localStorage.getItem(SK.parts))||[]}catch(e){return[]} }
+function setP(a){ localStorage.setItem(SK.parts,JSON.stringify(a)) }
+
+function toast(m){ var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},3000) }
+function esc(s){ var d=document.createElement('div');d.textContent=s;return d.innerHTML }
+
+/* ===== TABS ===== */
+document.getElementById('tabs').addEventListener('click',function(e){
+  var btn=e.target.closest('.tab');if(!btn)return;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  renderAll();
+});
+
+/* ===== MODAL ===== */
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+
+/* ===== STATUS HELPERS ===== */
+var STATUS_CLASSES = {
+  'Nouveau':'status-nouveau','Contacté':'status-contacte','En réparation':'status-reparation',
+  'Réparé':'status-repare','Réparé – En attente d\'avis':'status-avis','Fidélisé':'status-fidelise'
+};
+var NEXT_STATUS = {
+  'Nouveau':'Contacté','Contacté':'En réparation','En réparation':'Réparé',
+  'Réparé':'Réparé – En attente d\'avis','Réparé – En attente d\'avis':'Fidélisé'
+};
+var PART_STATUS_CLASSES = {'À commander':'part-acommander','Commandée':'part-commandee','Reçue':'part-recue','Installée':'part-installee'};
+
+function statusHTML(s){return '<span class="status '+(STATUS_CLASSES[s]||'')+'">'+esc(s)+'</span>'}
+function partStatusHTML(s){return '<span class="part-status '+(PART_STATUS_CLASSES[s]||'')+'">'+esc(s)+'</span>'}
+
+/* ===== RENDER ===== */
+function renderAll(){renderDash();renderContacts();renderEvents();renderParts()}
+
+function renderDash(){
+  var c=getC(),e=getE();
+  document.getElementById('dashTotal').textContent=c.length;
+  document.getElementById('dashNew').textContent=c.filter(function(x){return x.status==='Nouveau'}).length;
+  var wa=e.filter(function(x){return x.type==='whatsapp'}).length;
+  var ph=e.filter(function(x){return x.type==='telephone'}).length;
+  document.getElementById('dashWA').textContent=wa;
+  document.getElementById('dashPhone').textContent=ph;
+
+  var sorted=c.slice().sort(function(a,b){return new Date(b.date)-new Date(a.date)}).slice(0,10);
+  var html='';
+  sorted.forEach(function(x){html+=contactRow(x)});
+  if(!sorted.length) html='<tr><td colspan="8" style="text-align:center;color:var(--text-secondary);padding:24px">Aucun contact</td></tr>';
+  document.getElementById('dashTable').innerHTML=html;
+}
+
+function renderContacts(){
+  var c=getC();
+  var q=(document.getElementById('searchContacts').value||'').toLowerCase();
+  var fs=document.getElementById('filterStatus').value;
+  var filtered=c.filter(function(x){
+    if(fs&&x.status!==fs) return false;
+    if(q&&(x.name||'').toLowerCase().indexOf(q)===-1&&(x.email||'').toLowerCase().indexOf(q)===-1&&(x.phone||'').indexOf(q)===-1&&(x.device||'').toLowerCase().indexOf(q)===-1) return false;
+    return true;
+  }).sort(function(a,b){return new Date(b.date)-new Date(a.date)});
+  var html='';
+  filtered.forEach(function(x){html+=contactRow(x)});
+  if(!filtered.length) html='<tr><td colspan="8" style="text-align:center;color:var(--text-secondary);padding:24px">Aucun résultat</td></tr>';
+  document.getElementById('contactsTable').innerHTML=html;
+}
+
+function contactRow(x){
+  var d=new Date(x.date).toLocaleDateString('fr-FR');
+  var actions='<button class="btn btn-sm btn-outline" onclick="viewContact(\''+x.id+'\')">Fiche</button> ';
+  actions+='<a class="btn btn-sm btn-whatsapp" href="https://wa.me/33658458091?text='+encodeURIComponent('Bonjour, suivi pour '+x.name)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#fff">WA</a> ';
+  actions+='<button class="btn btn-sm btn-danger" onclick="deleteContact(\''+x.id+'\')">&#x2715;</button>';
+  return '<tr><td>'+d+'</td><td>'+esc(x.name)+'</td><td>'+esc(x.email||'—')+'</td><td>'+esc(x.phone||'—')+'</td><td>'+esc(x.device||'—')+'</td><td>'+esc(x.source||'—')+'</td><td>'+statusHTML(x.status)+'</td><td style="white-space:nowrap">'+actions+'</td></tr>';
+}
+
+function renderEvents(){
+  var e=getE().slice().sort(function(a,b){return new Date(b.date)-new Date(a.date)});
+  var wa=e.filter(function(x){return x.type==='whatsapp'}).length;
+  var ph=e.filter(function(x){return x.type==='telephone'}).length;
+  var fo=e.filter(function(x){return x.type==='formulaire'}).length;
+  document.getElementById('trackWA').textContent=wa;
+  document.getElementById('trackPhone').textContent=ph;
+  document.getElementById('trackForm').textContent=fo;
+  var html='';
+  e.slice(0,50).forEach(function(x){
+    var d=new Date(x.date);
+    html+='<tr><td>'+d.toLocaleDateString('fr-FR')+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</td><td>'+esc(x.type)+'</td><td>'+esc(x.detail)+'</td></tr>';
+  });
+  if(!e.length) html='<tr><td colspan="3" style="text-align:center;color:var(--text-secondary);padding:24px">Aucun événement</td></tr>';
+  document.getElementById('eventsTable').innerHTML=html;
+}
+
+function renderParts(){
+  var parts=getP();
+  var fs=document.getElementById('filterPartStatus');
+  var fv=fs?fs.value:'';
+  var contacts=getC();
+  var filtered=fv?parts.filter(function(p){return p.status===fv}):parts;
+
+  var html='';
+  filtered.forEach(function(p){
+    var contact=contacts.find(function(c){return c.id===p.contactId});
+    var cname=contact?esc(contact.name):'—';
+    var url=p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="font-size:.75rem">Lien</a>':'—';
+    var admin=p.adminValidated?'<span style="color:var(--green)">&#10003; Oui</span>':'<button class="btn btn-sm btn-outline" onclick="validatePart(\''+p.id+'\')">Valider</button>';
+    html+='<tr><td>'+esc(p.name)+'</td><td>'+esc(p.category)+'</td><td>'+cname+'</td><td>'+partStatusHTML(p.status)+'</td><td>'+(p.price?p.price+' €':'—')+'</td><td>'+url+'</td><td>'+admin+'</td><td><button class="btn btn-sm btn-outline" onclick="editPart(\''+p.id+'\')">Modifier</button> <button class="btn btn-sm btn-danger" onclick="deletePart(\''+p.id+'\')">&#x2715;</button></td></tr>';
+  });
+  if(!filtered.length) html='<tr><td colspan="8" style="text-align:center;color:var(--text-secondary);padding:24px">Aucune pièce</td></tr>';
+  document.getElementById('partsTable').innerHTML=html;
+}
+
+/* ===== CONTACTS CRUD ===== */
+function openAddContact(){
+  document.getElementById('modalContactTitle').textContent='Ajouter un contact';
+  document.getElementById('formContact').reset();
+  document.getElementById('contactId').value='';
+  openModal('modalContact');
+}
+function saveContact(e){
+  e.preventDefault();
+  var c=getC();
+  var id=document.getElementById('contactId').value;
+  var obj={
+    id:id||Date.now().toString(),
+    name:document.getElementById('cName').value,
+    email:document.getElementById('cEmail').value,
+    phone:document.getElementById('cPhone').value,
+    device:document.getElementById('cDevice').value,
+    source:document.getElementById('cSource').value,
+    status:document.getElementById('cStatus').value,
+    message:document.getElementById('cMessage').value,
+    date:id?c.find(function(x){return x.id===id}).date:new Date().toISOString(),
+    lastRelance:id?(c.find(function(x){return x.id===id}).lastRelance||''):''
+  };
+  if(id){c=c.map(function(x){return x.id===id?obj:x})}else{c.push(obj)}
+  setC(c);
+  if(!id){
+    var ev=getE();ev.push({date:new Date().toISOString(),type:'contact',detail:'Contact ajouté : '+obj.name});setE(ev);
+  }
+  closeModal('modalContact');
+  renderAll();
+  toast(id?'Contact mis à jour':'Contact ajouté');
+}
+function editContact(id){
+  var c=getC().find(function(x){return x.id===id});if(!c)return;
+  document.getElementById('modalContactTitle').textContent='Modifier le contact';
+  document.getElementById('contactId').value=c.id;
+  document.getElementById('cName').value=c.name||'';
+  document.getElementById('cEmail').value=c.email||'';
+  document.getElementById('cPhone').value=c.phone||'';
+  document.getElementById('cDevice').value=c.device||'';
+  document.getElementById('cSource').value=c.source||'WhatsApp';
+  document.getElementById('cStatus').value=c.status||'Nouveau';
+  document.getElementById('cMessage').value=c.message||'';
+  openModal('modalContact');
+}
+function deleteContact(id){
+  if(!confirm('Supprimer ce contact ?'))return;
+  setC(getC().filter(function(x){return x.id!==id}));
+  renderAll();toast('Contact supprimé');
+}
+function advanceStatus(id){
+  var c=getC();
+  c=c.map(function(x){
+    if(x.id===id&&NEXT_STATUS[x.status]){x.status=NEXT_STATUS[x.status]}
+    return x;
+  });
+  setC(c);renderAll();toast('Statut avancé');
+}
+
+/* ===== CONTACT SHEET ===== */
+function viewContact(id){
+  var c=getC().find(function(x){return x.id===id});if(!c)return;
+  var parts=getP().filter(function(p){return p.contactId===id});
+  var ev=getE().filter(function(e){return e.detail&&e.detail.indexOf(c.name)!==-1}).slice(0,10);
+  var settings=getS();
+  var gbpLink=settings.gbpLink||'https://g.page/r/votre-lien/review';
+
+  var html='<div class="contact-sheet"><h2>Fiche : '+esc(c.name)+'</h2>';
+  html+='<div class="contact-detail">';
+  html+='<div class="cd-item"><div class="cd-label">Email</div>'+esc(c.email||'—')+'</div>';
+  html+='<div class="cd-item"><div class="cd-label">Téléphone</div>'+esc(c.phone||'—')+'</div>';
+  html+='<div class="cd-item"><div class="cd-label">Appareil</div>'+esc(c.device||'—')+'</div>';
+  html+='<div class="cd-item"><div class="cd-label">Source</div>'+esc(c.source||'—')+'</div>';
+  html+='<div class="cd-item"><div class="cd-label">Statut</div>'+statusHTML(c.status)+'</div>';
+  html+='<div class="cd-item"><div class="cd-label">Date</div>'+new Date(c.date).toLocaleDateString('fr-FR')+'</div>';
+  html+='</div>';
+  if(c.message) html+='<div style="margin-bottom:16px"><strong style="font-size:.75rem;color:var(--text-secondary)">Notes :</strong><p style="font-size:.875rem;background:var(--bg);padding:10px;border-radius:var(--radius-sm)">'+esc(c.message)+'</p></div>';
+
+  // Actions
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">';
+  html+='<button class="btn btn-outline" onclick="editContact(\''+c.id+'\');closeModal(\'modalSheet\')">Modifier</button>';
+  if(NEXT_STATUS[c.status]) html+='<button class="btn btn-accent" onclick="advanceStatus(\''+c.id+'\');closeModal(\'modalSheet\')">Avancer le statut</button>';
+
+  // Relance de suivi
+  var relanceMsg=settings.relanceMsg||'Bonjour [Nom], c\'est SOS Informatique 44 🛠️\nNous avons réparé votre [Appareil]. Tout fonctionne bien ?\nPensez au nettoyage annuel pour éviter la surchauffe.\nBonus Réparation 50€ toujours disponible ✅\nÀ bientôt — SOS Informatique 44\n02.85.52.38.14';
+  var rm=relanceMsg.replace('[Nom]',c.name||'').replace('[Appareil]',c.device||'votre appareil');
+  html+='<a class="btn btn-whatsapp" href="https://wa.me/'+(c.phone?c.phone.replace(/\D/g,''):'33658458091')+'?text='+encodeURIComponent(rm)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#fff">Relance de suivi</a>';
+
+  // Avis Google (visible if "Réparé – En attente d'avis")
+  if(c.status==="Réparé – En attente d'avis"){
+    var avisMsg=(settings.avisMsg||'Bonjour [Nom], merci d\'avoir fait confiance à SOS Informatique 44 ! 😊\nVotre avis nous aide beaucoup. Pourriez-vous nous laisser un petit commentaire ?\n[LIEN_GOOGLE]\nMerci et à bientôt !\n— SOS Informatique 44');
+    avisMsg=avisMsg.replace('[Nom]',c.name||'').replace('[LIEN_GOOGLE]',gbpLink);
+    html+='<a class="btn btn-purple" href="https://wa.me/'+(c.phone?c.phone.replace(/\D/g,''):'33658458091')+'?text='+encodeURIComponent(avisMsg)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#fff">Demander un avis Google</a>';
+  }
+
+  // Add part
+  if(c.status==='En réparation'){
+    html+='<button class="btn btn-outline" onclick="openAddPartForContact(\''+c.id+'\');closeModal(\'modalSheet\')">+ Ajouter une pièce</button>';
+  }
+  html+='</div>';
+
+  // Parts
+  if(parts.length){
+    html+='<h3 style="font-family:var(--font-heading);font-size:1rem;margin-bottom:8px">Pièces associées</h3>';
+    html+='<div class="table-wrapper" style="margin-bottom:16px"><table><thead><tr><th>Pièce</th><th>Catégorie</th><th>Statut</th><th>Prix</th></tr></thead><tbody>';
+    parts.forEach(function(p){
+      html+='<tr><td>'+esc(p.name)+'</td><td>'+esc(p.category)+'</td><td>'+partStatusHTML(p.status)+'</td><td>'+(p.price?p.price+' €':'—')+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+
+  // Timeline
+  html+='<h3 style="font-family:var(--font-heading);font-size:1rem;margin:16px 0 8px">Historique</h3>';
+  html+='<div class="timeline">';
+  html+='<div class="timeline-item"><div class="tl-date">'+new Date(c.date).toLocaleDateString('fr-FR')+'</div><div class="tl-text">Contact créé ('+esc(c.source)+')</div></div>';
+  if(c.lastRelance) html+='<div class="timeline-item"><div class="tl-date">'+new Date(c.lastRelance).toLocaleDateString('fr-FR')+'</div><div class="tl-text">Dernière relance</div></div>';
+  ev.forEach(function(e){
+    html+='<div class="timeline-item"><div class="tl-date">'+new Date(e.date).toLocaleDateString('fr-FR')+'</div><div class="tl-text">'+esc(e.detail)+'</div></div>';
+  });
+  html+='</div></div>';
+
+  document.getElementById('sheetContent').innerHTML=html;
+  openModal('modalSheet');
+}
+
+/* ===== PARTS CRUD ===== */
+function populatePartContacts(){
+  var contacts=getC().filter(function(c){return c.status==='En réparation'});
+  var sel=document.getElementById('pContact');
+  sel.innerHTML='<option value="">— Aucun —</option>';
+  contacts.forEach(function(c){
+    sel.innerHTML+='<option value="'+c.id+'">'+esc(c.name+(c.device?' — '+c.device:''))+'</option>';
+  });
+}
+function openAddPart(){
+  document.getElementById('modalPartTitle').textContent='Ajouter une pièce';
+  document.getElementById('formPart').reset();
+  document.getElementById('partId').value='';
+  document.getElementById('partContactId').value='';
+  document.getElementById('pAdmin').checked=false;
+  populatePartContacts();
+  openModal('modalPart');
+}
+function openAddPartForContact(contactId){
+  openAddPart();
+  document.getElementById('pContact').value=contactId;
+}
+function savePart(e){
+  e.preventDefault();
+  var parts=getP();
+  var id=document.getElementById('partId').value;
+  var obj={
+    id:id||Date.now().toString(),
+    name:document.getElementById('pName').value,
+    category:document.getElementById('pCategory').value,
+    status:document.getElementById('pStatus').value,
+    price:document.getElementById('pPrice').value,
+    contactId:document.getElementById('pContact').value,
+    url:document.getElementById('pUrl').value,
+    notes:document.getElementById('pNotes').value,
+    adminValidated:document.getElementById('pAdmin').checked
+  };
+  if(id){parts=parts.map(function(p){return p.id===id?obj:p})}else{parts.push(obj)}
+  setP(parts);
+  closeModal('modalPart');
+  renderAll();
+  toast(id?'Pièce mise à jour':'Pièce ajoutée');
+}
+function editPart(id){
+  var p=getP().find(function(x){return x.id===id});if(!p)return;
+  document.getElementById('modalPartTitle').textContent='Modifier la pièce';
+  document.getElementById('partId').value=p.id;
+  document.getElementById('pName').value=p.name||'';
+  document.getElementById('pCategory').value=p.category||'Écran';
+  document.getElementById('pStatus').value=p.status||'À commander';
+  document.getElementById('pPrice').value=p.price||'';
+  document.getElementById('pUrl').value=p.url||'';
+  document.getElementById('pNotes').value=p.notes||'';
+  document.getElementById('pAdmin').checked=!!p.adminValidated;
+  populatePartContacts();
+  document.getElementById('pContact').value=p.contactId||'';
+  openModal('modalPart');
+}
+function deletePart(id){
+  if(!confirm('Supprimer cette pièce ?'))return;
+  setP(getP().filter(function(x){return x.id!==id}));
+  renderAll();toast('Pièce supprimée');
+}
+function validatePart(id){
+  var parts=getP().map(function(p){if(p.id===id)p.adminValidated=true;return p});
+  setP(parts);renderAll();toast('Pièce validée par Admin');
+}
+
+/* ===== CSV EXPORT ===== */
+function exportCSV(){
+  var c=getC();
+  if(!c.length){toast('Aucun contact à exporter');return}
+  var BOM='\uFEFF';
+  var header='Date;Nom;Email;Tel;Appareil;Source;Statut;Message;DateDerniereRelance\n';
+  var rows=c.map(function(x){
+    return [
+      new Date(x.date).toLocaleDateString('fr-FR'),
+      '"'+(x.name||'').replace(/"/g,'""')+'"',
+      '"'+(x.email||'').replace(/"/g,'""')+'"',
+      '"'+(x.phone||'').replace(/"/g,'""')+'"',
+      '"'+(x.device||'').replace(/"/g,'""')+'"',
+      x.source||'',
+      x.status||'',
+      '"'+(x.message||'').replace(/"/g,'""')+'"',
+      x.lastRelance?new Date(x.lastRelance).toLocaleDateString('fr-FR'):''
+    ].join(';');
+  }).join('\n');
+  var blob=new Blob([BOM+header+rows],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='sos44-contacts-export.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('CSV exporté');
+}
+
+/* ===== SETTINGS ===== */
+function loadSettingsCRM(){
+  var s=getS();
+  if(s.gbpLink) document.getElementById('settingGBP').value=s.gbpLink;
+  if(s.avisMsg) document.getElementById('settingWAmsg').value=s.avisMsg;
+  if(s.relanceMsg) document.getElementById('settingRelance').value=s.relanceMsg;
+}
+function saveSettingsCRM(){
+  var s=getS();
+  s.gbpLink=document.getElementById('settingGBP').value;
+  s.avisMsg=document.getElementById('settingWAmsg').value;
+  s.relanceMsg=document.getElementById('settingRelance').value;
+  setS(s);
+  toast('Paramètres enregistrés');
+}
+
+/* ===== COPY CODE ===== */
+function copyCode(id){
+  var block=document.getElementById(id);
+  var text=block.textContent.replace('Copier','').trim();
+  navigator.clipboard.writeText(text).then(function(){toast('Code copié !')}).catch(function(){
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Code copié !');
+  });
+}
+
+/* ===== SEARCH/FILTER LISTENERS ===== */
+document.getElementById('searchContacts').addEventListener('input',renderContacts);
+document.getElementById('filterStatus').addEventListener('change',renderContacts);
+document.getElementById('filterPartStatus').addEventListener('change',renderParts);
+
+/* ===== DEMO DATA ===== */
+function initDemoData(){
+  if(getC().length>0) return; // Already has data
+  var now=new Date();
+  var contacts=[
+    {id:'demo1',name:'Marie Dupont',email:'marie.dupont@email.fr',phone:'06 12 34 56 78',device:'MacBook Pro 2020',source:'WhatsApp',status:'En réparation',message:'Écran fissuré + batterie faible',date:new Date(now-86400000*2).toISOString(),lastRelance:''},
+    {id:'demo2',name:'Jean Martin',email:'j.martin@gmail.com',phone:'06 98 76 54 32',device:'iPhone 14',source:'Sur place',status:'Réparé – En attente d\'avis',message:'Remplacement écran',date:new Date(now-86400000*5).toISOString(),lastRelance:new Date(now-86400000*1).toISOString()},
+    {id:'demo3',name:'Sophie Leroy',email:'sophie.leroy@outlook.fr',phone:'06 11 22 33 44',device:'PC portable Asus',source:'Formulaire',status:'Nouveau',message:'PC très lent, met 5 min à démarrer',date:new Date(now-86400000*1).toISOString(),lastRelance:''},
+    {id:'demo4',name:'Pierre Bernard',email:'',phone:'06 55 66 77 88',device:'iMac 27"',source:'Téléphone',status:'Contacté',message:'Ne démarre plus du tout',date:new Date(now-86400000*3).toISOString(),lastRelance:''},
+    {id:'demo5',name:'Isabelle Moreau',email:'isa.moreau@free.fr',phone:'06 44 55 66 77',device:'Samsung Galaxy S23',source:'WhatsApp',status:'Fidélisé',message:'Connecteur de charge remplacé',date:new Date(now-86400000*15).toISOString(),lastRelance:new Date(now-86400000*10).toISOString()}
+  ];
+  setC(contacts);
+
+  var events=[
+    {date:new Date(now-86400000*5).toISOString(),type:'whatsapp',detail:'Clic WhatsApp'},
+    {date:new Date(now-86400000*4).toISOString(),type:'telephone',detail:'Clic Téléphone : 0285523814'},
+    {date:new Date(now-86400000*3).toISOString(),type:'whatsapp',detail:'Clic WhatsApp'},
+    {date:new Date(now-86400000*2).toISOString(),type:'formulaire',detail:'Formulaire envoyé par Sophie Leroy'},
+    {date:new Date(now-86400000*1).toISOString(),type:'whatsapp',detail:'Clic WhatsApp'},
+    {date:now.toISOString(),type:'contact',detail:'Contact ajouté : Marie Dupont'}
+  ];
+  setE(events);
+
+  var parts=[
+    {id:'part1',name:'Écran LCD MacBook Pro 13" A2338',category:'Écran',status:'Commandée',price:'189',contactId:'demo1',url:'https://example.com/ecran-macbook',notes:'Fournisseur habituel, livraison 3-5j',adminValidated:true},
+    {id:'part2',name:'Batterie MacBook Pro A2338',category:'Batterie',status:'À commander',price:'79',contactId:'demo1',url:'',notes:'Attendre réception écran avant de commander',adminValidated:false},
+    {id:'part3',name:'Écran OLED iPhone 14',category:'Écran',status:'Installée',price:'95',contactId:'demo2',url:'',notes:'Qualité OEM, installé avec succès',adminValidated:true}
+  ];
+  setP(parts);
+}
+
+/* ===== INIT ===== */
+initDemoData();
+loadSettingsCRM();
+renderAll();
+</script>
+</body>
+</html>
