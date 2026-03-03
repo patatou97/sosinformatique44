@@ -144,9 +144,87 @@ tr:hover td{background:var(--bg)}
 /* Checkbox */
 .checkbox-label{display:flex;align-items:center;gap:6px;font-size:.8125rem;cursor:pointer}
 .checkbox-label input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent)}
+
+/* Login screen */
+.login-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg, #F8FAFC, #EFF6FF);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.login-overlay.hidden{display:none}
+.login-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:40px;
+  max-width:400px;width:100%;
+  box-shadow:0 24px 48px rgba(15,23,42,.12);
+  text-align:center;
+}
+.login-box .login-logo{
+  width:56px;height:56px;
+  background:linear-gradient(135deg, #0EA5E9, #6366F1);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  box-shadow:0 4px 16px rgba(14,165,233,.25);
+}
+.login-box h1{font-family:var(--font-heading);font-size:1.5rem;margin-bottom:4px;color:var(--text)}
+.login-box .login-sub{font-size:.875rem;color:var(--text-secondary);margin-bottom:24px}
+.login-box input[type="password"]{
+  width:100%;padding:12px 16px;
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  font-size:1rem;font-family:var(--font-body);
+  background:var(--bg);color:var(--text);
+  text-align:center;
+  transition:all .2s;
+}
+.login-box input[type="password"]:focus{
+  outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(14,165,233,.15);
+}
+.login-box .login-btn{
+  width:100%;padding:12px;margin-top:12px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.9375rem;
+  cursor:pointer;transition:background .2s;
+}
+.login-box .login-btn:hover{background:var(--accent-dark)}
+.login-error{
+  color:var(--danger);font-size:.8125rem;
+  margin-top:10px;display:none;font-weight:500;
+}
+.login-error.visible{display:block}
+.logout-btn{
+  background:none;border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:6px 14px;font-size:.75rem;font-weight:600;
+  color:var(--text-secondary);cursor:pointer;
+  transition:all .2s;
+}
+.logout-btn:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-light)}
 </style>
 </head>
 <body>
+
+<!-- Login Screen -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </div>
+    <h1>CRM SOS Informatique 44</h1>
+    <p class="login-sub">Connectez-vous pour accéder au tableau de bord</p>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+      <input type="password" id="loginPassword" placeholder="Mot de passe" autofocus autocomplete="current-password">
+      <button type="submit" class="login-btn">Se connecter</button>
+    </form>
+    <p class="login-error" id="loginError">Mot de passe incorrect</p>
+    <p style="font-size:.75rem;color:var(--text-secondary);margin-top:16px">Mot de passe par défaut : <strong>sos44admin</strong><br>Modifiable dans l'onglet Installation</p>
+  </div>
+</div>
 
 <header class="crm-header">
   <div class="crm-logo">
@@ -160,6 +238,7 @@ tr:hover td{background:var(--bg)}
     <button class="tab" data-tab="install">Installation</button>
     <button class="tab" data-tab="sourcing">Power Sourcing</button>
   </div>
+  <button class="logout-btn" onclick="handleLogout()">Déconnexion</button>
 </header>
 
 <div class="crm-content">
@@ -350,6 +429,23 @@ Bonus Réparation 50€ toujours disponible ✅
 02.85.52.38.14</textarea>
       </div>
       <button class="btn btn-accent" onclick="saveSettingsCRM()">Enregistrer les paramètres</button>
+    </div>
+
+    <div class="settings-section">
+      <h3>Sécurité — Mot de passe CRM</h3>
+      <div class="form-group">
+        <label for="settingOldPwd">Mot de passe actuel</label>
+        <input type="password" id="settingOldPwd" autocomplete="current-password">
+      </div>
+      <div class="form-group">
+        <label for="settingNewPwd">Nouveau mot de passe</label>
+        <input type="password" id="settingNewPwd" autocomplete="new-password">
+      </div>
+      <div class="form-group">
+        <label for="settingConfirmPwd">Confirmer le nouveau mot de passe</label>
+        <input type="password" id="settingConfirmPwd" autocomplete="new-password">
+      </div>
+      <button class="btn btn-accent" onclick="changePassword()">Changer le mot de passe</button>
     </div>
   </div>
 
@@ -869,7 +965,65 @@ function initDemoData(){
   setP(parts);
 }
 
+/* ===== AUTH ===== */
+var DEFAULT_PWD_HASH='a3d2b1c4'; /* hash of 'sos44admin' */
+
+function simpleHash(str){
+  var h=0;
+  for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}
+  return (h>>>0).toString(16);
+}
+
+function getStoredHash(){
+  return localStorage.getItem('sos44_crm_pwd_hash')||simpleHash('sos44admin');
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  var pwd=document.getElementById('loginPassword').value;
+  var hash=simpleHash(pwd);
+  if(hash===getStoredHash()){
+    sessionStorage.setItem('sos44_crm_auth','1');
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('loginError').classList.remove('visible');
+  } else {
+    document.getElementById('loginError').classList.add('visible');
+    document.getElementById('loginPassword').value='';
+    document.getElementById('loginPassword').focus();
+  }
+  return false;
+}
+
+function handleLogout(){
+  sessionStorage.removeItem('sos44_crm_auth');
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginPassword').value='';
+  document.getElementById('loginPassword').focus();
+}
+
+function changePassword(){
+  var old=document.getElementById('settingOldPwd').value;
+  var newp=document.getElementById('settingNewPwd').value;
+  var confirm=document.getElementById('settingConfirmPwd').value;
+  if(!old||!newp){toast('Remplissez tous les champs');return}
+  if(simpleHash(old)!==getStoredHash()){toast('Mot de passe actuel incorrect');return}
+  if(newp!==confirm){toast('Les mots de passe ne correspondent pas');return}
+  if(newp.length<4){toast('Le mot de passe doit faire au moins 4 caractères');return}
+  localStorage.setItem('sos44_crm_pwd_hash',simpleHash(newp));
+  document.getElementById('settingOldPwd').value='';
+  document.getElementById('settingNewPwd').value='';
+  document.getElementById('settingConfirmPwd').value='';
+  toast('Mot de passe modifié avec succès');
+}
+
+function checkAuth(){
+  if(sessionStorage.getItem('sos44_crm_auth')==='1'){
+    document.getElementById('loginOverlay').classList.add('hidden');
+  }
+}
+
 /* ===== INIT ===== */
+checkAuth();
 initDemoData();
 loadSettingsCRM();
 renderAll();

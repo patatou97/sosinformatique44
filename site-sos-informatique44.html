@@ -712,6 +712,62 @@ ul{list-style:none}
   .status-open .status-dot{animation:none}
   .wa-float{animation:none}
 }
+
+/* ===== BLOG SECTION ===== */
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.blog-card{
+  background:var(--bg-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+  display:flex;flex-direction:column;
+}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.blog-card-img{
+  height:160px;
+  background:linear-gradient(135deg, #E0F2FE 0%, #EEF2FF 100%);
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--border);
+}
+.blog-card-img svg{color:var(--blue);opacity:.4}
+.blog-card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.blog-card-tag{
+  display:inline-flex;padding:3px 10px;border-radius:10px;
+  font-size:.6875rem;font-weight:600;
+  background:var(--blue-light);color:var(--blue-hover);
+  margin-bottom:10px;align-self:flex-start;
+}
+.blog-card-title{
+  font-family:var(--font-heading);font-size:1rem;font-weight:700;
+  color:var(--text);margin-bottom:8px;line-height:1.4;
+}
+.blog-card-excerpt{
+  font-size:.8125rem;color:var(--text-secondary);
+  line-height:1.6;margin-bottom:16px;flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.blog-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--border);
+}
+.blog-card-date{font-size:.75rem;color:var(--text-muted)}
+.blog-card-link{
+  font-size:.8125rem;font-weight:600;color:var(--blue);
+  display:flex;align-items:center;gap:4px;
+}
+.blog-card-link:hover{color:var(--blue-hover)}
+.blog-empty{
+  text-align:center;padding:48px 20px;
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:var(--radius);color:var(--text-secondary);
+}
+.blog-empty svg{color:var(--border);margin-bottom:12px}
+.blog-empty h4{font-family:var(--font-heading);color:var(--text);margin-bottom:6px}
+.blog-empty p{font-size:.875rem}
+.blog-more{text-align:center;margin-top:32px}
+@media(max-width:768px){.blog-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -738,6 +794,7 @@ ul{list-style:none}
       <a href="#services">Services</a>
       <a href="#bonus">Bonus 50 €</a>
       <a href="#atelier">Atelier</a>
+      <a href="#blog">Blog</a>
       <a href="#pourquoi">Pourquoi nous</a>
       <a href="#contact">Contact</a>
       <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener">
@@ -1065,6 +1122,23 @@ ul{list-style:none}
   </div>
 </section>
 
+<!-- Blog -->
+<section class="section section-light" id="blog">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag reveal">Blog</div>
+      <h2 class="section-title reveal">Nos derniers articles</h2>
+      <p class="section-subtitle reveal">Conseils, astuces et actualités pour prendre soin de vos appareils.</p>
+    </div>
+    <div id="blogGrid" class="blog-grid">
+      <!-- Articles loaded dynamically from localStorage -->
+    </div>
+    <div class="blog-more reveal">
+      <a href="blog-sos-informatique44.html" class="btn btn-outline">Voir tous les articles</a>
+    </div>
+  </div>
+</section>
+
 <!-- Pourquoi nous -->
 <section class="section why-section" id="pourquoi">
   <div class="container">
@@ -1274,11 +1348,25 @@ document.getElementById('calcSelect').addEventListener('change',function(){
   res.classList.remove('visible');void res.offsetWidth;res.classList.add('visible');
 });
 
-/* Contact form mailto */
+/* Contact form — save to CRM + mailto */
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();var f=this;
-  var body='Nom : '+f.querySelector('#fname').value+'\nEmail : '+f.querySelector('#femail').value+'\nTéléphone : '+f.querySelector('#ftel').value+'\nAppareil : '+f.querySelector('#fdevice').value+'\n\nMessage :\n'+f.querySelector('#fmsg').value;
-  window.location.href='mailto:contact@sos-informatique44.fr?subject='+encodeURIComponent('Demande de devis — '+(f.querySelector('#fdevice').value||'Réparation'))+'&body='+encodeURIComponent(body);
+  var name=f.querySelector('#fname').value;
+  var email=f.querySelector('#femail').value;
+  var phone=f.querySelector('#ftel').value;
+  var device=f.querySelector('#fdevice').value;
+  var msg=f.querySelector('#fmsg').value;
+  /* Save to CRM localStorage */
+  try{
+    var c=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
+    c.push({id:Date.now().toString(),name:name,email:email,phone:phone,device:device,source:'Formulaire',status:'Nouveau',message:msg,date:new Date().toISOString(),lastRelance:''});
+    localStorage.setItem('sos44_crm_contacts',JSON.stringify(c));
+    var ev=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
+    ev.push({date:new Date().toISOString(),type:'formulaire',detail:'Formulaire envoyé par '+name});
+    localStorage.setItem('sos44_crm_events',JSON.stringify(ev));
+  }catch(err){}
+  var body='Nom : '+name+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\n\nMessage :\n'+msg;
+  window.location.href='mailto:contact@sos-informatique44.fr?subject='+encodeURIComponent('Demande de devis — '+(device||'Réparation'))+'&body='+encodeURIComponent(body);
 });
 
 /* Scroll reveal */
@@ -1309,6 +1397,85 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
     wa.style.animation='bounce .6s ease';
     setTimeout(function(){wa.style.animation=''},700);
   },10000);
+})();
+
+/* ===== CLICK TRACKING (WhatsApp & Phone → CRM) ===== */
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a');
+  if(!a) return;
+  var h=a.href||'';
+  try{
+    var ev=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
+    if(h.indexOf('wa.me')!==-1){
+      ev.push({date:new Date().toISOString(),type:'whatsapp',detail:'Clic WhatsApp'});
+    } else if(h.indexOf('tel:')===0){
+      ev.push({date:new Date().toISOString(),type:'telephone',detail:'Clic Téléphone : '+h.replace('tel:','')});
+    }
+    localStorage.setItem('sos44_crm_events',JSON.stringify(ev));
+  }catch(err){}
+});
+
+/* ===== BLOG — Load latest articles from localStorage ===== */
+(function(){
+  var CAT_LABELS={pc:'PC Windows',mac:'Apple',phone:'iPhone/iPad',security:'Sécurité',data:'Données',qualire:'QualiRépare',micro:'Micro-soudure',trends:'Tendances'};
+  var grid=document.getElementById('blogGrid');
+  if(!grid) return;
+  try{
+    var articles=JSON.parse(localStorage.getItem('sos44_blog_articles')||'[]');
+    if(!articles.length){
+      grid.innerHTML='<div class="blog-empty reveal" style="grid-column:1/-1"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg><h4>Aucun article pour le moment</h4><p>Générez vos articles depuis le <a href="blog-sos-informatique44.html">gestionnaire de blog</a>.</p></div>';
+      return;
+    }
+    /* Sort by date descending, take 3 latest */
+    articles.sort(function(a,b){return new Date(b.date)-new Date(a.date)});
+    var latest=articles.slice(0,3);
+    var html='';
+    latest.forEach(function(a){
+      /* Extract first paragraph text as excerpt */
+      var tmp=document.createElement('div');tmp.innerHTML=a.content||'';
+      var ps=tmp.querySelectorAll('p');
+      var excerpt='';
+      for(var i=0;i<ps.length;i++){if(ps[i].textContent.trim().length>40){excerpt=ps[i].textContent.trim();break;}}
+      if(!excerpt) excerpt=tmp.textContent.substring(0,160);
+      var catLabel=CAT_LABELS[a.category]||a.category||'';
+      var dateStr=new Date(a.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+      html+='<div class="blog-card reveal">';
+      html+='<div class="blog-card-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg></div>';
+      html+='<div class="blog-card-body">';
+      if(catLabel) html+='<span class="blog-card-tag">'+catLabel+'</span>';
+      html+='<h3 class="blog-card-title">'+((a.title||'').replace(/</g,'&lt;'))+'</h3>';
+      html+='<p class="blog-card-excerpt">'+excerpt.substring(0,160)+(excerpt.length>160?'…':'')+'</p>';
+      html+='<div class="blog-card-footer">';
+      html+='<span class="blog-card-date">'+dateStr+'</span>';
+      html+='<a href="blog-sos-informatique44.html" class="blog-card-link">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>';
+      html+='</div></div></div>';
+    });
+    grid.innerHTML=html;
+  }catch(err){
+    grid.innerHTML='<div class="blog-empty" style="grid-column:1/-1"><p>Erreur de chargement des articles.</p></div>';
+  }
+})();
+
+/* ===== POPUP CAPTURE (1 fois par session, après 8s) ===== */
+(function(){
+  if(sessionStorage.getItem('sos44_popup')) return;
+  setTimeout(function(){
+    sessionStorage.setItem('sos44_popup','1');
+    var d=document.createElement('div');
+    d.id='sos44popup';
+    d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif"><input name="email" type="email" placeholder="Email" style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif"><select name="device" style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:14px;font-size:.9375rem;font-family:Inter,sans-serif"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+    document.body.appendChild(d);
+    document.getElementById('sos44popupForm').onsubmit=function(e){
+      e.preventDefault();
+      try{
+        var c=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
+        c.push({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString(),lastRelance:''});
+        localStorage.setItem('sos44_crm_contacts',JSON.stringify(c));
+      }catch(err){}
+      d.remove();
+    };
+  },8000);
 })();
 </script>
 </body>
