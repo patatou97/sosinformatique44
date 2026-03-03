@@ -246,6 +246,10 @@ button{cursor:pointer;font-family:inherit}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Exporter HTML (tous)
         </button>
+        <button class="btn btn-accent" onclick="copySiteCode()" style="margin-top:4px;background:#6366F1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          Copier code pour le site
+        </button>
         <button class="btn btn-danger btn-sm" onclick="purgeAll()" style="margin-top:8px">Purger tous les articles</button>
       </div>
     </div>
@@ -690,6 +694,69 @@ function download(filename, content, type) {
   document.body.appendChild(a); a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+/* ===== COPY CODE FOR SITE ===== */
+function copySiteCode() {
+  var articles = getArticles();
+  if (articles.length === 0) { toast('Aucun article à exporter'); return; }
+
+  var sorted = articles.slice().sort(function(a,b) { return new Date(b.date) - new Date(a.date); });
+  var latest = sorted.slice(0, 3);
+
+  var ICONS = {
+    pc: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+    mac: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0017 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 00-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>',
+    phone: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>',
+    security: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    data: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+    qualire: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    micro: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
+    trends: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'
+  };
+  var defaultIcon = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>';
+
+  var html = '';
+  latest.forEach(function(a) {
+    // Extract excerpt
+    var tmp = document.createElement('div'); tmp.innerHTML = a.content || '';
+    var ps = tmp.querySelectorAll('p');
+    var excerpt = '';
+    for (var i = 0; i < ps.length; i++) { if (ps[i].textContent.trim().length > 40) { excerpt = ps[i].textContent.trim(); break; } }
+    if (!excerpt) excerpt = tmp.textContent.substring(0, 160);
+    if (excerpt.length > 160) excerpt = excerpt.substring(0, 160) + '…';
+
+    var catLabel = CAT_LABELS[a.category] || a.category || '';
+    var d = new Date(a.date);
+    var monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    var dateStr = monthNames[d.getMonth()] + ' ' + d.getFullYear();
+    var icon = ICONS[a.category] || defaultIcon;
+
+    html += '\n      <!-- Article: ' + escHTML(a.title) + ' -->\n';
+    html += '      <div class="blog-card reveal">\n';
+    html += '        <div class="blog-card-img">\n          ' + icon + '\n        </div>\n';
+    html += '        <div class="blog-card-body">\n';
+    html += '          <span class="blog-card-tag">' + escHTML(catLabel) + '</span>\n';
+    html += '          <h3 class="blog-card-title">' + escHTML(a.title) + '</h3>\n';
+    html += '          <p class="blog-card-excerpt">' + escHTML(excerpt) + '</p>\n';
+    html += '          <div class="blog-card-footer">\n';
+    html += '            <span class="blog-card-date">' + dateStr + '</span>\n';
+    html += '            <a href="blog-sos-informatique44.html" class="blog-card-link">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>\n';
+    html += '          </div>\n        </div>\n      </div>\n';
+  });
+
+  navigator.clipboard.writeText(html).then(function() {
+    toast('Code HTML copié ! Collez-le dans la section #blogGrid du site.');
+  }).catch(function() {
+    // Fallback
+    var ta = document.createElement('textarea');
+    ta.value = html;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Code HTML copié ! Collez-le dans #blogGrid du site.');
+  });
 }
 
 /* ===== MODE TOGGLE ===== */
