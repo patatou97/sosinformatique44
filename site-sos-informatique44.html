@@ -1415,23 +1415,89 @@ document.addEventListener('click',function(e){
   }catch(err){}
 });
 
-/* ===== BLOG — Load latest articles from localStorage ===== */
+/* ===== BLOG — Auto-generate + display latest articles ===== */
 (function(){
+  var WA='https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration';
+  var PHONE='02 85 52 38 14';
+  var SITE='https://sos-informatique44.fr';
+  var CITIES=['La Chapelle-sur-Erdre','Nantes Nord','Nantes','Carquefou','Sucé-sur-Erdre','Sainte-Luce-sur-Loire','Orvault','Treillières','Grandchamp-des-Fontaines','Petit-Mars'];
+  var TOPICS=[
+    {id:'pc-lenteur',cat:'pc',title:'Pourquoi mon PC Windows est devenu lent ?',slug:'pc-windows-lent-solutions'},
+    {id:'mac-surchauffe',cat:'mac',title:'MacBook qui surchauffe : que faire ?',slug:'macbook-surchauffe-solutions'},
+    {id:'iphone-batterie',cat:'phone',title:'Batterie iPhone qui se décharge vite : solutions',slug:'batterie-iphone-decharge-rapide'},
+    {id:'qr-bonus',cat:'qualire',title:'Bonus Réparation 50 € : comment en profiter',slug:'bonus-reparation-50-euros-qualire'},
+    {id:'virus-protection',cat:'security',title:'Protéger son PC des virus en 2025',slug:'proteger-pc-virus-malware'},
+    {id:'data-recup',cat:'data',title:'Récupération de données : ce qu\'il faut savoir',slug:'recuperation-donnees-disque-dur'},
+    {id:'micro-cm',cat:'micro',title:'Micro-soudure : sauver une carte mère',slug:'micro-soudure-carte-mere-reparation'},
+    {id:'iphone-ecran',cat:'phone',title:'Écran iPhone cassé : faut-il le réparer ?',slug:'ecran-iphone-casse-reparation'},
+    {id:'pc-ssd',cat:'pc',title:'Upgrade SSD : redonnez vie à votre PC',slug:'upgrade-ssd-pc-portable'},
+    {id:'mac-ecran',cat:'mac',title:'Écran MacBook cassé : réparation vs remplacement',slug:'ecran-macbook-casse-reparation'},
+    {id:'ransomware',cat:'security',title:'Ransomware : comment réagir ?',slug:'ransomware-reagir-proteger'},
+    {id:'qr-reparer',cat:'qualire',title:'Réparer plutôt que jeter : un geste durable',slug:'reparer-plutot-que-jeter-ecologie'}
+  ];
   var CAT_LABELS={pc:'PC Windows',mac:'Apple',phone:'iPhone/iPad',security:'Sécurité',data:'Données',qualire:'QualiRépare',micro:'Micro-soudure',trends:'Tendances'};
+
+  function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+  function generateArticle(topic,daysAgo){
+    var c1=pick(CITIES),c2=pick(CITIES);
+    while(c2===c1) c2=pick(CITIES);
+    var svc=pick([SITE+'/#services',SITE+'/#bonus',SITE+'/#contact',SITE+'/#comparatif']);
+    var content='<h2>'+topic.title+'</h2>';
+    content+='<p>Vous habitez à <strong>'+c1+'</strong> ou <strong>'+c2+'</strong> et vous rencontrez un problème informatique ? Chez <strong>SOS Informatique 44</strong>, notre atelier situé à La Chapelle-sur-Erdre, en Loire-Atlantique (44), est spécialisé dans la réparation de PC, Mac, smartphones et tablettes.</p>';
+    content+='<h3>Le problème expliqué simplement</h3>';
+    content+='<p>Ce type de panne est fréquent et touche de nombreux appareils. Nos techniciens diagnostiquent gratuitement votre appareil pour identifier la cause exacte du problème. Contrairement au remplacement complet, la réparation au composant permet de réduire les coûts tout en prolongeant la durée de vie de votre matériel.</p>';
+    content+='<h3>Notre méthode de réparation</h3>';
+    content+='<p>À notre atelier de La Chapelle-sur-Erdre (à proximité de Nantes Nord), nous procédons étape par étape :</p>';
+    content+='<ul><li>Diagnostic complet gratuit de votre appareil</li><li>Devis transparent avant toute intervention</li><li>Réparation au composant (micro-soudure si nécessaire)</li><li>Tests approfondis après réparation</li><li>Garantie 90 jours minimum sur pièces et main d\'œuvre</li></ul>';
+    content+='<h3>Pourquoi choisir SOS Informatique 44 ?</h3>';
+    content+='<p>Nous intervenons pour les particuliers et les entreprises de '+c1+', '+c2+' et de toute l\'agglomération nantaise. Notre expertise en micro-soudure nous permet de réparer des cartes mères que d\'autres considèrent comme irréparables. La confidentialité de vos données est garantie à chaque intervention.</p>';
+    content+='<p>Consultez <a href="'+svc+'">nos services de réparation</a> pour en savoir plus.</p>';
+    content+='<h3>Profitez du Bonus Réparation QualiRépare</h3>';
+    content+='<p>Grâce au label <strong>QualiRépare</strong>, bénéficiez de <strong>50 € déduits immédiatement</strong> sur votre facture de réparation. Aucune démarche à faire : le bonus est appliqué directement par notre atelier certifié.</p>';
+    content+='<p><strong>Contactez-nous dès maintenant :</strong></p>';
+    content+='<ul><li><a href="'+WA+'" target="_blank" rel="noopener">WhatsApp : 06 58 45 80 91</a></li><li>Téléphone : <a href="tel:0285523814">'+PHONE+'</a></li></ul>';
+    var date=new Date();date.setDate(date.getDate()-daysAgo);
+    return {
+      id:topic.id+'-'+Date.now()+'-'+daysAgo,
+      topicId:topic.id,
+      title:topic.title,
+      slug:topic.slug,
+      category:topic.cat,
+      date:date.toISOString(),
+      content:content
+    };
+  }
+
+  /* Auto-generate 6 articles if none exist */
+  function ensureArticles(){
+    var existing=[];
+    try{existing=JSON.parse(localStorage.getItem('sos44_blog_articles')||'[]');}catch(e){}
+    if(existing.length>0) return existing;
+    /* Generate 6 articles, spaced over last 30 days */
+    var shuffled=TOPICS.slice();
+    for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=t;}
+    var selected=shuffled.slice(0,6);
+    var articles=[];
+    var used=[];
+    for(var k=0;k<selected.length;k++){
+      articles.push(generateArticle(selected[k], k*5));
+      used.push(selected[k].id);
+    }
+    localStorage.setItem('sos44_blog_articles',JSON.stringify(articles));
+    try{localStorage.setItem('sos44_blog_used_topics',JSON.stringify(used));}catch(e){}
+    return articles;
+  }
+
+  /* Render blog cards */
   var grid=document.getElementById('blogGrid');
   if(!grid) return;
   try{
-    var articles=JSON.parse(localStorage.getItem('sos44_blog_articles')||'[]');
-    if(!articles.length){
-      grid.innerHTML='<div class="blog-empty reveal" style="grid-column:1/-1"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg><h4>Aucun article pour le moment</h4><p>Générez vos articles depuis le <a href="blog-sos-informatique44.html">gestionnaire de blog</a>.</p></div>';
-      return;
-    }
-    /* Sort by date descending, take 3 latest */
+    var articles=ensureArticles();
     articles.sort(function(a,b){return new Date(b.date)-new Date(a.date)});
     var latest=articles.slice(0,3);
     var html='';
     latest.forEach(function(a){
-      /* Extract first paragraph text as excerpt */
       var tmp=document.createElement('div');tmp.innerHTML=a.content||'';
       var ps=tmp.querySelectorAll('p');
       var excerpt='';
