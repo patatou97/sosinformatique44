@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin Blog — SOS Informatique 44</title>
+<title>Admin — SOS Informatique 44</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -409,19 +409,115 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
 }
 .btn-danger:hover{background:#DC2626}
 
+/* ===== Tabs ===== */
+.tab-nav{display:flex;gap:4px;margin-left:20px}
+.tab-btn{
+  padding:8px 16px;border-radius:var(--radius-xs);
+  background:none;border:none;
+  font-size:.8125rem;font-weight:600;
+  color:var(--text-secondary);
+  display:flex;align-items:center;gap:6px;
+  transition:all .2s;
+}
+.tab-btn:hover{background:var(--bg);color:var(--text)}
+.tab-btn.active{background:var(--blue-light);color:var(--blue)}
+.tab-content{display:none;flex:1;overflow:hidden}
+.tab-content.active{display:flex;flex-direction:column;flex:1}
+.tab-content-scroll{flex:1;overflow-y:auto;padding:24px 32px}
+
+/* ===== Stats Cards ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:20px;
+  text-align:center;box-shadow:var(--shadow-sm);
+  transition:all .2s;
+}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-card-icon{font-size:1.5rem;margin-bottom:6px}
+.stat-card-value{font-family:var(--font-heading);font-size:2rem;font-weight:800;color:var(--blue);line-height:1}
+.stat-card-label{font-size:.75rem;color:var(--text-secondary);margin-top:4px;font-weight:500}
+.stat-card.card-phone .stat-card-value{color:#0EA5E9}
+.stat-card.card-whatsapp .stat-card-value{color:#25D366}
+.stat-card.card-form .stat-card-value{color:#8B5CF6}
+.stat-card.card-total .stat-card-value{color:#0F172A}
+
+/* ===== Data Table ===== */
+.data-section{margin-bottom:24px}
+.data-section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.data-section-header h2{font-family:var(--font-heading);font-size:1.125rem;color:var(--text)}
+.data-toolbar{display:flex;gap:8px;align-items:center}
+.data-search{
+  padding:8px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius-xs);font-size:.875rem;
+  background:var(--bg);color:var(--text);width:240px;
+  transition:all .2s;
+}
+.data-search:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.btn-sm{
+  padding:8px 14px;border-radius:var(--radius-xs);
+  font-weight:600;font-size:.8125rem;border:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all .2s;cursor:pointer;
+}
+.btn-sm-blue{background:var(--blue);color:#fff}
+.btn-sm-blue:hover{background:var(--blue-hover)}
+.btn-sm-outline{background:none;border:1.5px solid var(--border);color:var(--text-secondary)}
+.btn-sm-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.data-table-wrap{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.data-table{width:100%;border-collapse:collapse;font-size:.8125rem}
+.data-table th{
+  background:var(--bg);padding:10px 14px;text-align:left;
+  font-weight:700;color:var(--text-secondary);font-size:.75rem;
+  text-transform:uppercase;letter-spacing:.3px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:1;
+}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border-light);color:var(--text)}
+.data-table tbody tr:hover{background:var(--bg)}
+.data-table tbody tr:last-child td{border-bottom:none}
+.type-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:10px;
+  font-size:.6875rem;font-weight:600;
+}
+.type-whatsapp{background:#D1FAE5;color:#059669}
+.type-telephone{background:#DBEAFE;color:#1D4ED8}
+.type-formulaire{background:#EDE9FE;color:#6D28D9}
+.data-empty{text-align:center;padding:40px;color:var(--text-muted);font-size:.875rem}
+
 /* Responsive */
 @media(max-width:900px){
   .sidebar{width:260px;min-width:260px}
   .main-area{padding:20px}
   .editor-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:700px){
   .admin-body{flex-direction:column}
   .sidebar{width:100%;min-width:100%;max-height:40vh;border-right:none;border-bottom:1px solid var(--border)}
   .main-area{padding:16px}
-  .admin-header{padding:10px 16px}
+  .admin-header{padding:10px 16px;flex-wrap:wrap;gap:8px}
   .admin-header-left h1{font-size:.9375rem}
   .editor-row{grid-template-columns:1fr}
+  .tab-nav{margin-left:0;flex-wrap:wrap}
+  .tab-btn{padding:6px 10px;font-size:.75rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .tab-content-scroll{padding:16px}
+  .data-search{width:100%}
+  .data-toolbar{flex-wrap:wrap}
+  .data-table{font-size:.75rem}
+  .data-table th,.data-table td{padding:8px 10px}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -450,10 +546,24 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
   <header class="admin-header">
     <div class="admin-header-left">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      <h1>SOS Informatique 44 &mdash; Admin Blog</h1>
+      <h1>SOS Informatique 44</h1>
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('blog')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Blog
+        </button>
+        <button class="tab-btn" onclick="switchTab('stats')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          Stats
+        </button>
+        <button class="tab-btn" onclick="switchTab('contacts')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Contacts
+        </button>
+      </nav>
     </div>
     <div class="header-actions">
-      <button class="btn-icon" onclick="openSettings()" title="Param\u00e8tres">
+      <button class="btn-icon" onclick="openSettings()" title="Param&egrave;tres">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
       <button class="btn-logout" onclick="logout()">
@@ -465,6 +575,9 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
 
   <!-- Body -->
   <div class="admin-body">
+
+    <!-- ===== TAB: Blog ===== -->
+    <div class="tab-content active" id="tabBlog" style="display:flex;flex-direction:row;flex:1;overflow:hidden">
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -525,6 +638,18 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
           </div>
 
           <div class="editor-section">
+            <label for="editorImage">Image de l'article (URL)</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="text" id="editorImage" class="editor-input" placeholder="https://exemple.com/mon-image.jpg" oninput="updatePreview()" style="flex:1;margin-bottom:0">
+              <button type="button" class="toolbar-btn" onclick="document.getElementById('editorImageFile').click()" title="Ou choisir un fichier" style="height:42px;width:42px;border-radius:var(--radius-xs)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </button>
+              <input type="file" id="editorImageFile" accept="image/*" style="display:none" onchange="handleImageFile(this)">
+            </div>
+            <p style="font-size:.75rem;color:var(--text-muted);margin-top:6px">Collez une URL d'image ou uploadez un fichier (sera converti en base64 dans l'article)</p>
+          </div>
+
+          <div class="editor-section">
             <label>Contenu complet</label>
             <div class="editor-toolbar">
               <button type="button" class="toolbar-btn" onclick="execCmd('bold')" title="Gras"><strong>B</strong></button>
@@ -577,6 +702,96 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
 
       </div>
     </main>
+    </div><!-- /tabBlog -->
+
+    <!-- ===== TAB: Stats ===== -->
+    <div class="tab-content" id="tabStats">
+      <div class="tab-content-scroll">
+        <div style="max-width:1000px;margin:0 auto">
+          <!-- Counter Cards -->
+          <div class="stats-grid" id="statsCards">
+            <div class="stat-card card-phone">
+              <div class="stat-card-icon">&#128222;</div>
+              <div class="stat-card-value" id="statPhone">0</div>
+              <div class="stat-card-label">Appels</div>
+            </div>
+            <div class="stat-card card-whatsapp">
+              <div class="stat-card-icon">&#128172;</div>
+              <div class="stat-card-value" id="statWhatsapp">0</div>
+              <div class="stat-card-label">WhatsApp</div>
+            </div>
+            <div class="stat-card card-form">
+              <div class="stat-card-icon">&#128203;</div>
+              <div class="stat-card-value" id="statForm">0</div>
+              <div class="stat-card-label">Formulaires</div>
+            </div>
+            <div class="stat-card card-total">
+              <div class="stat-card-icon">&#128101;</div>
+              <div class="stat-card-value" id="statTotal">0</div>
+              <div class="stat-card-label">Total</div>
+            </div>
+          </div>
+
+          <!-- Events Table -->
+          <div class="data-section">
+            <div class="data-section-header">
+              <h2>Historique des &eacute;v&eacute;nements</h2>
+              <div class="data-toolbar">
+                <button class="btn-sm btn-sm-outline" onclick="loadStats()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  Rafra&icirc;chir
+                </button>
+              </div>
+            </div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Date</th><th>Type</th><th>D&eacute;tail</th></tr>
+                </thead>
+                <tbody id="eventsTableBody">
+                  <tr><td colspan="3" class="data-empty">Aucun &eacute;v&eacute;nement enregistr&eacute;.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tabStats -->
+
+    <!-- ===== TAB: Contacts ===== -->
+    <div class="tab-content" id="tabContacts">
+      <div class="tab-content-scroll">
+        <div style="max-width:1100px;margin:0 auto">
+          <div class="data-section">
+            <div class="data-section-header">
+              <h2>Liste des contacts</h2>
+              <div class="data-toolbar">
+                <input type="text" class="data-search" id="contactSearch" placeholder="Rechercher nom, email, t&eacute;l..." oninput="filterContacts()">
+                <button class="btn-sm btn-sm-outline" onclick="exportCSV()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Exporter CSV
+                </button>
+                <button class="btn-sm btn-sm-outline" onclick="loadContacts()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  Rafra&icirc;chir
+                </button>
+              </div>
+            </div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Date</th><th>Nom</th><th>Email</th><th>T&eacute;l</th><th>Appareil</th><th>Source</th><th>Message</th></tr>
+                </thead>
+                <tbody id="contactsTableBody">
+                  <tr><td colspan="7" class="data-empty">Aucun contact enregistr&eacute;.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tabContacts -->
+
   </div>
 </div>
 
@@ -590,6 +805,31 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       Param&egrave;tres
     </h2>
+
+    <!-- Coordonnées du site -->
+    <div class="settings-group">
+      <h3>Coordonn&eacute;es du site</h3>
+      <div class="settings-field">
+        <label for="settingsEmail">Email de contact</label>
+        <input type="email" id="settingsEmail" placeholder="contact@sos-informatique44.fr">
+      </div>
+      <div class="settings-row">
+        <div class="settings-field">
+          <label for="settingsWhatsapp">N&deg; WhatsApp (format international)</label>
+          <input type="text" id="settingsWhatsapp" placeholder="33658458091">
+        </div>
+        <div class="settings-field">
+          <label for="settingsPhone">T&eacute;l&eacute;phone fixe</label>
+          <input type="text" id="settingsPhone" placeholder="0285523814">
+        </div>
+      </div>
+      <div class="settings-field">
+        <label for="settingsMobile">Mobile</label>
+        <input type="text" id="settingsMobile" placeholder="0658458091">
+      </div>
+      <button class="btn-settings btn-settings-blue" onclick="saveContactInfo()" style="margin-top:8px">Enregistrer</button>
+      <p class="settings-msg" id="contactMsg"></p>
+    </div>
 
     <!-- GitHub Token -->
     <div class="settings-group">
@@ -620,6 +860,21 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
       </div>
       <button class="btn-settings btn-settings-blue" onclick="saveRepo()" style="margin-top:8px">Enregistrer</button>
       <p class="settings-msg" id="repoMsg"></p>
+    </div>
+
+    <!-- Google Apps Script -->
+    <div class="settings-group">
+      <h3>Suivi en ligne (Google Sheets)</h3>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:10px">Collez l'URL de votre Google Apps Script d&eacute;ploy&eacute; pour activer le suivi en ligne des clics et contacts.</p>
+      <div class="settings-field">
+        <label for="settingsTrackingUrl">URL Google Apps Script</label>
+        <input type="url" id="settingsTrackingUrl" placeholder="https://script.google.com/macros/s/...../exec">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn-settings btn-settings-blue" onclick="saveTrackingUrl()">Enregistrer</button>
+        <button class="btn-settings btn-settings-outline" onclick="testTrackingUrl()">Tester</button>
+      </div>
+      <p class="settings-msg" id="trackingMsg"></p>
     </div>
 
     <!-- Password -->
@@ -803,9 +1058,14 @@ function confirmCallback() {
 
 /* ===== SETTINGS ===== */
 function openSettings() {
+  document.getElementById('settingsEmail').value = localStorage.getItem('sos44_email') || 'contact@sos-informatique44.fr';
+  document.getElementById('settingsWhatsapp').value = localStorage.getItem('sos44_whatsapp') || '33658458091';
+  document.getElementById('settingsPhone').value = localStorage.getItem('sos44_phone') || '0285523814';
+  document.getElementById('settingsMobile').value = localStorage.getItem('sos44_mobile') || '0658458091';
   document.getElementById('settingsToken').value = localStorage.getItem('sos44_github_token') || '';
   document.getElementById('settingsOwner').value = localStorage.getItem('sos44_repo_owner') || 'patatou97';
   document.getElementById('settingsRepo').value = localStorage.getItem('sos44_repo_name') || 'sosinformatique44';
+  document.getElementById('settingsTrackingUrl').value = localStorage.getItem('sos44_tracking_url') || '';
   document.getElementById('settingsNewPwd').value = '';
   document.getElementById('settingsConfirmPwd').value = '';
   clearSettingsMsgs();
@@ -818,6 +1078,19 @@ function closeSettings() {
 
 function clearSettingsMsgs() {
   document.querySelectorAll('.settings-msg').forEach(function(el) { el.textContent = ''; el.className = 'settings-msg'; });
+}
+
+function saveContactInfo() {
+  var email = document.getElementById('settingsEmail').value.trim();
+  var wa = document.getElementById('settingsWhatsapp').value.trim();
+  var phone = document.getElementById('settingsPhone').value.trim();
+  var mobile = document.getElementById('settingsMobile').value.trim();
+  if (email) localStorage.setItem('sos44_email', email);
+  if (wa) localStorage.setItem('sos44_whatsapp', wa);
+  if (phone) localStorage.setItem('sos44_phone', phone);
+  if (mobile) localStorage.setItem('sos44_mobile', mobile);
+  showSettingsMsg('contactMsg', 'Coordonn\u00e9es enregistr\u00e9es.', 'ok');
+  showToast('Coordonn\u00e9es mises \u00e0 jour', 'success');
 }
 
 function saveToken() {
@@ -978,6 +1251,10 @@ function parseArticles() {
     const dateMatch = inner.match(/<span class="blog-card-date">([\s\S]*?)<\/span>/);
     const date = dateMatch ? dateMatch[1].trim() : '';
 
+    // Extract image URL (if <img> is present in blog-card-img)
+    const imgMatch = inner.match(/<img\s+src="([^"]+)"/);
+    const image = imgMatch ? imgMatch[1] : '';
+
     // Extract content
     const contentMatch = inner.match(/<div class="blog-card-full">([\s\S]*?)<\/div>\s*$/);
     const content = contentMatch ? contentMatch[1].trim() : '';
@@ -985,7 +1262,7 @@ function parseArticles() {
     // Full raw HTML
     const fullHtml = match[0];
 
-    articles.push({ id, cat, title, tag, excerpt, date, content, fullHtml });
+    articles.push({ id, cat, title, tag, excerpt, date, content, image, fullHtml });
   }
 }
 
@@ -1029,6 +1306,7 @@ function newArticle() {
   document.getElementById('editorCat').value = 'PC';
   document.getElementById('editorTag').value = '';
   document.getElementById('editorExcerpt').value = '';
+  document.getElementById('editorImage').value = '';
   document.getElementById('editorContent').innerHTML = '<h3>Sous-titre</h3><p>Votre contenu ici...</p>';
   document.getElementById('welcomeScreen').style.display = 'none';
   document.getElementById('editorPanel').style.display = 'block';
@@ -1051,6 +1329,7 @@ function selectArticle(id) {
   document.getElementById('editorCat').value = art.cat;
   document.getElementById('editorTag').value = art.tag;
   document.getElementById('editorExcerpt').value = art.excerpt;
+  document.getElementById('editorImage').value = art.image || '';
   document.getElementById('editorContent').innerHTML = art.content;
   document.getElementById('welcomeScreen').style.display = 'none';
   document.getElementById('editorPanel').style.display = 'block';
@@ -1070,12 +1349,37 @@ function updatePreview() {
   const cat = document.getElementById('editorCat').value;
   const tag = document.getElementById('editorTag').value || CATEGORY_TAGS[cat] || cat;
   const excerpt = document.getElementById('editorExcerpt').value || 'L\'extrait appara\u00eetra ici...';
+  const imageUrl = document.getElementById('editorImage').value.trim();
 
   document.getElementById('previewTitle').textContent = title;
   document.getElementById('previewTag').textContent = tag;
   document.getElementById('previewExcerpt').textContent = excerpt;
   document.getElementById('previewDate').textContent = todayFr();
-  document.getElementById('previewIcon').innerHTML = CATEGORY_SVGS[cat] || CATEGORY_SVGS['PC'];
+
+  var imgEl = document.getElementById('previewIcon');
+  if (imageUrl) {
+    imgEl.innerHTML = '<img src="' + imageUrl + '" alt="' + escapeHtml(title) + '" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius) var(--radius) 0 0">';
+    imgEl.style.background = 'none';
+  } else {
+    imgEl.innerHTML = CATEGORY_SVGS[cat] || CATEGORY_SVGS['PC'];
+    imgEl.style.background = 'linear-gradient(135deg,#EFF6FF,#DBEAFE)';
+  }
+}
+
+function handleImageFile(input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  if (file.size > 2 * 1024 * 1024) {
+    showToast('Image trop lourde (max 2 Mo). Utilisez une URL externe.', 'error');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('editorImage').value = e.target.result;
+    updatePreview();
+    showToast('Image charg\u00e9e', 'success');
+  };
+  reader.readAsDataURL(file);
 }
 
 /* ===== TOOLBAR ===== */
@@ -1102,6 +1406,7 @@ async function handlePublish() {
   const cat = document.getElementById('editorCat').value;
   const tag = document.getElementById('editorTag').value.trim() || CATEGORY_TAGS[cat] || cat;
   const excerpt = document.getElementById('editorExcerpt').value.trim();
+  const imageUrl = document.getElementById('editorImage').value.trim();
   const content = document.getElementById('editorContent').innerHTML.trim();
 
   if (!title) { showToast('Veuillez entrer un titre.', 'error'); return; }
@@ -1144,10 +1449,19 @@ async function handlePublish() {
     const svg = CATEGORY_SVGS[cat] || CATEGORY_SVGS['PC'];
     const dateStr = todayFr();
 
+    var imgHtml;
+    if (imageUrl && !imageUrl.startsWith('data:')) {
+      imgHtml = '        <div class="blog-card-img" style="background:none;padding:0">\n' +
+        '          <img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(title) + '" style="width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0" loading="lazy">\n' +
+        '        </div>\n';
+    } else {
+      imgHtml = '        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">\n' +
+        '          ' + svg + '\n' +
+        '        </div>\n';
+    }
+
     const articleHtml = '\n      <article class="blog-card reveal" data-id="' + artId + '" data-cat="' + cat + '">\n' +
-      '        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">\n' +
-      '          ' + svg + '\n' +
-      '        </div>\n' +
+      imgHtml +
       '        <div class="blog-card-body">\n' +
       '          <span class="blog-card-tag">' + escapeHtml(tag) + '</span>\n' +
       '          <h3 class="blog-card-title">' + escapeHtml(title) + '</h3>\n' +
@@ -1283,6 +1597,234 @@ async function deleteArticle(articleId) {
   } catch (err) {
     showToast(err.message, 'error');
   }
+}
+
+/* ===== TRACKING URL SETTINGS ===== */
+function saveTrackingUrl() {
+  var url = document.getElementById('settingsTrackingUrl').value.trim();
+  localStorage.setItem('sos44_tracking_url', url);
+  showSettingsMsg('trackingMsg', url ? 'URL enregistr\u00e9e.' : 'URL supprim\u00e9e (mode local uniquement).', 'ok');
+  showToast(url ? 'URL de suivi enregistr\u00e9e' : 'Suivi en ligne d\u00e9sactiv\u00e9', 'success');
+}
+
+async function testTrackingUrl() {
+  var url = document.getElementById('settingsTrackingUrl').value.trim() || localStorage.getItem('sos44_tracking_url');
+  if (!url) {
+    showSettingsMsg('trackingMsg', 'Aucune URL \u00e0 tester.', 'err');
+    return;
+  }
+  showSettingsMsg('trackingMsg', 'Test en cours...', '');
+  try {
+    var res = await fetch(url + '?action=getAll');
+    if (res.ok) {
+      var data = await res.json();
+      showSettingsMsg('trackingMsg', 'Connexion r\u00e9ussie \u2014 ' + (data.contacts ? data.contacts.length : 0) + ' contacts, ' + (data.events ? data.events.length : 0) + ' \u00e9v\u00e9nements', 'ok');
+    } else {
+      showSettingsMsg('trackingMsg', 'Erreur ' + res.status + '.', 'err');
+    }
+  } catch (err) {
+    showSettingsMsg('trackingMsg', 'Erreur r\u00e9seau : ' + err.message, 'err');
+  }
+}
+
+/* ===== TAB SWITCHING ===== */
+function switchTab(tab) {
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().indexOf(tab) !== -1);
+  });
+  // Update content
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+    el.style.display = 'none';
+  });
+  var target = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (target) {
+    target.classList.add('active');
+    target.style.display = tab === 'blog' ? 'flex' : '';
+  }
+  // Load data when switching to stats or contacts
+  if (tab === 'stats') loadStats();
+  if (tab === 'contacts') loadContacts();
+}
+
+/* ===== STATS ===== */
+var cachedEvents = [];
+
+async function loadStats() {
+  var events = [];
+  var trackingUrl = localStorage.getItem('sos44_tracking_url');
+
+  // Try Google Sheets first
+  if (trackingUrl) {
+    try {
+      var res = await fetch(trackingUrl + '?action=getAll');
+      if (res.ok) {
+        var data = await res.json();
+        if (data.events && data.events.length > 1) {
+          // Skip header row (first row)
+          for (var i = 1; i < data.events.length; i++) {
+            var row = data.events[i];
+            events.push({ date: row[0], type: row[1], detail: row[2] });
+          }
+        }
+      }
+    } catch (e) {}
+  }
+
+  // Fallback / merge with localStorage
+  try {
+    var local = JSON.parse(localStorage.getItem('sos44_crm_events') || '[]');
+    if (events.length === 0) {
+      events = local;
+    }
+  } catch (e) {}
+
+  cachedEvents = events;
+  renderStats(events);
+}
+
+function renderStats(events) {
+  var phone = 0, whatsapp = 0, form = 0;
+  events.forEach(function(ev) {
+    var t = (ev.type || ev.eventType || '').toLowerCase();
+    if (t === 'telephone') phone++;
+    else if (t === 'whatsapp') whatsapp++;
+    else if (t === 'formulaire') form++;
+  });
+
+  document.getElementById('statPhone').textContent = phone;
+  document.getElementById('statWhatsapp').textContent = whatsapp;
+  document.getElementById('statForm').textContent = form;
+  document.getElementById('statTotal').textContent = phone + whatsapp + form;
+
+  // Render events table (last 50, most recent first)
+  var tbody = document.getElementById('eventsTableBody');
+  var sorted = events.slice().sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  }).slice(0, 50);
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" class="data-empty">Aucun \u00e9v\u00e9nement enregistr\u00e9.</td></tr>';
+    return;
+  }
+
+  var html = '';
+  sorted.forEach(function(ev) {
+    var t = (ev.type || ev.eventType || '').toLowerCase();
+    var typeClass = 'type-' + t;
+    var typeLabel = t === 'whatsapp' ? 'WhatsApp' : t === 'telephone' ? 'T\u00e9l\u00e9phone' : t === 'formulaire' ? 'Formulaire' : t;
+    var dateStr = '';
+    try {
+      var d = new Date(ev.date);
+      dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+    } catch(e) { dateStr = ev.date || ''; }
+
+    html += '<tr>';
+    html += '<td>' + escapeHtml(dateStr) + '</td>';
+    html += '<td><span class="type-badge ' + typeClass + '">' + escapeHtml(typeLabel) + '</span></td>';
+    html += '<td>' + escapeHtml(ev.detail || '') + '</td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+/* ===== CONTACTS ===== */
+var cachedContacts = [];
+
+async function loadContacts() {
+  var contacts = [];
+  var trackingUrl = localStorage.getItem('sos44_tracking_url');
+
+  // Try Google Sheets first
+  if (trackingUrl) {
+    try {
+      var res = await fetch(trackingUrl + '?action=getAll');
+      if (res.ok) {
+        var data = await res.json();
+        if (data.contacts && data.contacts.length > 1) {
+          for (var i = 1; i < data.contacts.length; i++) {
+            var row = data.contacts[i];
+            contacts.push({ date: row[0], name: row[1], email: row[2], phone: row[3], device: row[4], source: row[5], message: row[6] });
+          }
+        }
+      }
+    } catch (e) {}
+  }
+
+  // Fallback / merge with localStorage
+  try {
+    var local = JSON.parse(localStorage.getItem('sos44_crm_contacts') || '[]');
+    if (contacts.length === 0) {
+      contacts = local;
+    }
+  } catch (e) {}
+
+  cachedContacts = contacts;
+  renderContacts(contacts);
+}
+
+function renderContacts(contacts) {
+  var tbody = document.getElementById('contactsTableBody');
+  var sorted = contacts.slice().sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="data-empty">Aucun contact enregistr\u00e9.</td></tr>';
+    return;
+  }
+
+  var html = '';
+  sorted.forEach(function(c) {
+    var dateStr = '';
+    try {
+      var d = new Date(c.date);
+      dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+    } catch(e) { dateStr = c.date || ''; }
+
+    html += '<tr>';
+    html += '<td>' + escapeHtml(dateStr) + '</td>';
+    html += '<td>' + escapeHtml(c.name || '') + '</td>';
+    html += '<td>' + escapeHtml(c.email || '') + '</td>';
+    html += '<td>' + escapeHtml(c.phone || '') + '</td>';
+    html += '<td>' + escapeHtml(c.device || '') + '</td>';
+    html += '<td>' + escapeHtml(c.source || '') + '</td>';
+    html += '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + escapeHtml(c.message || '') + '">' + escapeHtml(c.message || '') + '</td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function filterContacts() {
+  var q = document.getElementById('contactSearch').value.toLowerCase().trim();
+  if (!q) {
+    renderContacts(cachedContacts);
+    return;
+  }
+  var filtered = cachedContacts.filter(function(c) {
+    return (c.name || '').toLowerCase().indexOf(q) !== -1 ||
+           (c.email || '').toLowerCase().indexOf(q) !== -1 ||
+           (c.phone || '').toLowerCase().indexOf(q) !== -1;
+  });
+  renderContacts(filtered);
+}
+
+function exportCSV() {
+  if (cachedContacts.length === 0) {
+    showToast('Aucun contact \u00e0 exporter.', 'error');
+    return;
+  }
+  var csv = 'Date,Nom,Email,T\u00e9l\u00e9phone,Appareil,Source,Message\n';
+  cachedContacts.forEach(function(c) {
+    csv += '"' + (c.date || '') + '","' + (c.name || '').replace(/"/g, '""') + '","' + (c.email || '') + '","' + (c.phone || '') + '","' + (c.device || '') + '","' + (c.source || '') + '","' + (c.message || '').replace(/"/g, '""') + '"\n';
+  });
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'contacts-sos44-' + new Date().toISOString().slice(0, 10) + '.csv';
+  link.click();
+  showToast('Export CSV t\u00e9l\u00e9charg\u00e9', 'success');
 }
 
 /* ===== BOOT ===== */
