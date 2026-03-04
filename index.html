@@ -15,7 +15,7 @@
 <meta property="og:locale" content="fr_FR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -449,7 +449,9 @@ ul{list-style:none}
   padding:40px;
   box-shadow:var(--shadow-md);
   max-width:700px;margin:0 auto;
+  position:relative;
 }
+.quali-logo-calc{display:block;margin:0 auto 18px;width:120px;height:auto}
 .calc-select{
   width:100%;padding:14px 18px;
   border:2px solid var(--border);border-radius:var(--radius-xs);
@@ -523,7 +525,7 @@ ul{list-style:none}
 .compare-table th,.compare-table td{padding:16px 22px;text-align:left}
 .compare-table thead th{
   background:linear-gradient(135deg, #0EA5E9, #0284C7);color:#fff;
-  font-family:var(--font-heading);font-weight:600;font-size:.9375rem;
+  font-family:var(--font-heading);font-weight:700;font-size:.9375rem;
 }
 .compare-table tbody tr{background:var(--bg-alt);transition:background var(--transition)}
 .compare-table tbody tr:nth-child(even){background:#F8FAFC}
@@ -885,13 +887,27 @@ ul{list-style:none}
 .blog-card-toggle svg{transition:transform .3s}
 .blog-card-toggle.opened svg{transform:rotate(180deg)}
 @media(max-width:768px){.blog-grid{grid-template-columns:1fr}}
+.bg-gradient-blog{background:linear-gradient(135deg,#EFF6FF,#DBEAFE)}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.popup-input{width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-desktop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></symbol>
+  <symbol id="i-gallery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></symbol>
+</svg>
 
 <!-- Top Banner -->
 <div class="top-banner">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+  <svg width="16" height="16"><use href="#i-check"/></svg>
   Bonus Réparation : <span>-50 €</span> immédiat grâce au label QualiRépare
 </div>
 
@@ -900,7 +916,7 @@ ul{list-style:none}
   <div class="nav-inner">
     <a href="#" class="nav-logo" aria-label="SOS Informatique 44 — Accueil">
       <div class="nav-logo-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <svg width="22" height="22" style="stroke:#fff"><use href="#i-desktop"/></svg>
       </div>
       SOS Informatique 44
     </a>
@@ -919,7 +935,7 @@ ul{list-style:none}
         Demande de devis
       </a>
       <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener" data-wa>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        <svg width="13" height="13"><use href="#i-wa"/></svg>
         Devis WhatsApp
       </a>
     </div>
@@ -932,14 +948,14 @@ ul{list-style:none}
     <div class="hero-grid">
       <div class="hero-left reveal-left">
         <div class="hero-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <svg width="14" height="14"><use href="#i-check"/></svg>
           Atelier certifié QualiRépare
         </div>
         <h1>Réparation informatique à <em>La Chapelle-sur-Erdre</em></h1>
         <p class="hero-sub">PC, Mac, iPhone, smartphones et tablettes. Diagnostic gratuit, bonus réparation 50 € et garantie 90 jours minimum. Particuliers et entreprises.</p>
         <div class="hero-badges">
           <span class="badge badge-blue">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <svg width="14" height="14"><use href="#i-check"/></svg>
             QualiRépare
           </span>
           <span class="badge badge-indigo">
@@ -947,17 +963,17 @@ ul{list-style:none}
             Diagnostic gratuit
           </span>
           <span class="badge badge-green">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg width="14" height="14"><use href="#i-shield"/></svg>
             Garantie 90 jours
           </span>
         </div>
         <div class="hero-cta">
           <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener" data-wa>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            <svg width="18" height="18"><use href="#i-wa"/></svg>
             Devis gratuit WhatsApp
           </a>
           <a href="tel:0285523814" class="btn btn-outline" data-tel>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <svg width="18" height="18"><use href="#i-phone"/></svg>
             <span data-tel-display>02 85 52 38 14</span>
           </a>
         </div>
@@ -973,7 +989,7 @@ ul{list-style:none}
           </div>
           <div class="spec-grid">
             <div class="spec-item">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <svg width="18" height="18"><use href="#i-desktop"/></svg>
               PC Windows
             </div>
             <div class="spec-item">
@@ -981,7 +997,7 @@ ul{list-style:none}
               Mac &amp; MacBook
             </div>
             <div class="spec-item">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              <svg width="18" height="18"><use href="#i-mobile"/></svg>
               iPhone &amp; Android
             </div>
             <div class="spec-item">
@@ -1058,6 +1074,7 @@ ul{list-style:none}
 <section class="section section-light" id="calculateur">
   <div class="container">
     <div class="section-header">
+      <img src="quali-repare.png" alt="Label QualiRépare" class="quali-logo-calc reveal">
       <div class="section-tag reveal">Économies</div>
       <h2 class="section-title reveal">Calculez vos économies</h2>
       <p class="section-subtitle reveal">Sélectionnez votre réparation pour voir le prix après déduction du bonus QualiRépare.</p>
@@ -1066,14 +1083,6 @@ ul{list-style:none}
       <label for="calcSelect" class="sr-only">Type de réparation</label>
       <select id="calcSelect" class="calc-select" aria-label="Choisir une réparation">
         <option value="">— Choisir une réparation —</option>
-        <option value="150">Écran iPhone — 150 €</option>
-        <option value="90">Connecteur de charge — 90 €</option>
-        <option value="350">Écran MacBook — 350 €</option>
-        <option value="180">Batterie MacBook — 180 €</option>
-        <option value="120">Remplacement SSD (PC) — 120 €</option>
-        <option value="130">Charnière PC portable — 130 €</option>
-        <option value="80">Nettoyage interne — 80 €</option>
-        <option value="150">Récupération de données — 150 €</option>
       </select>
       <div id="calcResult" class="calc-result">
         <div class="calc-prices">
@@ -1083,7 +1092,7 @@ ul{list-style:none}
         </div>
         <p class="calc-saving" id="calcSaving"></p>
         <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener" data-wa>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          <svg width="16" height="16"><use href="#i-wa"/></svg>
           Obtenir ce tarif
         </a>
       </div>
@@ -1102,7 +1111,7 @@ ul{list-style:none}
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-icon si-blue">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <svg width="26" height="26"><use href="#i-desktop"/></svg>
         </div>
         <h3>PC Windows</h3>
         <p>HP, Acer, Asus, Lenovo, Dell… Remplacement écran, upgrade SSD/RAM, réparation carte mère, nettoyage ventilateur.</p>
@@ -1116,7 +1125,7 @@ ul{list-style:none}
       </div>
       <div class="service-card reveal">
         <div class="service-icon si-green">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          <svg width="26" height="26"><use href="#i-mobile"/></svg>
         </div>
         <h3>Smartphones &amp; Tablettes</h3>
         <p>iPhone, Samsung, Xiaomi, iPad… Écran, batterie, connecteur de charge, boutons, haut-parleur. Pièces de qualité.</p>
@@ -1137,7 +1146,7 @@ ul{list-style:none}
       </div>
       <div class="service-card reveal">
         <div class="service-icon si-indigo">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="26" height="26"><use href="#i-shield"/></svg>
         </div>
         <h3>Virus &amp; optimisation</h3>
         <p>Suppression de virus, malwares, ransomwares. Nettoyage logiciel, optimisation démarrage, mise à jour système.</p>
@@ -1162,28 +1171,28 @@ ul{list-style:none}
         <tbody>
           <tr>
             <td>Écran iPhone cassé</td>
-            <td class="col-bad"><svg class="compare-cross" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Nouvel iPhone</td>
-            <td class="col-good"><svg class="compare-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Remplacement écran</td>
+            <td class="col-bad"><svg class="compare-cross" width="16" height="16"><use href="#i-cross"/></svg>Nouvel iPhone</td>
+            <td class="col-good"><svg class="compare-check" width="16" height="16"><use href="#i-check"/></svg>Remplacement écran</td>
           </tr>
           <tr>
             <td>PC portable très lent</td>
-            <td class="col-bad"><svg class="compare-cross" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Nouveau PC</td>
-            <td class="col-good"><svg class="compare-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Upgrade SSD + nettoyage</td>
+            <td class="col-bad"><svg class="compare-cross" width="16" height="16"><use href="#i-cross"/></svg>Nouveau PC</td>
+            <td class="col-good"><svg class="compare-check" width="16" height="16"><use href="#i-check"/></svg>Upgrade SSD + nettoyage</td>
           </tr>
           <tr>
             <td>MacBook ne charge plus</td>
-            <td class="col-bad"><svg class="compare-cross" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Nouveau MacBook</td>
-            <td class="col-good"><svg class="compare-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Réparation connecteur</td>
+            <td class="col-bad"><svg class="compare-cross" width="16" height="16"><use href="#i-cross"/></svg>Nouveau MacBook</td>
+            <td class="col-good"><svg class="compare-check" width="16" height="16"><use href="#i-check"/></svg>Réparation connecteur</td>
           </tr>
           <tr>
             <td>Carte mère en panne</td>
-            <td class="col-bad"><svg class="compare-cross" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Nouvel appareil</td>
-            <td class="col-good"><svg class="compare-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Micro-soudure</td>
+            <td class="col-bad"><svg class="compare-cross" width="16" height="16"><use href="#i-cross"/></svg>Nouvel appareil</td>
+            <td class="col-good"><svg class="compare-check" width="16" height="16"><use href="#i-check"/></svg>Micro-soudure</td>
           </tr>
           <tr>
             <td>Données perdues</td>
-            <td class="col-bad"><svg class="compare-cross" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Irremplaçable</td>
-            <td class="col-good"><svg class="compare-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Récupération de données</td>
+            <td class="col-bad"><svg class="compare-cross" width="16" height="16"><use href="#i-cross"/></svg>Irremplaçable</td>
+            <td class="col-good"><svg class="compare-check" width="16" height="16"><use href="#i-check"/></svg>Récupération de données</td>
           </tr>
         </tbody>
       </table>
@@ -1203,35 +1212,35 @@ ul{list-style:none}
     <div class="gallery-scroll reveal">
       <figure class="gallery-item">
         <div class="gallery-placeholder" role="img" aria-label="Poste de micro-soudure">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <svg width="32" height="32"><use href="#i-gallery"/></svg>
           <span>Photo : poste de travail</span>
         </div>
         <figcaption>Poste de micro-soudure</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="gallery-placeholder" role="img" aria-label="Diagnostic MacBook">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <svg width="32" height="32"><use href="#i-gallery"/></svg>
           <span>Photo : diagnostic MacBook</span>
         </div>
         <figcaption>Diagnostic carte mère MacBook</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="gallery-placeholder" role="img" aria-label="Remplacement écran iPhone">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <svg width="32" height="32"><use href="#i-gallery"/></svg>
           <span>Photo : remplacement écran</span>
         </div>
         <figcaption>Remplacement écran iPhone</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="gallery-placeholder" role="img" aria-label="Récupération de données">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <svg width="32" height="32"><use href="#i-gallery"/></svg>
           <span>Photo : récupération données</span>
         </div>
         <figcaption>Récupération de données HDD</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="gallery-placeholder" role="img" aria-label="Accueil atelier">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <svg width="32" height="32"><use href="#i-gallery"/></svg>
           <span>Photo : accueil atelier</span>
         </div>
         <figcaption>Accueil — 27 rue de la Vrière</figcaption>
@@ -1255,8 +1264,8 @@ ul{list-style:none}
       <!-- BLOG-ARTICLES-START -->
 
       <article class="blog-card reveal" data-id="art-003" data-cat="QualiRéparé">
-        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="blog-card-img bg-gradient-blog">
+          <svg width="48" height="48"><use href="#i-shield"/></svg>
         </div>
         <div class="blog-card-body">
           <span class="blog-card-tag">QualiRéparé</span>
@@ -1264,7 +1273,7 @@ ul{list-style:none}
           <p class="blog-card-excerpt">Le bonus réparation de l'État vous rembourse une partie de votre réparation smartphone, tablette ou PC. On vous explique comment en profiter chez SOS Informatique 44.</p>
           <div class="blog-card-footer">
             <span class="blog-card-date">28 février 2025</span>
-            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>
           </div>
         </div>
         <div class="blog-card-full">
@@ -1289,8 +1298,8 @@ ul{list-style:none}
       </article>
 
       <article class="blog-card reveal" data-id="art-002" data-cat="Smartphone">
-        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <div class="blog-card-img bg-gradient-blog">
+          <svg width="48" height="48"><use href="#i-mobile"/></svg>
         </div>
         <div class="blog-card-body">
           <span class="blog-card-tag">Smartphone</span>
@@ -1298,7 +1307,7 @@ ul{list-style:none}
           <p class="blog-card-excerpt">Votre smartphone a l'écran fissuré ? Chez SOS Informatique 44, on répare iPhone et Samsung avec des pièces certifiées, garantie 12 mois.</p>
           <div class="blog-card-footer">
             <span class="blog-card-date">15 février 2025</span>
-            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>
           </div>
         </div>
         <div class="blog-card-full">
@@ -1318,8 +1327,8 @@ ul{list-style:none}
       </article>
 
       <article class="blog-card reveal" data-id="art-001" data-cat="PC">
-        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <div class="blog-card-img bg-gradient-blog">
+          <svg width="48" height="48"><use href="#i-desktop"/></svg>
         </div>
         <div class="blog-card-body">
           <span class="blog-card-tag">Réparation PC</span>
@@ -1327,7 +1336,7 @@ ul{list-style:none}
           <p class="blog-card-excerpt">Votre ordinateur Windows rame au quotidien ? Voici les gestes essentiels et les réparations qui font la différence, par un réparateur certifié à Nantes.</p>
           <div class="blog-card-footer">
             <span class="blog-card-date">3 février 2025</span>
-            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>
           </div>
         </div>
         <div class="blog-card-full">
@@ -1365,14 +1374,14 @@ ul{list-style:none}
     <div class="why-grid">
       <div class="why-card reveal">
         <div class="why-icon wi-blue">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <svg width="28" height="28"><use href="#i-check"/></svg>
         </div>
         <h3>Label QualiRépare</h3>
         <p>Atelier certifié. 50 € de bonus réparation déduits automatiquement de votre facture.</p>
       </div>
       <div class="why-card reveal">
         <div class="why-icon wi-indigo">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="28" height="28"><use href="#i-shield"/></svg>
         </div>
         <h3>Garantie 90 jours</h3>
         <p>Pièces et main d'œuvre garanties 90 jours minimum sur toutes nos réparations.</p>
@@ -1407,19 +1416,19 @@ ul{list-style:none}
       <div class="contact-methods reveal-left">
         <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="contact-item" target="_blank" rel="noopener" data-wa>
           <div class="contact-icon ci-wa">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            <svg width="22" height="22"><use href="#i-wa"/></svg>
           </div>
           <div><strong>WhatsApp</strong><span data-mobile-display>06 58 45 80 91</span> — Réponse rapide</div>
         </a>
         <a href="tel:0285523814" class="contact-item" data-tel>
           <div class="contact-icon ci-phone">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <svg width="22" height="22"><use href="#i-phone"/></svg>
           </div>
           <div><strong>Téléphone fixe</strong><span data-tel-display>02 85 52 38 14</span></div>
         </a>
         <a href="tel:0658458091" class="contact-item" data-mobile>
           <div class="contact-icon ci-mobile">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+            <svg width="22" height="22"><use href="#i-mobile"/></svg>
           </div>
           <div><strong>Mobile</strong><span data-mobile-display>06 58 45 80 91</span></div>
         </a>
@@ -1534,7 +1543,7 @@ ul{list-style:none}
               </div>
               <span class="dv-error" id="dv_err_modele">Veuillez indiquer le modèle.</span>
             </div>
-            <div style="height:1px;background:var(--border);margin:14px 0"></div>
+            <div class="divider"></div>
             <div class="dv-section-title">Description du problème</div>
             <div class="dv-field">
               <label>Défaut constaté <span class="req">*</span></label>
@@ -1574,7 +1583,7 @@ ul{list-style:none}
                 <span class="dv-error" id="dv_err_tel">Numéro requis.</span>
               </div>
             </div>
-            <div style="height:1px;background:var(--border);margin:14px 0"></div>
+            <div class="divider"></div>
             <div class="dv-section-title">Adresse (optionnel)</div>
             <div class="dv-field">
               <label>Adresse</label>
@@ -1590,7 +1599,7 @@ ul{list-style:none}
                 <input type="text" id="dv_ville" placeholder="Votre ville">
               </div>
             </div>
-            <div style="height:1px;background:var(--border);margin:14px 0"></div>
+            <div class="divider"></div>
             <div class="dv-section-title">Comment nous avez-vous connu ?</div>
             <div class="dv-field">
               <select id="dv_source">
@@ -1649,7 +1658,7 @@ ul{list-style:none}
     <div class="footer-grid">
       <div>
         <div class="footer-logo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <svg width="20" height="20" style="stroke:#0EA5E9"><use href="#i-desktop"/></svg>
           SOS Informatique 44
         </div>
         <p>Réparation informatique à La Chapelle-sur-Erdre. PC, Mac, iPhone, smartphones, tablettes. Label QualiRépare — Bonus Réparation 50 €.</p>
@@ -1694,7 +1703,7 @@ ul{list-style:none}
 
 <!-- WhatsApp Floating -->
 <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Contacter par WhatsApp" data-wa>
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+  <svg width="22" height="22"><use href="#i-wa"/></svg>
   Besoin d'un devis ?
 </a>
 
@@ -1747,15 +1756,32 @@ ul{list-style:none}
   },{passive:true});
 })();
 
-/* Calculator */
-document.getElementById('calcSelect').addEventListener('change',function(){
-  var val=parseInt(this.value),res=document.getElementById('calcResult');
-  if(!val){res.classList.remove('visible');return}
-  document.getElementById('calcBefore').textContent=val+' €';
-  document.getElementById('calcAfter').textContent=(val-50)+' €';
-  document.getElementById('calcSaving').textContent='Vous économisez 50 € grâce au bonus QualiRépare';
-  res.classList.remove('visible');void res.offsetWidth;res.classList.add('visible');
-});
+/* Calculator — dynamic prices from admin */
+(function(){
+  var defaultPrices=[
+    {name:'Écran iPhone',price:150},{name:'Connecteur de charge',price:90},
+    {name:'Écran MacBook',price:350},{name:'Batterie MacBook',price:180},
+    {name:'Remplacement SSD (PC)',price:120},{name:'Charnière PC portable',price:130},
+    {name:'Nettoyage interne',price:80},{name:'Récupération de données',price:150}
+  ];
+  var prices=JSON.parse(localStorage.getItem('sos44_calc_prices')||'null')||defaultPrices;
+  var bonus=parseInt(localStorage.getItem('sos44_calc_bonus'))||50;
+  var sel=document.getElementById('calcSelect');
+  prices.forEach(function(p){
+    var o=document.createElement('option');
+    o.value=p.price;o.textContent=p.name+' — '+p.price+' €';
+    sel.appendChild(o);
+  });
+  document.getElementById('calcBadge').textContent='-'+bonus+' €';
+  sel.addEventListener('change',function(){
+    var val=parseInt(this.value),res=document.getElementById('calcResult');
+    if(!val){res.classList.remove('visible');return}
+    document.getElementById('calcBefore').textContent=val+' €';
+    document.getElementById('calcAfter').textContent=(val-bonus)+' €';
+    document.getElementById('calcSaving').textContent='Vous économisez '+bonus+' € grâce au bonus QualiRépare';
+    res.classList.remove('visible');void res.offsetWidth;res.classList.add('visible');
+  });
+})();
 
 /* Contact form — save to CRM + Google Sheets + mailto */
 document.getElementById('contactForm').addEventListener('submit',function(e){
@@ -1806,30 +1832,17 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
 var TRACKING_URL='';
 try{TRACKING_URL=localStorage.getItem('sos44_tracking_url')||''}catch(e){}
 
+function _trackStore(key,item){try{var a=JSON.parse(localStorage.getItem(key)||'[]');a.push(item);localStorage.setItem(key,JSON.stringify(a))}catch(e){}}
+function _trackSend(payload){if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
+
 function trackEvent(type,detail){
-  try{
-    var ev=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
-    ev.push({date:new Date().toISOString(),type:type,detail:detail});
-    localStorage.setItem('sos44_crm_events',JSON.stringify(ev));
-  }catch(e){}
-  if(TRACKING_URL){
-    fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({type:'event',date:new Date().toISOString(),eventType:type,detail:detail})
-    }).catch(function(){});
-  }
+  _trackStore('sos44_crm_events',{date:new Date().toISOString(),type:type,detail:detail});
+  _trackSend({type:'event',date:new Date().toISOString(),eventType:type,detail:detail});
 }
 
 function trackContact(data){
-  try{
-    var c=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
-    c.push(data);
-    localStorage.setItem('sos44_crm_contacts',JSON.stringify(c));
-  }catch(e){}
-  if(TRACKING_URL){
-    fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({type:'contact',date:data.date,name:data.name,email:data.email,phone:data.phone,device:data.device,source:data.source,message:data.message})
-    }).catch(function(){});
-  }
+  _trackStore('sos44_crm_contacts',data);
+  _trackSend({type:'contact',date:data.date,name:data.name,email:data.email,phone:data.phone,device:data.device,source:data.source,message:data.message});
 }
 
 /* Click tracking — WhatsApp & Téléphone */
@@ -1851,8 +1864,8 @@ function blogToggle(btn){
   full.classList.toggle('open');
   btn.classList.toggle('opened');
   btn.innerHTML=isOpen
-    ?'Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>'
-    :'Fermer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    ?'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>'
+    :'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
 }
 
 /* ===== DEVIS TOGGLE (Rapide / Détaillé) ===== */
@@ -1972,7 +1985,7 @@ function dvSubmit(){
     var d=document.createElement('div');
     d.id='sos44popup';
     d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-    d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif"><input name="email" type="email" placeholder="Email" style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif"><select name="device" style="width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:14px;font-size:.9375rem;font-family:Inter,sans-serif"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+    d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
     document.body.appendChild(d);
     document.getElementById('sos44popupForm').onsubmit=function(e){
       e.preventDefault();

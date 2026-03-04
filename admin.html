@@ -201,7 +201,6 @@ input,select,textarea{font-family:inherit}
   font-size:.9375rem;background:var(--surface);color:var(--text);
   transition:all .2s;
 }
-.editor-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
 .editor-input-title{font-size:1.125rem;font-weight:600;font-family:var(--font-heading)}
 select.editor-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
@@ -234,7 +233,6 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
   outline:none;color:var(--text);
   overflow-y:auto;
 }
-.content-editable:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
 .content-editable h3{font-family:var(--font-heading);font-size:1.05rem;margin:16px 0 6px;color:var(--text)}
 .content-editable h3:first-child{margin-top:0}
 .content-editable p{margin-bottom:10px}
@@ -330,7 +328,6 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
   font-size:.875rem;background:var(--bg);color:var(--text);
   transition:all .2s;
 }
-.settings-field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
 .settings-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn-settings{
   padding:8px 16px;border-radius:var(--radius-xs);
@@ -456,7 +453,7 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
   background:var(--bg);color:var(--text);width:240px;
   transition:all .2s;
 }
-.data-search:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.editor-input:focus,.content-editable:focus,.settings-field input:focus,.data-search:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
 .btn-sm{
   padding:8px 14px;border-radius:var(--radius-xs);
   font-weight:600;font-size:.8125rem;border:none;
@@ -877,6 +874,20 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
       <p class="settings-msg" id="trackingMsg"></p>
     </div>
 
+    <!-- Prix calculateur -->
+    <div class="settings-group">
+      <h3>Prix du calculateur &laquo; Calculez vos &eacute;conomies &raquo;</h3>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:10px">Modifiez les r&eacute;parations et leurs prix affich&eacute;s sur le site. Format : un par ligne, <code>Nom — prix</code></p>
+      <div class="settings-field">
+        <label for="settingsBonus">Montant du bonus QualiR&eacute;pare (&euro;)</label>
+        <input type="number" id="settingsBonus" placeholder="50" min="0" style="max-width:120px">
+      </div>
+      <div id="priceRows"></div>
+      <button class="btn-settings btn-settings-outline" onclick="addPriceRow('','')" style="margin-top:8px;font-size:.75rem">+ Ajouter une r&eacute;paration</button>
+      <button class="btn-settings btn-settings-blue" onclick="savePrices()" style="margin-top:8px">Enregistrer les prix</button>
+      <p class="settings-msg" id="pricesMsg"></p>
+    </div>
+
     <!-- Password -->
     <div class="settings-group">
       <h3>Mot de passe admin</h3>
@@ -1068,6 +1079,7 @@ function openSettings() {
   document.getElementById('settingsTrackingUrl').value = localStorage.getItem('sos44_tracking_url') || '';
   document.getElementById('settingsNewPwd').value = '';
   document.getElementById('settingsConfirmPwd').value = '';
+  loadPriceRows();
   clearSettingsMsgs();
   document.getElementById('settingsOverlay').classList.add('active');
 }
@@ -1184,6 +1196,23 @@ function getGitHubConfig() {
   };
 }
 
+function ghFetch(path, options) {
+  var cfg = getGitHubConfig();
+  var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + path;
+  var h = { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' };
+  if (options && options.body) h['Content-Type'] = 'application/json';
+  return fetch(url, Object.assign({ headers: h }, options || {}));
+}
+
+function articleRegex(id) {
+  return new RegExp('\\s*<article\\s+class="blog-card[^"]*"\\s+data-id="' + id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[\\s\\S]*?<\\/article>\\s*', 'g');
+}
+
+function formatDateTimeFr(dateStr) {
+  try { var d = new Date(dateStr); return d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}); }
+  catch(e) { return dateStr || ''; }
+}
+
 async function loadArticles() {
   const cfg = getGitHubConfig();
   if (!cfg.token) {
@@ -1195,9 +1224,7 @@ async function loadArticles() {
 
   try {
     showToast('Chargement des articles...', 'info');
-    const res = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
-      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
-    });
+    const res = await ghFetch('/contents/index.html');
 
     if (!res.ok) {
       throw new Error('Erreur ' + res.status + ' : impossible de charger index.html');
@@ -1428,9 +1455,7 @@ async function handlePublish() {
 
   try {
     // 1. Fetch latest index.html to get current SHA
-    const fetchRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
-      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
-    });
+    const fetchRes = await ghFetch('/contents/index.html');
     if (!fetchRes.ok) throw new Error('Impossible de charger index.html (erreur ' + fetchRes.status + ')');
 
     const fetchData = await fetchRes.json();
@@ -1455,7 +1480,7 @@ async function handlePublish() {
         '          <img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(title) + '" style="width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0" loading="lazy">\n' +
         '        </div>\n';
     } else {
-      imgHtml = '        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">\n' +
+      imgHtml = '        <div class="blog-card-img bg-gradient-blog">\n' +
         '          ' + svg + '\n' +
         '        </div>\n';
     }
@@ -1468,7 +1493,7 @@ async function handlePublish() {
       '          <p class="blog-card-excerpt">' + escapeHtml(excerpt) + '</p>\n' +
       '          <div class="blog-card-footer">\n' +
       '            <span class="blog-card-date">' + dateStr + '</span>\n' +
-      '            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>\n' +
+      '            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>\n' +
       '          </div>\n' +
       '        </div>\n' +
       '        <div class="blog-card-full">\n' +
@@ -1478,7 +1503,7 @@ async function handlePublish() {
 
     // 3. If editing, remove old article first
     if (editingId) {
-      const oldRegex = new RegExp('\\s*<article\\s+class="blog-card[^"]*"\\s+data-id="' + editingId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[\\s\\S]*?<\\/article>\\s*', 'g');
+      const oldRegex = articleRegex(editingId);
       html = html.replace(oldRegex, '\n');
     }
 
@@ -1487,13 +1512,8 @@ async function handlePublish() {
     html = html.substring(0, insertPos) + articleHtml + html.substring(insertPos);
 
     // 5. PUT to GitHub
-    const putRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+    const putRes = await ghFetch('/contents/index.html', {
       method: 'PUT',
-      headers: {
-        'Authorization': 'token ' + cfg.token,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({
         message: (editingId ? 'Mise \u00e0 jour' : 'Ajout') + ' article blog : ' + title,
         content: utf8ToBase64(html),
@@ -1552,9 +1572,7 @@ async function deleteArticle(articleId) {
 
   try {
     // 1. Fetch latest
-    const fetchRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
-      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
-    });
+    const fetchRes = await ghFetch('/contents/index.html');
     if (!fetchRes.ok) throw new Error('Impossible de charger index.html');
 
     const fetchData = await fetchRes.json();
@@ -1562,19 +1580,13 @@ async function deleteArticle(articleId) {
     let html = base64ToUtf8(fetchData.content);
 
     // 2. Remove article
-    const regex = new RegExp('\\s*<article\\s+class="blog-card[^"]*"\\s+data-id="' + articleId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[\\s\\S]*?<\\/article>\\s*', 'g');
-    const newHtml = html.replace(regex, '\n');
+    const newHtml = html.replace(articleRegex(articleId), '\n');
 
     if (newHtml === html) throw new Error('Article introuvable dans le HTML');
 
     // 3. PUT
-    const putRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+    const putRes = await ghFetch('/contents/index.html', {
       method: 'PUT',
-      headers: {
-        'Authorization': 'token ' + cfg.token,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({
         message: 'Suppression article blog : ' + articleId,
         content: utf8ToBase64(newHtml),
@@ -1600,6 +1612,57 @@ async function deleteArticle(articleId) {
 }
 
 /* ===== TRACKING URL SETTINGS ===== */
+/* ===== CALCULATOR PRICES ===== */
+var defaultPrices = [
+  {name:'Écran iPhone', price:150},
+  {name:'Connecteur de charge', price:90},
+  {name:'Écran MacBook', price:350},
+  {name:'Batterie MacBook', price:180},
+  {name:'Remplacement SSD (PC)', price:120},
+  {name:'Charnière PC portable', price:130},
+  {name:'Nettoyage interne', price:80},
+  {name:'Récupération de données', price:150}
+];
+
+function addPriceRow(name, price) {
+  var container = document.getElementById('priceRows');
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:6px';
+  row.innerHTML = '<input type="text" class="price-name" placeholder="Nom réparation" value="' + (name||'') + '" style="flex:1">' +
+    '<input type="number" class="price-val" placeholder="Prix €" value="' + (price||'') + '" min="0" style="width:100px">' +
+    '<button onclick="this.parentElement.remove()" style="background:none;border:none;color:#ef4444;font-size:1.2rem;cursor:pointer" title="Supprimer">&times;</button>';
+  container.appendChild(row);
+}
+
+function loadPriceRows() {
+  var container = document.getElementById('priceRows');
+  container.innerHTML = '';
+  var prices = JSON.parse(localStorage.getItem('sos44_calc_prices') || 'null') || defaultPrices;
+  var bonus = localStorage.getItem('sos44_calc_bonus');
+  document.getElementById('settingsBonus').value = bonus !== null ? bonus : 50;
+  prices.forEach(function(p) { addPriceRow(p.name, p.price); });
+}
+
+function savePrices() {
+  var names = document.querySelectorAll('.price-name');
+  var vals = document.querySelectorAll('.price-val');
+  var prices = [];
+  for (var i = 0; i < names.length; i++) {
+    var n = names[i].value.trim();
+    var v = parseInt(vals[i].value);
+    if (n && v > 0) prices.push({name: n, price: v});
+  }
+  if (prices.length === 0) {
+    showSettingsMsg('pricesMsg', 'Ajoutez au moins une réparation.', 'err');
+    return;
+  }
+  var bonus = parseInt(document.getElementById('settingsBonus').value) || 50;
+  localStorage.setItem('sos44_calc_prices', JSON.stringify(prices));
+  localStorage.setItem('sos44_calc_bonus', bonus);
+  showSettingsMsg('pricesMsg', prices.length + ' réparations enregistrées (bonus ' + bonus + ' €).', 'ok');
+  showToast('Prix du calculateur mis à jour', 'success');
+}
+
 function saveTrackingUrl() {
   var url = document.getElementById('settingsTrackingUrl').value.trim();
   localStorage.setItem('sos44_tracking_url', url);
@@ -1651,35 +1714,26 @@ function switchTab(tab) {
 /* ===== STATS ===== */
 var cachedEvents = [];
 
-async function loadStats() {
-  var events = [];
+async function loadTrackingData(remoteKey, localKey, mapRow) {
+  var items = [];
   var trackingUrl = localStorage.getItem('sos44_tracking_url');
-
-  // Try Google Sheets first
   if (trackingUrl) {
     try {
       var res = await fetch(trackingUrl + '?action=getAll');
       if (res.ok) {
         var data = await res.json();
-        if (data.events && data.events.length > 1) {
-          // Skip header row (first row)
-          for (var i = 1; i < data.events.length; i++) {
-            var row = data.events[i];
-            events.push({ date: row[0], type: row[1], detail: row[2] });
-          }
+        if (data[remoteKey] && data[remoteKey].length > 1) {
+          for (var i = 1; i < data[remoteKey].length; i++) items.push(mapRow(data[remoteKey][i]));
         }
       }
     } catch (e) {}
   }
+  if (items.length === 0) { try { items = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch (e) {} }
+  return items;
+}
 
-  // Fallback / merge with localStorage
-  try {
-    var local = JSON.parse(localStorage.getItem('sos44_crm_events') || '[]');
-    if (events.length === 0) {
-      events = local;
-    }
-  } catch (e) {}
-
+async function loadStats() {
+  var events = await loadTrackingData('events', 'sos44_crm_events', function(r){ return {date:r[0],type:r[1],detail:r[2]}; });
   cachedEvents = events;
   renderStats(events);
 }
@@ -1714,11 +1768,7 @@ function renderStats(events) {
     var t = (ev.type || ev.eventType || '').toLowerCase();
     var typeClass = 'type-' + t;
     var typeLabel = t === 'whatsapp' ? 'WhatsApp' : t === 'telephone' ? 'T\u00e9l\u00e9phone' : t === 'formulaire' ? 'Formulaire' : t;
-    var dateStr = '';
-    try {
-      var d = new Date(ev.date);
-      dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
-    } catch(e) { dateStr = ev.date || ''; }
+    var dateStr = formatDateTimeFr(ev.date);
 
     html += '<tr>';
     html += '<td>' + escapeHtml(dateStr) + '</td>';
@@ -1733,33 +1783,7 @@ function renderStats(events) {
 var cachedContacts = [];
 
 async function loadContacts() {
-  var contacts = [];
-  var trackingUrl = localStorage.getItem('sos44_tracking_url');
-
-  // Try Google Sheets first
-  if (trackingUrl) {
-    try {
-      var res = await fetch(trackingUrl + '?action=getAll');
-      if (res.ok) {
-        var data = await res.json();
-        if (data.contacts && data.contacts.length > 1) {
-          for (var i = 1; i < data.contacts.length; i++) {
-            var row = data.contacts[i];
-            contacts.push({ date: row[0], name: row[1], email: row[2], phone: row[3], device: row[4], source: row[5], message: row[6] });
-          }
-        }
-      }
-    } catch (e) {}
-  }
-
-  // Fallback / merge with localStorage
-  try {
-    var local = JSON.parse(localStorage.getItem('sos44_crm_contacts') || '[]');
-    if (contacts.length === 0) {
-      contacts = local;
-    }
-  } catch (e) {}
-
+  var contacts = await loadTrackingData('contacts', 'sos44_crm_contacts', function(r){ return {date:r[0],name:r[1],email:r[2],phone:r[3],device:r[4],source:r[5],message:r[6]}; });
   cachedContacts = contacts;
   renderContacts(contacts);
 }
@@ -1777,11 +1801,7 @@ function renderContacts(contacts) {
 
   var html = '';
   sorted.forEach(function(c) {
-    var dateStr = '';
-    try {
-      var d = new Date(c.date);
-      dateStr = d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
-    } catch(e) { dateStr = c.date || ''; }
+    var dateStr = formatDateTimeFr(c.date);
 
     html += '<tr>';
     html += '<td>' + escapeHtml(dateStr) + '</td>';
