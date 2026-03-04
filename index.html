@@ -51,6 +51,20 @@
   "priceRange":"€€"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Combien coûte une réparation ?","acceptedAnswer":{"@type":"Answer","text":"Le diagnostic est gratuit. Le tarif dépend de la panne. Utilisez notre calculateur ou demandez un devis gratuit."}},
+    {"@type":"Question","name":"Quels appareils réparez-vous ?","acceptedAnswer":{"@type":"Answer","text":"PC Windows, Mac, MacBook, iPhone, Samsung, tablettes, consoles. Micro-soudure incluse."}},
+    {"@type":"Question","name":"Quel est le délai de réparation ?","acceptedAnswer":{"@type":"Answer","text":"24 à 72h. Certaines interventions simples le jour même."}},
+    {"@type":"Question","name":"Qu'est-ce que le bonus QualiRépare ?","acceptedAnswer":{"@type":"Answer","text":"Aide de l'État de 50 € déduite de votre facture. Atelier labellisé."}},
+    {"@type":"Question","name":"Mes données sont-elles en sécurité ?","acceptedAnswer":{"@type":"Answer","text":"Confidentialité totale, RGPD respecté."}},
+    {"@type":"Question","name":"Proposez-vous un service à domicile ?","acceptedAnswer":{"@type":"Answer","text":"Sur rendez-vous à l'atelier. Envoi postal possible."}}
+  ]
+}
+</script>
 <style>
 /* ===== VARIABLES — Premium Light ===== */
 :root {
@@ -98,7 +112,7 @@ a:hover{color:var(--blue-hover)}
 img{max-width:100%;display:block}
 button{cursor:pointer;font-family:inherit}
 ul{list-style:none}
-.service-card,.bonus-step,.why-card,.blog-card,.gallery-item,.creation-card,.pricing-card{will-change:transform}
+.service-card,.bonus-step,.why-card,.blog-card,.gallery-item,.creation-card,.pricing-card,.review-card,.faq-item{will-change:transform}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
@@ -825,7 +839,8 @@ ul{list-style:none}
   .wa-float{animation:none}
   .btn:hover,.service-card:hover,.bonus-step:hover,.why-card:hover,
   .blog-card:hover,.gallery-item:hover,.contact-item:hover,.wa-float:hover,
-  .nav-cta:hover,.nav-devis:hover,.creation-card:hover,.pricing-card:hover{transform:none!important}
+  .nav-cta:hover,.nav-devis:hover,.creation-card:hover,.pricing-card:hover,
+  .review-card:hover,.faq-item:hover{transform:none!important}
   .calc-badge50{animation:none}
   .calc-result.visible{animation:none}
 }
@@ -984,6 +999,58 @@ ul{list-style:none}
   .creation-grid{grid-template-columns:1fr}
   .creation-pricing{grid-template-columns:1fr}
 }
+
+/* ===== AVIS CLIENTS ===== */
+.reviews-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.review-card{
+  background:var(--bg-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:32px 24px;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+}
+.review-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.review-stars{color:#F59E0B;font-size:1.25rem;margin-bottom:14px;letter-spacing:2px}
+.review-text{color:var(--text-secondary);font-size:.9375rem;font-style:italic;line-height:1.7;margin-bottom:18px}
+.review-author{font-family:var(--font-heading);font-weight:700;font-size:.9375rem;color:var(--text)}
+.review-repair{font-size:.8125rem;color:var(--text-muted)}
+.reviews-banner{
+  margin-top:40px;
+  background:linear-gradient(135deg,#F59E0B,#D97706);
+  color:#fff;
+  text-align:center;
+  padding:18px 24px;
+  border-radius:var(--radius-sm);
+  font-family:var(--font-heading);
+  font-size:1.125rem;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+@media(max-width:960px){.reviews-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.reviews-grid{grid-template-columns:1fr}}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:800px;margin:0 auto}
+.faq-item{
+  background:var(--bg-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  margin-bottom:16px;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+}
+.faq-item:hover{box-shadow:var(--shadow-md)}
+.faq-question{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;background:none;border:none;
+  font-family:var(--font-heading);font-size:1rem;font-weight:700;
+  color:var(--text);cursor:pointer;text-align:left;gap:12px;
+}
+.faq-question svg{flex-shrink:0;transition:transform .3s}
+.faq-question.opened svg{transform:rotate(180deg)}
+.faq-answer{display:none;padding:0 24px 20px;color:var(--text-secondary);font-size:.9375rem;line-height:1.7}
+.faq-answer.open{display:block}
 </style>
 </head>
 <body>
@@ -1033,11 +1100,11 @@ ul{list-style:none}
     </button>
     <div class="nav-links">
       <a href="#services">Services</a>
-      <a href="#bonus">Bonus 50€</a>
-      <a href="#atelier">Atelier</a>
       <a href="#blog">Blog</a>
       <a href="#creation-web">Création web</a>
       <a href="#pourquoi">Pourquoi nous</a>
+      <a href="#avis">Avis</a>
+      <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#contact" class="nav-devis" onclick="setTimeout(function(){switchDevisTab('detail')},100)">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -1583,6 +1650,81 @@ ul{list-style:none}
   </div>
 </section>
 
+<!-- Avis clients -->
+<section class="section section-white" id="avis">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag reveal">Avis clients</div>
+      <h2 class="section-title reveal">Ce que nos clients disent de nous</h2>
+      <p class="section-subtitle reveal">Des réparations réussies, des clients satisfaits. Découvrez leurs témoignages.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">«&nbsp;Réparation rapide et soignée. Mon iPhone est comme neuf&nbsp;! Merci pour le bonus QualiRépare.&nbsp;»</p>
+        <div class="review-author">Sophie M.</div>
+        <div class="review-repair">Écran iPhone</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">«&nbsp;Mon PC portable ne démarrait plus. Diagnostic gratuit et réparation en 48h. Excellent rapport qualité-prix.&nbsp;»</p>
+        <div class="review-author">Thomas L.</div>
+        <div class="review-repair">PC portable</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">«&nbsp;Micro-soudure réussie sur mon MacBook Pro, je pensais devoir le remplacer. Bravo&nbsp;!&nbsp;»</p>
+        <div class="review-author">Marie D.</div>
+        <div class="review-repair">MacBook</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">«&nbsp;Toutes mes photos récupérées sur un disque dur endommagé. Professionnel et rassurant.&nbsp;»</p>
+        <div class="review-author">Jean-Pierre R.</div>
+        <div class="review-repair">Récupération données</div>
+      </div>
+    </div>
+    <div class="reviews-banner reveal">&#9733; Note moyenne : 5/5 — 100 % de clients satisfaits</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-light" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag reveal">FAQ</div>
+      <h2 class="section-title reveal">Questions fréquentes</h2>
+      <p class="section-subtitle reveal">Retrouvez les réponses aux questions les plus posées sur nos services de réparation.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Combien coûte une réparation ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">Le diagnostic est gratuit. Le tarif dépend de la panne et du modèle de votre appareil. Utilisez notre <a href="#calculateur">calculateur d'économies</a> ou <a href="#contact">demandez un devis gratuit</a>.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Quels appareils réparez-vous ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">PC Windows, Mac, MacBook, iPhone, Samsung, tablettes, consoles de jeux. Nous proposons également la micro-soudure pour les réparations au composant.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Quel est le délai de réparation ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">En général 24 à 72h selon la complexité. Certaines interventions simples (remplacement d'écran, batterie) peuvent être réalisées le jour même.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Qu'est-ce que le bonus QualiRépare ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">C'est une aide de l'État de 50&nbsp;€ déduite directement de votre facture. Notre atelier est labellisé QualiRépare, vous en bénéficiez automatiquement. <a href="#bonus">En savoir plus</a>.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Mes données sont-elles en sécurité ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">Confidentialité totale garantie. Nous respectons le RGPD : aucune copie de vos données, aucun accès non autorisé. Discrétion absolue.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="faqToggle(this)">Proposez-vous un service à domicile ?<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+        <div class="faq-answer">Les réparations se font sur rendez-vous à notre atelier de La Chapelle-sur-Erdre. L'envoi postal est également possible pour les clients éloignés. <a href="#contact">Contactez-nous</a>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Contact -->
 <section class="section section-white" id="contact">
   <div class="container">
@@ -1866,6 +2008,8 @@ ul{list-style:none}
         <p><a href="#bonus">Bonus QualiRépare</a></p>
         <p><a href="#calculateur">Calculer mes économies</a></p>
         <p><a href="#comparatif">Réparer vs Remplacer</a></p>
+        <p><a href="#avis">Avis clients</a></p>
+        <p><a href="#faq">FAQ</a></p>
         <p><a href="#contact">Contact</a></p>
         <p><a href="#" onclick="openLegal('mentionsLegales');return false">Mentions l&eacute;gales</a></p>
         <p><a href="#" onclick="openLegal('privacy');return false">Confidentialit&eacute;</a></p>
@@ -2081,6 +2225,14 @@ function blogToggle(btn){
   btn.innerHTML=isOpen
     ?'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>'
     :'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
+}
+
+/* ===== FAQ — Toggle question/réponse ===== */
+function faqToggle(btn){
+  var answer=btn.nextElementSibling;
+  if(!answer)return;
+  answer.classList.toggle('open');
+  btn.classList.toggle('opened');
 }
 
 /* ===== DEVIS TOGGLE (Rapide / Détaillé) ===== */
