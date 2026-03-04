@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.github.com https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -15,7 +16,8 @@
 <meta property="og:locale" content="fr_FR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet"></noscript>
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -82,7 +84,7 @@
   --radius-xs: 8px;
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
   --transition: .3s cubic-bezier(.4,0,.2,1);
 }
 
@@ -95,6 +97,7 @@ a:hover{color:var(--blue-hover)}
 img{max-width:100%;display:block}
 button{cursor:pointer;font-family:inherit}
 ul{list-style:none}
+.service-card,.bonus-step,.why-card,.blog-card,.gallery-item{will-change:transform}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
@@ -818,6 +821,11 @@ ul{list-style:none}
   .reveal,.reveal-left,.reveal-right{opacity:1;transform:none;transition:none}
   .status-open .status-dot{animation:none}
   .wa-float{animation:none}
+  .btn:hover,.service-card:hover,.bonus-step:hover,.why-card:hover,
+  .blog-card:hover,.gallery-item:hover,.contact-item:hover,.wa-float:hover,
+  .nav-cta:hover,.nav-devis:hover{transform:none!important}
+  .calc-badge50{animation:none}
+  .calc-result.visible{animation:none}
 }
 
 /* ===== BLOG SECTION ===== */
@@ -934,7 +942,7 @@ ul{list-style:none}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         Demande de devis
       </a>
-      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener" data-wa>
+      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener noreferrer" data-wa>
         <svg width="13" height="13"><use href="#i-wa"/></svg>
         Devis WhatsApp
       </a>
@@ -968,7 +976,7 @@ ul{list-style:none}
           </span>
         </div>
         <div class="hero-cta">
-          <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener" data-wa>
+          <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" data-wa>
             <svg width="18" height="18"><use href="#i-wa"/></svg>
             Devis gratuit WhatsApp
           </a>
@@ -1005,7 +1013,7 @@ ul{list-style:none}
               Micro-soudure
             </div>
           </div>
-          <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-blue" style="width:100%;justify-content:center" target="_blank" rel="noopener" data-wa>Prendre rendez-vous</a>
+          <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-blue" style="width:100%;justify-content:center" target="_blank" rel="noopener noreferrer" data-wa>Prendre rendez-vous</a>
           <div class="hero-card-info">
             <strong>Horaires :</strong> Lun–Ven 9h–18h / Sam 9h–13h<br>
             27 Rue de la Vrière, 44240 La Chapelle-sur-Erdre
@@ -1074,7 +1082,7 @@ ul{list-style:none}
 <section class="section section-light" id="calculateur">
   <div class="container">
     <div class="section-header">
-      <img src="quali-repare.png" alt="Label QualiRépare" class="quali-logo-calc reveal">
+      <img src="quali-repare.png" alt="Label QualiRépare" class="quali-logo-calc reveal" loading="lazy" decoding="async" width="120" height="83">
       <div class="section-tag reveal">Économies</div>
       <h2 class="section-title reveal">Calculez vos économies</h2>
       <p class="section-subtitle reveal">Sélectionnez votre réparation pour voir le prix après déduction du bonus QualiRépare.</p>
@@ -1091,7 +1099,7 @@ ul{list-style:none}
           <span class="calc-after" id="calcAfter"></span>
         </div>
         <p class="calc-saving" id="calcSaving"></p>
-        <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener" data-wa>
+        <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" data-wa>
           <svg width="16" height="16"><use href="#i-wa"/></svg>
           Obtenir ce tarif
         </a>
@@ -1414,7 +1422,7 @@ ul{list-style:none}
     </div>
     <div class="contact-grid">
       <div class="contact-methods reveal-left">
-        <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="contact-item" target="_blank" rel="noopener" data-wa>
+        <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="contact-item" target="_blank" rel="noopener noreferrer" data-wa>
           <div class="contact-icon ci-wa">
             <svg width="22" height="22"><use href="#i-wa"/></svg>
           </div>
@@ -1702,7 +1710,7 @@ ul{list-style:none}
 </footer>
 
 <!-- WhatsApp Floating -->
-<a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Contacter par WhatsApp" data-wa>
+<a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="wa-float" id="waFloat" target="_blank" rel="noopener noreferrer" aria-label="Contacter par WhatsApp" data-wa>
   <svg width="22" height="22"><use href="#i-wa"/></svg>
   Besoin d'un devis ?
 </a>
@@ -1974,7 +1982,8 @@ function dvSubmit(){
 
   /* Show success */
   var ticketNum='SOS-'+Date.now().toString().slice(-6);
-  document.getElementById('dvPanel3').innerHTML='<div class="dv-success"><div class="dv-success-icon">&#127881;</div><h3>Merci de votre confiance !</h3><p style="color:var(--text-secondary);font-size:.875rem;max-width:380px;margin:10px auto;line-height:1.6">Toute l\u2019équipe de <strong style="color:var(--blue)">SOS Informatique 44</strong> vous remercie. Nous reviendrons vers vous sous <strong>24h ouvrées</strong>.</p><div class="dv-ticket">'+ticketNum+'</div><p style="color:var(--text-muted);font-size:.8125rem;margin-top:10px">Confirmation envoyée à <strong>'+email+'</strong></p></div>';
+  var safeEmail=email.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  document.getElementById('dvPanel3').innerHTML='<div class="dv-success"><div class="dv-success-icon">&#127881;</div><h3>Merci de votre confiance !</h3><p style="color:var(--text-secondary);font-size:.875rem;max-width:380px;margin:10px auto;line-height:1.6">Toute l\u2019équipe de <strong style="color:var(--blue)">SOS Informatique 44</strong> vous remercie. Nous reviendrons vers vous sous <strong>24h ouvrées</strong>.</p><div class="dv-ticket">'+ticketNum+'</div><p style="color:var(--text-muted);font-size:.8125rem;margin-top:10px">Confirmation envoyée à <strong>'+safeEmail+'</strong></p></div>';
 }
 
 /* ===== POPUP CAPTURE (1 fois par session, après 8s) ===== */
@@ -1982,17 +1991,19 @@ function dvSubmit(){
   if(sessionStorage.getItem('sos44_popup')) return;
   setTimeout(function(){
     sessionStorage.setItem('sos44_popup','1');
-    var d=document.createElement('div');
-    d.id='sos44popup';
-    d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-    d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
-    document.body.appendChild(d);
-    document.getElementById('sos44popupForm').onsubmit=function(e){
-      e.preventDefault();
-      trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString()});
-      trackEvent('formulaire','Popup rempli par '+this.name.value);
-      d.remove();
-    };
+    requestAnimationFrame(function(){
+      var d=document.createElement('div');
+      d.id='sos44popup';
+      d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;will-change:opacity';
+      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+      document.body.appendChild(d);
+      document.getElementById('sos44popupForm').onsubmit=function(e){
+        e.preventDefault();
+        trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString()});
+        trackEvent('formulaire','Popup rempli par '+this.name.value);
+        d.remove();
+      };
+    });
   },8000);
 })();
 </script>
