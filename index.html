@@ -14,10 +14,11 @@
 <meta property="og:url" content="https://sos-informatique44.fr/">
 <meta property="og:image" content="https://sos-informatique44.fr/og-image.jpg">
 <meta property="og:locale" content="fr_FR">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<link id="gfPre1" rel="preconnect" data-href="https://fonts.googleapis.com">
+<link id="gfPre2" rel="preconnect" data-href="https://fonts.gstatic.com" crossorigin>
+<link id="gfStyle" rel="preload" as="style" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet"></noscript>
+<script>(function(){if(localStorage.getItem('sos44_consent')==='accepted'){['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}})}})()</script>
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -898,9 +899,60 @@ ul{list-style:none}
 .bg-gradient-blog{background:linear-gradient(135deg,#EFF6FF,#DBEAFE)}
 .divider{height:1px;background:var(--border);margin:14px 0}
 .popup-input{width:100%;padding:10px 14px;border:2px solid #E2E8F0;border-radius:10px;margin-bottom:10px;font-size:.9375rem;font-family:Inter,sans-serif}
+
+/* ===== RGPD COOKIE BANNER ===== */
+.rgpd-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:10001;
+  background:var(--bg-alt);border-top:2px solid var(--blue);
+  box-shadow:0 -4px 24px rgba(0,0,0,.12);padding:20px 24px;
+  display:none;animation:rgpdSlideUp .4s ease both;
+}
+@keyframes rgpdSlideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.rgpd-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.rgpd-text{flex:1;min-width:280px}
+.rgpd-text p{font-size:.875rem;color:var(--text-secondary);line-height:1.6;margin:0}
+.rgpd-text a{color:var(--blue);text-decoration:underline}
+.rgpd-buttons{display:flex;gap:10px;flex-shrink:0}
+.rgpd-btn{padding:10px 24px;border-radius:var(--radius-xs);font-family:var(--font-body);font-size:.875rem;font-weight:700;border:none;cursor:pointer;transition:all var(--transition)}
+.rgpd-btn-accept{background:var(--blue);color:#fff;box-shadow:0 4px 16px var(--blue-glow)}
+.rgpd-btn-accept:hover{background:var(--blue-hover)}
+.rgpd-btn-refuse{background:transparent;color:var(--text-secondary);border:2px solid var(--border)}
+.rgpd-btn-refuse:hover{background:var(--bg);color:var(--text)}
+@media(max-width:600px){.rgpd-inner{flex-direction:column;text-align:center}.rgpd-buttons{width:100%;justify-content:center}}
+
+/* ===== MENTIONS LEGALES / PRIVACY OVERLAY ===== */
+.legal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10002;display:none;align-items:center;justify-content:center;padding:20px}
+.legal-overlay.open{display:flex}
+.legal-content{background:var(--bg-alt);border-radius:var(--radius);padding:40px;max-width:800px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative}
+.legal-content h2{font-family:var(--font-heading);font-size:1.5rem;margin-bottom:20px;color:var(--text)}
+.legal-content h3{font-family:var(--font-heading);font-size:1.125rem;margin:24px 0 10px;color:var(--text)}
+.legal-content p,.legal-content li{font-size:.9375rem;color:var(--text-secondary);line-height:1.7;margin-bottom:10px}
+.legal-content ul{margin:8px 0 14px 20px;list-style:disc}
+.legal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.5rem;padding:4px}
+.legal-close:hover{color:var(--text)}
+@media(max-width:600px){.legal-content{padding:24px}}
+
+/* ===== FORM CONSENT CHECKBOX ===== */
+.form-consent{display:flex;align-items:flex-start;gap:8px;margin:14px 0}
+.form-consent input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:var(--blue)}
+.form-consent label{font-size:.8125rem;color:var(--text-secondary);line-height:1.5;cursor:pointer}
+.form-consent a{color:var(--blue);text-decoration:underline}
 </style>
 </head>
 <body>
+<!-- RGPD Cookie Consent Banner -->
+<div class="rgpd-banner" id="rgpdBanner">
+  <div class="rgpd-inner">
+    <div class="rgpd-text">
+      <p>Ce site utilise le stockage local (localStorage) pour son fonctionnement et charge des polices depuis Google Fonts. Vos donn&eacute;es de formulaire sont transmises via Google Sheets. En acceptant, vous consentez &agrave; ces traitements. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></p>
+    </div>
+    <div class="rgpd-buttons">
+      <button class="rgpd-btn rgpd-btn-accept" onclick="acceptRGPD()">Accepter</button>
+      <button class="rgpd-btn rgpd-btn-refuse" onclick="refuseRGPD()">Refuser</button>
+    </div>
+  </div>
+</div>
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></symbol>
@@ -1500,6 +1552,10 @@ ul{list-style:none}
               <label for="fmsg">Description du problème</label>
               <textarea id="fmsg" name="message" placeholder="Décrivez brièvement votre problème…"></textarea>
             </div>
+            <div class="form-consent">
+              <input type="checkbox" id="fConsent" required>
+              <label for="fConsent">J'accepte que mes donn&eacute;es soient trait&eacute;es par SOS Informatique 44 pour r&eacute;pondre &agrave; ma demande. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></label>
+            </div>
             <input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
             <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -1620,6 +1676,10 @@ ul{list-style:none}
                 <option>Autre</option>
               </select>
             </div>
+            <div class="form-consent">
+              <input type="checkbox" id="dvConsent">
+              <label for="dvConsent">J'accepte que mes donn&eacute;es soient trait&eacute;es par SOS Informatique 44 pour r&eacute;pondre &agrave; ma demande. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></label>
+            </div>
             <div class="dv-btn-row">
               <button class="dv-btn dv-btn-back" onclick="dvGoStep(1)">&#8249; Retour</button>
               <button class="dv-btn dv-btn-next" onclick="dvGoStep3()">Récapitulatif &#8250;</button>
@@ -1688,8 +1748,8 @@ ul{list-style:none}
         <p><a href="#calculateur">Calculer mes économies</a></p>
         <p><a href="#comparatif">Réparer vs Remplacer</a></p>
         <p><a href="#contact">Contact</a></p>
-        <p><a href="#">Mentions légales</a></p>
-        <p><a href="#">CGV</a></p>
+        <p><a href="#" onclick="openLegal('mentionsLegales');return false">Mentions l&eacute;gales</a></p>
+        <p><a href="#" onclick="openLegal('privacy');return false">Confidentialit&eacute;</a></p>
       </div>
       <div>
         <h4>Zones d'intervention</h4>
@@ -1717,6 +1777,32 @@ ul{list-style:none}
 </a>
 
 <script>
+/* ===== RGPD CONSENT MANAGER ===== */
+var SOS44_CONSENT=(function(){
+  var KEY='sos44_consent';
+  var consent=localStorage.getItem(KEY);
+  function showBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='block'}
+  function hideBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='none'}
+  if(!consent){
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',showBanner)}else{showBanner()}
+  }
+  return{
+    hasConsented:function(){return consent==='accepted'},
+    isDecided:function(){return consent==='accepted'||consent==='refused'},
+    accept:function(){
+      consent='accepted';localStorage.setItem(KEY,'accepted');hideBanner();
+      ['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}});
+    },
+    refuse:function(){
+      consent='refused';localStorage.setItem(KEY,'refused');hideBanner();
+    }
+  };
+})();
+function acceptRGPD(){SOS44_CONSENT.accept()}
+function refuseRGPD(){SOS44_CONSENT.refuse()}
+function openLegal(id){var el=document.getElementById(id);if(el)el.classList.add('open');document.body.style.overflow='hidden'}
+function closeLegal(id){var el=document.getElementById(id);if(el)el.classList.remove('open');document.body.style.overflow=''}
+
 /* ===== Configurable contact info ===== */
 (function(){
   var email = localStorage.getItem('sos44_email') || 'contact@sos-informatique44.fr';
@@ -1845,7 +1931,7 @@ try{
   if(_url.indexOf('https://script.google.com/')===0) TRACKING_URL=_url;
 }catch(e){}
 
-function _trackSend(payload){if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
+function _trackSend(payload){if(!SOS44_CONSENT.hasConsented())return;if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
 
 function trackEvent(type,detail){
   _trackSend({type:'event',date:new Date().toISOString(),eventType:type,detail:detail});
@@ -1952,6 +2038,9 @@ function dvGoStep3(){
     {id:'dv_email',err:'dv_err_email',check:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}},
     {id:'dv_telephone',err:'dv_err_tel',check:function(v){return v.trim().length>=10}}
   ])) return;
+  var dvCb=document.getElementById('dvConsent');
+  if(dvCb&&!dvCb.checked){dvCb.style.outline='2px solid #ef4444';dvCb.scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(dvCb)dvCb.style.outline='';
   document.getElementById('dvR_type').textContent=document.getElementById('dv_type').value||'—';
   document.getElementById('dvR_marque').textContent=document.getElementById('dv_marque').value||'—';
   document.getElementById('dvR_modele').textContent=document.getElementById('dv_modele').value||'—';
@@ -1988,16 +2077,17 @@ function dvSubmit(){
   document.getElementById('dvPanel3').innerHTML='<div class="dv-success"><div class="dv-success-icon">&#127881;</div><h3>Merci de votre confiance !</h3><p style="color:var(--text-secondary);font-size:.875rem;max-width:380px;margin:10px auto;line-height:1.6">Toute l\u2019équipe de <strong style="color:var(--blue)">SOS Informatique 44</strong> vous remercie. Nous reviendrons vers vous sous <strong>24h ouvrées</strong>.</p><div class="dv-ticket">'+ticketNum+'</div><p style="color:var(--text-muted);font-size:.8125rem;margin-top:10px">Confirmation envoyée à <strong>'+safeEmail+'</strong></p></div>';
 }
 
-/* ===== POPUP CAPTURE (1 fois par session, après 8s) ===== */
+/* ===== POPUP CAPTURE (1 fois par session, après 8s, après décision RGPD) ===== */
 (function(){
   if(sessionStorage.getItem('sos44_popup')) return;
-  setTimeout(function(){
+  function showPopup(){
+    if(!SOS44_CONSENT.isDecided()){setTimeout(showPopup,2000);return}
     sessionStorage.setItem('sos44_popup','1');
     requestAnimationFrame(function(){
       var d=document.createElement('div');
       d.id='sos44popup';
       d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;will-change:opacity';
-      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><div style="display:flex;align-items:flex-start;gap:8px;margin:10px 0"><input type="checkbox" id="popupConsent" required style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#0EA5E9"><label for="popupConsent" style="font-size:.75rem;color:#475569;line-height:1.4;cursor:pointer">J\'accepte le traitement de mes donn\u00e9es. <a href="#" onclick="openLegal(\'privacy\');return false" style="color:#0EA5E9">Confidentialit\u00e9</a></label></div><input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
       document.body.appendChild(d);
       document.getElementById('sos44popupForm').onsubmit=function(e){
         e.preventDefault();
@@ -2007,8 +2097,110 @@ function dvSubmit(){
         d.remove();
       };
     });
-  },8000);
+  }
+  setTimeout(showPopup,8000);
 })();
 </script>
+
+<!-- Mentions L&eacute;gales Overlay -->
+<div class="legal-overlay" id="mentionsLegales">
+  <div class="legal-content">
+    <button class="legal-close" onclick="closeLegal('mentionsLegales')" aria-label="Fermer">&times;</button>
+    <h2>Mentions l&eacute;gales</h2>
+
+    <h3>&Eacute;diteur du site</h3>
+    <p><strong>Raison sociale :</strong> [&Agrave; COMPL&Eacute;TER]<br>
+    <strong>Forme juridique :</strong> [&Agrave; COMPL&Eacute;TER]<br>
+    <strong>SIRET :</strong> [&Agrave; COMPL&Eacute;TER]<br>
+    <strong>Adresse :</strong> 27 Rue de la Vri&egrave;re, 1er &eacute;tage porte 121, 44240 La Chapelle-sur-Erdre<br>
+    <strong>T&eacute;l&eacute;phone :</strong> 02 85 52 38 14<br>
+    <strong>Email :</strong> contact@sos-informatique44.fr<br>
+    <strong>Responsable de la publication :</strong> [&Agrave; COMPL&Eacute;TER]</p>
+
+    <h3>H&eacute;bergeur</h3>
+    <p><strong>GitHub, Inc.</strong><br>
+    88 Colin P. Kelly Jr Street, San Francisco, CA 94107, USA<br>
+    <a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com</a></p>
+
+    <h3>Propri&eacute;t&eacute; intellectuelle</h3>
+    <p>L'ensemble du contenu de ce site (textes, images, logos) est la propri&eacute;t&eacute; de SOS Informatique 44 sauf mention contraire. Toute reproduction est interdite sans autorisation pr&eacute;alable.</p>
+
+    <h3>Donn&eacute;es personnelles</h3>
+    <p>Consultez notre <a href="#" onclick="closeLegal('mentionsLegales');openLegal('privacy');return false">politique de confidentialit&eacute;</a> pour en savoir plus sur le traitement de vos donn&eacute;es.</p>
+  </div>
+</div>
+
+<!-- Politique de Confidentialit&eacute; Overlay -->
+<div class="legal-overlay" id="privacy">
+  <div class="legal-content">
+    <button class="legal-close" onclick="closeLegal('privacy')" aria-label="Fermer">&times;</button>
+    <h2>Politique de confidentialit&eacute;</h2>
+    <p><em>Derni&egrave;re mise &agrave; jour : 4 mars 2026</em></p>
+
+    <h3>1. Responsable du traitement</h3>
+    <p>SOS Informatique 44, 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.<br>
+    Contact : contact@sos-informatique44.fr</p>
+
+    <h3>2. Donn&eacute;es collect&eacute;es</h3>
+    <p>Nous collectons les donn&eacute;es suivantes via nos formulaires :</p>
+    <ul>
+      <li>Nom et pr&eacute;nom</li>
+      <li>Adresse email</li>
+      <li>Num&eacute;ro de t&eacute;l&eacute;phone</li>
+      <li>Type d'appareil et description du probl&egrave;me</li>
+      <li>Adresse postale (optionnelle, pour le devis d&eacute;taill&eacute;)</li>
+    </ul>
+
+    <h3>3. Finalit&eacute;s du traitement</h3>
+    <ul>
+      <li>R&eacute;pondre &agrave; votre demande de devis ou de r&eacute;paration</li>
+      <li>Vous contacter pour le suivi de votre appareil</li>
+      <li>&Eacute;tablir des statistiques internes anonymis&eacute;es</li>
+    </ul>
+
+    <h3>4. Base l&eacute;gale</h3>
+    <p>Le traitement est fond&eacute; sur votre <strong>consentement explicite</strong> (Article 6.1.a du RGPD), recueilli via la case &agrave; cocher pr&eacute;sente sur chaque formulaire.</p>
+
+    <h3>5. Destinataires des donn&eacute;es</h3>
+    <ul>
+      <li><strong>SOS Informatique 44</strong> &mdash; traitement interne de votre demande</li>
+      <li><strong>Google Sheets / Google Apps Script</strong> &mdash; stockage s&eacute;curis&eacute; des demandes (serveurs Google, conformit&eacute; RGPD via clauses contractuelles types)</li>
+    </ul>
+
+    <h3>6. Dur&eacute;e de conservation</h3>
+    <p>Vos donn&eacute;es sont conserv&eacute;es pendant une dur&eacute;e maximale de <strong>3 ans</strong> apr&egrave;s le dernier contact, sauf obligation l&eacute;gale contraire.</p>
+
+    <h3>7. Vos droits</h3>
+    <p>Conform&eacute;ment au RGPD, vous disposez des droits suivants :</p>
+    <ul>
+      <li><strong>Droit d'acc&egrave;s :</strong> obtenir une copie de vos donn&eacute;es</li>
+      <li><strong>Droit de rectification :</strong> corriger des informations inexactes</li>
+      <li><strong>Droit &agrave; l'effacement :</strong> demander la suppression de vos donn&eacute;es</li>
+      <li><strong>Droit &agrave; la portabilit&eacute; :</strong> recevoir vos donn&eacute;es dans un format structur&eacute;</li>
+      <li><strong>Droit d'opposition :</strong> vous opposer au traitement</li>
+      <li><strong>Droit de retirer votre consentement</strong> &agrave; tout moment</li>
+    </ul>
+    <p>Pour exercer ces droits, contactez-nous &agrave; : <strong>contact@sos-informatique44.fr</strong></p>
+
+    <h3>8. Cookies et stockage local</h3>
+    <p>Ce site n'utilise <strong>aucun cookie</strong> de suivi. Nous utilisons le <strong>localStorage</strong> du navigateur uniquement pour :</p>
+    <ul>
+      <li>Sauvegarder votre pr&eacute;f&eacute;rence de consentement RGPD</li>
+      <li>Stocker les param&egrave;tres de configuration de l'atelier (coordonn&eacute;es, tarifs)</li>
+    </ul>
+    <p>Le chargement de <strong>Google Fonts</strong> peut entra&icirc;ner un transfert d'adresse IP vers les serveurs de Google. Si vous refusez le consentement, les polices Google ne seront pas charg&eacute;es.</p>
+
+    <h3>9. Services tiers</h3>
+    <ul>
+      <li><strong>Google Fonts</strong> (fonts.googleapis.com) &mdash; chargement de polices. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Politique Google</a></li>
+      <li><strong>Google Apps Script</strong> (script.google.com) &mdash; r&eacute;ception des formulaires</li>
+      <li><strong>GitHub Pages</strong> (github.com) &mdash; h&eacute;bergement du site</li>
+    </ul>
+
+    <h3>10. R&eacute;clamation</h3>
+    <p>Vous pouvez introduire une r&eacute;clamation aupr&egrave;s de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libert&eacute;s) : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a></p>
+  </div>
+</div>
+
 </body>
 </html>
