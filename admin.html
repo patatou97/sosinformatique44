@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Blog — SOS Informatique 44</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== Variables ===== */
+:root {
+  --blue: #0EA5E9;
+  --blue-hover: #0284C7;
+  --blue-dark: #0369A1;
+  --blue-light: #E0F2FE;
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --text: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --border: #E2E8F0;
+  --border-light: #F1F5F9;
+  --green: #10B981;
+  --green-dark: #059669;
+  --green-light: #D1FAE5;
+  --danger: #EF4444;
+  --danger-light: #FEE2E2;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --purple: #8B5CF6;
+  --purple-light: #EDE9FE;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,.06), 0 24px 48px rgba(0,0,0,.09);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --transition: .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ===== Reset ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+
+/* ===== Login ===== */
+.login-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg, #F8FAFC, #EFF6FF);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.login-overlay.hidden{display:none}
+.login-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:40px;
+  max-width:400px;width:100%;
+  box-shadow:var(--shadow-lg);
+  text-align:center;
+}
+.login-logo{
+  width:56px;height:56px;
+  background:linear-gradient(135deg, #0EA5E9, #6366F1);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  box-shadow:0 4px 16px rgba(14,165,233,.25);
+}
+.login-box h1{font-family:var(--font-heading);font-size:1.5rem;margin-bottom:4px;color:var(--text)}
+.login-sub{font-size:.875rem;color:var(--text-secondary);margin-bottom:24px}
+.login-box input[type="password"]{
+  width:100%;padding:12px 16px;
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  font-size:1rem;background:var(--bg);color:var(--text);
+  text-align:center;transition:all .2s;
+}
+.login-box input[type="password"]:focus{
+  outline:none;border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(14,165,233,.15);
+}
+.login-btn{
+  width:100%;padding:12px;margin-top:12px;
+  background:var(--blue);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.9375rem;
+  transition:background .2s;
+}
+.login-btn:hover{background:var(--blue-hover)}
+.login-error{
+  color:var(--danger);font-size:.8125rem;
+  margin-top:10px;display:none;font-weight:500;
+}
+.login-error.visible{display:block}
+
+/* ===== App Layout ===== */
+.app{display:none}
+.app.visible{display:flex;height:100vh;flex-direction:column}
+
+/* Header */
+.admin-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:12px 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;z-index:50;
+}
+.admin-header-left{display:flex;align-items:center;gap:12px}
+.admin-header-left h1{font-family:var(--font-heading);font-size:1.125rem;font-weight:700}
+.admin-header-left svg{color:var(--blue)}
+.header-actions{display:flex;align-items:center;gap:8px}
+.btn-icon{
+  background:none;border:none;color:var(--text-secondary);
+  padding:8px;border-radius:var(--radius-xs);transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn-icon:hover{background:var(--bg);color:var(--text)}
+.btn-logout{
+  padding:8px 14px;border-radius:var(--radius-xs);
+  background:none;border:1px solid var(--border);
+  font-size:.8125rem;font-weight:600;color:var(--text-secondary);
+  display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.btn-logout:hover{background:var(--danger-light);color:var(--danger);border-color:var(--danger)}
+
+/* Body */
+.admin-body{display:flex;flex:1;overflow:hidden}
+
+/* Sidebar */
+.sidebar{
+  width:300px;min-width:300px;background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-top{padding:16px;border-bottom:1px solid var(--border)}
+.btn-new{
+  width:100%;padding:11px 16px;
+  background:var(--blue);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.875rem;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;box-shadow:0 2px 8px rgba(14,165,233,.25);
+}
+.btn-new:hover{background:var(--blue-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(14,165,233,.35)}
+.sidebar-count{
+  font-size:.75rem;color:var(--text-muted);
+  padding:10px 16px 4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;
+}
+.sidebar-list{flex:1;overflow-y:auto;padding:4px 8px 16px}
+.sidebar-card{
+  padding:12px;border-radius:var(--radius-sm);
+  cursor:pointer;transition:all .15s;margin-bottom:4px;
+  border:1px solid transparent;position:relative;
+}
+.sidebar-card:hover{background:var(--bg);border-color:var(--border)}
+.sidebar-card.active{background:var(--blue-light);border-color:var(--blue)}
+.sidebar-card-title{font-size:.8125rem;font-weight:600;line-height:1.3;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sidebar-card-meta{display:flex;align-items:center;gap:8px;font-size:.6875rem;color:var(--text-muted)}
+.sidebar-card-cat{
+  display:inline-block;padding:2px 8px;border-radius:10px;
+  font-size:.625rem;font-weight:600;
+  background:var(--blue-light);color:var(--blue-dark);
+}
+.sidebar-card-cat[data-cat="Mac"]{background:#F3E8FF;color:#7C3AED}
+.sidebar-card-cat[data-cat="Smartphone"]{background:#ECFDF5;color:#059669}
+.sidebar-card-cat[data-cat="PC"]{background:var(--blue-light);color:var(--blue-dark)}
+.sidebar-card-cat[data-cat="Sécurité"]{background:#FEF3C7;color:#92400E}
+.sidebar-card-cat[data-cat="Données"]{background:#EDE9FE;color:#6D28D9}
+.sidebar-card-cat[data-cat="QualiRéparé"]{background:var(--green-light);color:var(--green-dark)}
+.sidebar-card-delete{
+  position:absolute;top:10px;right:10px;
+  background:none;border:none;color:var(--text-muted);
+  padding:4px;border-radius:4px;opacity:0;transition:all .15s;
+}
+.sidebar-card:hover .sidebar-card-delete{opacity:1}
+.sidebar-card-delete:hover{color:var(--danger);background:var(--danger-light)}
+.sidebar-empty{
+  text-align:center;padding:40px 20px;color:var(--text-muted);font-size:.8125rem;
+}
+.sidebar-empty svg{margin:0 auto 12px;display:block;opacity:.4}
+
+/* Main Area */
+.main-area{flex:1;overflow-y:auto;padding:24px 32px;background:var(--bg)}
+.main-area-inner{max-width:900px;margin:0 auto}
+
+/* Editor */
+.editor-section{margin-bottom:20px}
+.editor-section label{
+  display:block;font-size:.75rem;font-weight:600;
+  color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;
+}
+.editor-input{
+  width:100%;padding:10px 14px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:.9375rem;background:var(--surface);color:var(--text);
+  transition:all .2s;
+}
+.editor-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.editor-input-title{font-size:1.125rem;font-weight:600;font-family:var(--font-heading)}
+select.editor-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
+
+.editor-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* Rich Text Toolbar */
+.editor-toolbar{
+  display:flex;align-items:center;gap:2px;
+  padding:6px 8px;background:var(--surface);
+  border:1.5px solid var(--border);border-bottom:none;
+  border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+}
+.toolbar-btn{
+  padding:6px 10px;border:none;background:none;
+  border-radius:6px;color:var(--text-secondary);
+  font-size:.8125rem;font-weight:600;
+  transition:all .15s;display:flex;align-items:center;justify-content:center;
+  min-width:32px;height:32px;
+}
+.toolbar-btn:hover{background:var(--bg);color:var(--text)}
+.toolbar-btn.active{background:var(--blue-light);color:var(--blue)}
+.toolbar-sep{width:1px;height:20px;background:var(--border);margin:0 4px}
+.content-editable{
+  min-height:220px;padding:16px;
+  border:1.5px solid var(--border);
+  border-radius:0 0 var(--radius-sm) var(--radius-sm);
+  background:var(--surface);
+  font-size:.9375rem;line-height:1.7;
+  outline:none;color:var(--text);
+  overflow-y:auto;
+}
+.content-editable:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.content-editable h3{font-family:var(--font-heading);font-size:1.05rem;margin:16px 0 6px;color:var(--text)}
+.content-editable h3:first-child{margin-top:0}
+.content-editable p{margin-bottom:10px}
+.content-editable ul,.content-editable ol{margin:0 0 10px 20px}
+.content-editable li{margin-bottom:4px}
+.content-editable a{color:var(--blue);text-decoration:underline}
+
+/* Preview */
+.preview-section{margin-top:24px}
+.preview-label{
+  font-size:.75rem;font-weight:600;color:var(--text-secondary);
+  text-transform:uppercase;letter-spacing:.3px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+.preview-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-sm);max-width:500px;
+}
+.preview-card-img{
+  height:140px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#EFF6FF,#DBEAFE);color:var(--blue);
+}
+.preview-card-body{padding:20px}
+.preview-card-tag{
+  display:inline-block;padding:3px 10px;border-radius:10px;
+  font-size:.6875rem;font-weight:600;
+  background:var(--blue-light);color:var(--blue-dark);margin-bottom:8px;
+}
+.preview-card-title{font-family:var(--font-heading);font-size:1rem;font-weight:700;margin-bottom:6px;line-height:1.3}
+.preview-card-excerpt{font-size:.8125rem;color:var(--text-secondary);line-height:1.5;margin-bottom:12px}
+.preview-card-date{font-size:.75rem;color:var(--text-muted)}
+
+/* Publish bar */
+.publish-bar{
+  display:flex;align-items:center;gap:12px;
+  margin-top:20px;padding-top:20px;
+  border-top:1px solid var(--border);
+}
+.btn-publish{
+  padding:12px 28px;background:var(--blue);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.9375rem;
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;box-shadow:0 2px 8px rgba(14,165,233,.25);
+}
+.btn-publish:hover{background:var(--blue-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(14,165,233,.35)}
+.btn-publish:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.publish-status{font-size:.8125rem;color:var(--text-muted)}
+.publish-status.success{color:var(--green)}
+.publish-status.error{color:var(--danger)}
+
+/* Welcome screen (no article selected) */
+.welcome-screen{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;text-align:center;color:var(--text-muted);
+}
+.welcome-screen svg{margin-bottom:16px;opacity:.3}
+.welcome-screen h2{font-family:var(--font-heading);font-size:1.25rem;color:var(--text-secondary);margin-bottom:8px}
+.welcome-screen p{font-size:.875rem}
+
+/* Settings Panel */
+.settings-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(15,23,42,.5);z-index:200;
+  align-items:center;justify-content:center;padding:20px;
+}
+.settings-overlay.active{display:flex}
+.settings-panel{
+  background:var(--surface);border-radius:var(--radius);
+  padding:28px;max-width:520px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);position:relative;
+}
+.settings-panel h2{
+  font-family:var(--font-heading);font-size:1.25rem;
+  margin-bottom:20px;display:flex;align-items:center;gap:8px;
+}
+.settings-close{
+  position:absolute;top:16px;right:16px;
+  background:none;border:none;color:var(--text-secondary);
+  padding:4px;border-radius:4px;transition:all .15s;
+}
+.settings-close:hover{color:var(--text);background:var(--bg)}
+.settings-group{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.settings-group:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.settings-group h3{font-size:.8125rem;font-weight:700;color:var(--text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.3px}
+.settings-field{margin-bottom:10px}
+.settings-field label{display:block;font-size:.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.settings-field input{
+  width:100%;padding:8px 12px;
+  border:1.5px solid var(--border);border-radius:var(--radius-xs);
+  font-size:.875rem;background:var(--bg);color:var(--text);
+  transition:all .2s;
+}
+.settings-field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-settings{
+  padding:8px 16px;border-radius:var(--radius-xs);
+  font-weight:600;font-size:.8125rem;border:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all .2s;
+}
+.btn-settings-blue{background:var(--blue);color:#fff}
+.btn-settings-blue:hover{background:var(--blue-hover)}
+.btn-settings-outline{background:none;border:1.5px solid var(--border);color:var(--text-secondary)}
+.btn-settings-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.settings-msg{font-size:.75rem;margin-top:6px;font-weight:500}
+.settings-msg.ok{color:var(--green)}
+.settings-msg.err{color:var(--danger)}
+
+/* Toast */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px}
+.toast{
+  padding:12px 20px;border-radius:var(--radius-sm);
+  font-size:.875rem;font-weight:500;
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:center;gap:8px;
+  animation:toastIn .3s ease-out;
+  max-width:380px;
+}
+.toast-success{background:var(--green);color:#fff}
+.toast-error{background:var(--danger);color:#fff}
+.toast-info{background:var(--text);color:#fff}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(12px)}}
+
+/* Loading Spinner */
+.spinner{
+  width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin .6s linear infinite;display:inline-block;
+}
+.spinner-dark{border-color:rgba(14,165,233,.2);border-top-color:var(--blue)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Loading overlay for main area */
+.loading-overlay{
+  display:none;position:absolute;inset:0;
+  background:rgba(248,250,252,.8);
+  align-items:center;justify-content:center;
+  z-index:10;border-radius:var(--radius);
+}
+.loading-overlay.active{display:flex}
+
+/* Confirm dialog */
+.confirm-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(15,23,42,.5);z-index:300;
+  align-items:center;justify-content:center;padding:20px;
+}
+.confirm-overlay.active{display:flex}
+.confirm-box{
+  background:var(--surface);border-radius:var(--radius);
+  padding:28px;max-width:400px;width:100%;
+  box-shadow:var(--shadow-lg);text-align:center;
+}
+.confirm-box h3{font-family:var(--font-heading);font-size:1.125rem;margin-bottom:8px}
+.confirm-box p{font-size:.875rem;color:var(--text-secondary);margin-bottom:20px}
+.confirm-actions{display:flex;gap:10px;justify-content:center}
+.btn-cancel{
+  padding:8px 20px;border-radius:var(--radius-xs);
+  background:none;border:1.5px solid var(--border);
+  font-weight:600;font-size:.8125rem;color:var(--text-secondary);
+  transition:all .2s;
+}
+.btn-cancel:hover{border-color:var(--text);color:var(--text)}
+.btn-danger{
+  padding:8px 20px;border-radius:var(--radius-xs);
+  background:var(--danger);color:#fff;border:none;
+  font-weight:600;font-size:.8125rem;transition:all .2s;
+}
+.btn-danger:hover{background:#DC2626}
+
+/* Responsive */
+@media(max-width:900px){
+  .sidebar{width:260px;min-width:260px}
+  .main-area{padding:20px}
+  .editor-row{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .admin-body{flex-direction:column}
+  .sidebar{width:100%;min-width:100%;max-height:40vh;border-right:none;border-bottom:1px solid var(--border)}
+  .main-area{padding:16px}
+  .admin-header{padding:10px 16px}
+  .admin-header-left h1{font-size:.9375rem}
+  .editor-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== LOGIN ========== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </div>
+    <h1>Admin Blog</h1>
+    <p class="login-sub">SOS Informatique 44</p>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+      <input type="password" id="loginPwd" placeholder="Mot de passe" autocomplete="current-password" autofocus>
+      <button type="submit" class="login-btn">Connexion</button>
+      <p class="login-error" id="loginError">Mot de passe incorrect</p>
+    </form>
+  </div>
+</div>
+
+<!-- ========== APP ========== -->
+<div class="app" id="app">
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="admin-header-left">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <h1>SOS Informatique 44 &mdash; Admin Blog</h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="openSettings()" title="Param\u00e8tres">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="btn-logout" onclick="logout()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        D&eacute;connexion
+      </button>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="admin-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <button class="btn-new" onclick="newArticle()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nouvel article
+        </button>
+      </div>
+      <div class="sidebar-count" id="articleCount">0 articles</div>
+      <div class="sidebar-list" id="articleList">
+        <div class="sidebar-empty" id="sidebarEmpty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Aucun article trouv&eacute;.<br>Configurez votre token GitHub dans les param&egrave;tres.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Area -->
+    <main class="main-area" id="mainArea">
+      <div class="main-area-inner" id="mainInner">
+
+        <!-- Welcome (default state) -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <h2>Bienvenue dans l'admin blog</h2>
+          <p>Cr&eacute;ez un nouvel article ou s&eacute;lectionnez-en un dans la liste &agrave; gauche.</p>
+        </div>
+
+        <!-- Editor (hidden by default) -->
+        <div id="editorPanel" style="display:none">
+          <div class="editor-section">
+            <label for="editorTitle">Titre de l'article</label>
+            <input type="text" id="editorTitle" class="editor-input editor-input-title" placeholder="Ex: Comment acc&eacute;l&eacute;rer votre PC sous Windows..." oninput="updatePreview()">
+          </div>
+
+          <div class="editor-row">
+            <div class="editor-section">
+              <label for="editorCat">Cat&eacute;gorie</label>
+              <select id="editorCat" class="editor-input" onchange="updatePreview()">
+                <option value="PC">PC</option>
+                <option value="Mac">Mac</option>
+                <option value="Smartphone">Smartphone</option>
+                <option value="S&eacute;curit&eacute;">S&eacute;curit&eacute;</option>
+                <option value="Donn&eacute;es">Donn&eacute;es</option>
+                <option value="QualiR&eacute;par&eacute;">QualiR&eacute;par&eacute;</option>
+              </select>
+            </div>
+            <div class="editor-section">
+              <label>Tag affich&eacute;</label>
+              <input type="text" id="editorTag" class="editor-input" placeholder="Ex: R&eacute;paration PC" oninput="updatePreview()">
+            </div>
+          </div>
+
+          <div class="editor-section">
+            <label for="editorExcerpt">Extrait (2-3 lignes)</label>
+            <textarea id="editorExcerpt" class="editor-input" placeholder="R&eacute;sum&eacute; court visible sur la carte..." rows="3" oninput="updatePreview()"></textarea>
+          </div>
+
+          <div class="editor-section">
+            <label>Contenu complet</label>
+            <div class="editor-toolbar">
+              <button type="button" class="toolbar-btn" onclick="execCmd('bold')" title="Gras"><strong>B</strong></button>
+              <button type="button" class="toolbar-btn" onclick="execCmd('italic')" title="Italique"><em>I</em></button>
+              <span class="toolbar-sep"></span>
+              <button type="button" class="toolbar-btn" onclick="execCmd('formatBlock','h3')" title="Sous-titre H3" style="font-family:var(--font-heading);font-size:.75rem">H3</button>
+              <span class="toolbar-sep"></span>
+              <button type="button" class="toolbar-btn" onclick="execCmd('insertUnorderedList')" title="Liste &agrave; puces">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/></svg>
+              </button>
+              <button type="button" class="toolbar-btn" onclick="execCmd('insertOrderedList')" title="Liste num&eacute;rot&eacute;e">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><text x="1" y="8" font-size="7" fill="currentColor" stroke="none" font-weight="700">1</text><text x="1" y="14" font-size="7" fill="currentColor" stroke="none" font-weight="700">2</text><text x="1" y="20" font-size="7" fill="currentColor" stroke="none" font-weight="700">3</text></svg>
+              </button>
+              <span class="toolbar-sep"></span>
+              <button type="button" class="toolbar-btn" onclick="insertLink()" title="Lien">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </button>
+            </div>
+            <div class="content-editable" id="editorContent" contenteditable="true" oninput="updatePreview()"></div>
+          </div>
+
+          <!-- Preview -->
+          <div class="preview-section">
+            <div class="preview-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Aper&ccedil;u de la carte
+            </div>
+            <div class="preview-card" id="previewCard">
+              <div class="preview-card-img" id="previewIcon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <div class="preview-card-body">
+                <span class="preview-card-tag" id="previewTag">Cat&eacute;gorie</span>
+                <h3 class="preview-card-title" id="previewTitle">Titre de l'article</h3>
+                <p class="preview-card-excerpt" id="previewExcerpt">L'extrait appara&icirc;tra ici...</p>
+                <div class="preview-card-date" id="previewDate"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Publish -->
+          <div class="publish-bar">
+            <button class="btn-publish" id="btnPublish" onclick="handlePublish()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Publier
+            </button>
+            <span class="publish-status" id="publishStatus"></span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ========== SETTINGS MODAL ========== -->
+<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-panel">
+    <button class="settings-close" onclick="closeSettings()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <h2>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Param&egrave;tres
+    </h2>
+
+    <!-- GitHub Token -->
+    <div class="settings-group">
+      <h3>Token GitHub</h3>
+      <div class="settings-field">
+        <label for="settingsToken">Personal Access Token (repo scope)</label>
+        <input type="password" id="settingsToken" placeholder="ghp_xxxxxxxxxxxx">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn-settings btn-settings-blue" onclick="saveToken()">Enregistrer</button>
+        <button class="btn-settings btn-settings-outline" onclick="testToken()">Tester la connexion</button>
+      </div>
+      <p class="settings-msg" id="tokenMsg"></p>
+    </div>
+
+    <!-- Repository -->
+    <div class="settings-group">
+      <h3>D&eacute;p&ocirc;t GitHub</h3>
+      <div class="settings-row">
+        <div class="settings-field">
+          <label for="settingsOwner">Propri&eacute;taire</label>
+          <input type="text" id="settingsOwner" placeholder="patatou97">
+        </div>
+        <div class="settings-field">
+          <label for="settingsRepo">Nom du d&eacute;p&ocirc;t</label>
+          <input type="text" id="settingsRepo" placeholder="sosinformatique44">
+        </div>
+      </div>
+      <button class="btn-settings btn-settings-blue" onclick="saveRepo()" style="margin-top:8px">Enregistrer</button>
+      <p class="settings-msg" id="repoMsg"></p>
+    </div>
+
+    <!-- Password -->
+    <div class="settings-group">
+      <h3>Mot de passe admin</h3>
+      <div class="settings-field">
+        <label for="settingsNewPwd">Nouveau mot de passe</label>
+        <input type="password" id="settingsNewPwd" placeholder="Nouveau mot de passe">
+      </div>
+      <div class="settings-field">
+        <label for="settingsConfirmPwd">Confirmer</label>
+        <input type="password" id="settingsConfirmPwd" placeholder="Confirmer le mot de passe">
+      </div>
+      <button class="btn-settings btn-settings-blue" onclick="changePassword()" style="margin-top:8px">Changer le mot de passe</button>
+      <p class="settings-msg" id="pwdMsg"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CONFIRM DIALOG ========== -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3 id="confirmTitle">Supprimer cet article ?</h3>
+    <p id="confirmText">Cette action est irr&eacute;versible. L'article sera retir&eacute; du site.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeConfirm()">Annuler</button>
+      <button class="btn-danger" id="confirmAction" onclick="confirmCallback()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TOAST CONTAINER ========== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ===== CONSTANTS ===== */
+const MONTHS_FR = ['janvier','f\u00e9vrier','mars','avril','mai','juin','juillet','ao\u00fbt','septembre','octobre','novembre','d\u00e9cembre'];
+
+const CATEGORY_SVGS = {
+  'PC': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+  'Mac': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>',
+  'Smartphone': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
+  'S\u00e9curit\u00e9': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  'Donn\u00e9es': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+  'QualiR\u00e9par\u00e9': '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>'
+};
+
+const CATEGORY_TAGS = {
+  'PC': 'R\u00e9paration PC',
+  'Mac': 'Mac & MacBook',
+  'Smartphone': 'Smartphone',
+  'S\u00e9curit\u00e9': 'S\u00e9curit\u00e9',
+  'Donn\u00e9es': 'Donn\u00e9es',
+  'QualiR\u00e9par\u00e9': 'QualiR\u00e9par\u00e9'
+};
+
+/* ===== UTILS ===== */
+function simpleHash(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return(h>>>0).toString(16)}
+
+function formatDateFr(date) {
+  if (typeof date === 'string') date = new Date(date);
+  const d = date.getDate();
+  const m = MONTHS_FR[date.getMonth()];
+  const y = date.getFullYear();
+  return d + ' ' + m + ' ' + y;
+}
+
+function todayFr() {
+  return formatDateFr(new Date());
+}
+
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function base64ToUtf8(b64) {
+  const binary = atob(b64.replace(/\n/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new TextDecoder().decode(bytes);
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ===== STATE ===== */
+let articles = [];
+let currentSha = null;
+let currentHtml = '';
+let editingId = null;
+let pendingConfirm = null;
+
+/* ===== AUTH ===== */
+const DEFAULT_HASH = simpleHash('sos44admin');
+
+function getStoredHash() {
+  return localStorage.getItem('sos44_admin_pwd_hash') || DEFAULT_HASH;
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const pwd = document.getElementById('loginPwd').value;
+  const hash = simpleHash(pwd);
+  if (hash === getStoredHash()) {
+    sessionStorage.setItem('sos44_admin_auth', '1');
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+    initApp();
+    return false;
+  }
+  document.getElementById('loginError').classList.add('visible');
+  document.getElementById('loginPwd').value = '';
+  document.getElementById('loginPwd').focus();
+  return false;
+}
+
+function checkAuth() {
+  if (sessionStorage.getItem('sos44_admin_auth') === '1') {
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('app').classList.add('visible');
+    initApp();
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('sos44_admin_auth');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginPwd').value = '';
+  document.getElementById('loginError').classList.remove('visible');
+}
+
+/* ===== TOAST ===== */
+function showToast(msg, type) {
+  type = type || 'info';
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+
+  let icon = '';
+  if (type === 'success') icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  else if (type === 'error') icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  else icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
+  toast.innerHTML = icon + escapeHtml(msg);
+  container.appendChild(toast);
+
+  setTimeout(function() {
+    toast.style.animation = 'toastOut .3s ease-in forwards';
+    setTimeout(function() { toast.remove(); }, 300);
+  }, 3500);
+}
+
+/* ===== CONFIRM DIALOG ===== */
+function showConfirm(title, text, callback) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  pendingConfirm = callback;
+  document.getElementById('confirmOverlay').classList.add('active');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('active');
+  pendingConfirm = null;
+}
+
+function confirmCallback() {
+  if (pendingConfirm) pendingConfirm();
+  closeConfirm();
+}
+
+/* ===== SETTINGS ===== */
+function openSettings() {
+  document.getElementById('settingsToken').value = localStorage.getItem('sos44_github_token') || '';
+  document.getElementById('settingsOwner').value = localStorage.getItem('sos44_repo_owner') || 'patatou97';
+  document.getElementById('settingsRepo').value = localStorage.getItem('sos44_repo_name') || 'sosinformatique44';
+  document.getElementById('settingsNewPwd').value = '';
+  document.getElementById('settingsConfirmPwd').value = '';
+  clearSettingsMsgs();
+  document.getElementById('settingsOverlay').classList.add('active');
+}
+
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('active');
+}
+
+function clearSettingsMsgs() {
+  document.querySelectorAll('.settings-msg').forEach(function(el) { el.textContent = ''; el.className = 'settings-msg'; });
+}
+
+function saveToken() {
+  const token = document.getElementById('settingsToken').value.trim();
+  if (!token) {
+    showSettingsMsg('tokenMsg', 'Veuillez entrer un token.', 'err');
+    return;
+  }
+  localStorage.setItem('sos44_github_token', token);
+  showSettingsMsg('tokenMsg', 'Token enregistr\u00e9.', 'ok');
+  showToast('Token GitHub enregistr\u00e9', 'success');
+}
+
+async function testToken() {
+  const token = document.getElementById('settingsToken').value.trim() || localStorage.getItem('sos44_github_token');
+  if (!token) {
+    showSettingsMsg('tokenMsg', 'Aucun token \u00e0 tester.', 'err');
+    return;
+  }
+  const owner = document.getElementById('settingsOwner').value.trim() || 'patatou97';
+  const repo = document.getElementById('settingsRepo').value.trim() || 'sosinformatique44';
+  showSettingsMsg('tokenMsg', 'Test en cours...', '');
+  try {
+    const res = await fetch('https://api.github.com/repos/' + owner + '/' + repo, {
+      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      showSettingsMsg('tokenMsg', 'Connexion r\u00e9ussie \u2014 ' + data.full_name, 'ok');
+    } else {
+      showSettingsMsg('tokenMsg', 'Erreur ' + res.status + ' : v\u00e9rifiez le token et le d\u00e9p\u00f4t.', 'err');
+    }
+  } catch (err) {
+    showSettingsMsg('tokenMsg', 'Erreur r\u00e9seau : ' + err.message, 'err');
+  }
+}
+
+function saveRepo() {
+  const owner = document.getElementById('settingsOwner').value.trim();
+  const repo = document.getElementById('settingsRepo').value.trim();
+  if (!owner || !repo) {
+    showSettingsMsg('repoMsg', 'Veuillez remplir les deux champs.', 'err');
+    return;
+  }
+  localStorage.setItem('sos44_repo_owner', owner);
+  localStorage.setItem('sos44_repo_name', repo);
+  showSettingsMsg('repoMsg', 'D\u00e9p\u00f4t enregistr\u00e9 : ' + owner + '/' + repo, 'ok');
+  showToast('D\u00e9p\u00f4t mis \u00e0 jour', 'success');
+}
+
+function changePassword() {
+  const newPwd = document.getElementById('settingsNewPwd').value;
+  const confirmPwd = document.getElementById('settingsConfirmPwd').value;
+  if (!newPwd) {
+    showSettingsMsg('pwdMsg', 'Veuillez entrer un mot de passe.', 'err');
+    return;
+  }
+  if (newPwd !== confirmPwd) {
+    showSettingsMsg('pwdMsg', 'Les mots de passe ne correspondent pas.', 'err');
+    return;
+  }
+  if (newPwd.length < 4) {
+    showSettingsMsg('pwdMsg', 'Le mot de passe doit contenir au moins 4 caract\u00e8res.', 'err');
+    return;
+  }
+  localStorage.setItem('sos44_admin_pwd_hash', simpleHash(newPwd));
+  showSettingsMsg('pwdMsg', 'Mot de passe modifi\u00e9 avec succ\u00e8s.', 'ok');
+  showToast('Mot de passe modifi\u00e9', 'success');
+  document.getElementById('settingsNewPwd').value = '';
+  document.getElementById('settingsConfirmPwd').value = '';
+}
+
+function showSettingsMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'settings-msg' + (type ? ' ' + type : '');
+}
+
+/* ===== INIT ===== */
+function initApp() {
+  document.getElementById('previewDate').textContent = todayFr();
+  loadArticles();
+}
+
+/* ===== GITHUB API ===== */
+function getGitHubConfig() {
+  return {
+    token: localStorage.getItem('sos44_github_token'),
+    owner: localStorage.getItem('sos44_repo_owner') || 'patatou97',
+    repo: localStorage.getItem('sos44_repo_name') || 'sosinformatique44'
+  };
+}
+
+async function loadArticles() {
+  const cfg = getGitHubConfig();
+  if (!cfg.token) {
+    articles = [];
+    renderSidebar();
+    document.getElementById('sidebarEmpty').innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Configurez votre token GitHub dans les param\u00e8tres (ic\u00f4ne engrenage).';
+    return;
+  }
+
+  try {
+    showToast('Chargement des articles...', 'info');
+    const res = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    if (!res.ok) {
+      throw new Error('Erreur ' + res.status + ' : impossible de charger index.html');
+    }
+
+    const data = await res.json();
+    currentSha = data.sha;
+    currentHtml = base64ToUtf8(data.content);
+
+    parseArticles();
+    renderSidebar();
+    showToast(articles.length + ' article' + (articles.length > 1 ? 's' : '') + ' charg\u00e9' + (articles.length > 1 ? 's' : ''), 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
+    articles = [];
+    renderSidebar();
+  }
+}
+
+function parseArticles() {
+  articles = [];
+  const startMarker = '<!-- BLOG-ARTICLES-START -->';
+  const endMarker = '<!-- BLOG-ARTICLES-END -->';
+  const startIdx = currentHtml.indexOf(startMarker);
+  const endIdx = currentHtml.indexOf(endMarker);
+
+  if (startIdx === -1 || endIdx === -1) return;
+
+  const section = currentHtml.substring(startIdx + startMarker.length, endIdx);
+  const regex = /<article\s+class="blog-card[^"]*"\s+data-id="([^"]+)"\s+data-cat="([^"]+)">([\s\S]*?)<\/article>/g;
+  let match;
+
+  while ((match = regex.exec(section)) !== null) {
+    const id = match[1];
+    const cat = match[2];
+    const inner = match[3];
+
+    // Extract title
+    const titleMatch = inner.match(/<h3 class="blog-card-title">([\s\S]*?)<\/h3>/);
+    const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : 'Sans titre';
+
+    // Extract tag
+    const tagMatch = inner.match(/<span class="blog-card-tag">([\s\S]*?)<\/span>/);
+    const tag = tagMatch ? tagMatch[1].replace(/<[^>]+>/g, '').trim() : cat;
+
+    // Extract excerpt
+    const excerptMatch = inner.match(/<p class="blog-card-excerpt">([\s\S]*?)<\/p>/);
+    const excerpt = excerptMatch ? excerptMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+    // Extract date
+    const dateMatch = inner.match(/<span class="blog-card-date">([\s\S]*?)<\/span>/);
+    const date = dateMatch ? dateMatch[1].trim() : '';
+
+    // Extract content
+    const contentMatch = inner.match(/<div class="blog-card-full">([\s\S]*?)<\/div>\s*$/);
+    const content = contentMatch ? contentMatch[1].trim() : '';
+
+    // Full raw HTML
+    const fullHtml = match[0];
+
+    articles.push({ id, cat, title, tag, excerpt, date, content, fullHtml });
+  }
+}
+
+function renderSidebar() {
+  const list = document.getElementById('articleList');
+  const count = document.getElementById('articleCount');
+  const empty = document.getElementById('sidebarEmpty');
+
+  count.textContent = articles.length + ' article' + (articles.length > 1 ? 's' : '');
+
+  if (articles.length === 0) {
+    list.innerHTML = '';
+    list.appendChild(empty);
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  let html = '';
+  articles.forEach(function(art) {
+    const isActive = art.id === editingId ? ' active' : '';
+    const truncTitle = art.title.length > 60 ? art.title.substring(0, 60) + '...' : art.title;
+    html += '<div class="sidebar-card' + isActive + '" data-id="' + art.id + '" onclick="selectArticle(\'' + art.id + '\')">';
+    html += '<div class="sidebar-card-title">' + escapeHtml(truncTitle) + '</div>';
+    html += '<div class="sidebar-card-meta">';
+    html += '<span class="sidebar-card-cat" data-cat="' + escapeHtml(art.cat) + '">' + escapeHtml(art.cat) + '</span>';
+    html += '<span>' + escapeHtml(art.date) + '</span>';
+    html += '</div>';
+    html += '<button class="sidebar-card-delete" onclick="event.stopPropagation();askDelete(\'' + art.id + '\')" title="Supprimer">';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+    html += '</button>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+}
+
+/* ===== EDITOR ===== */
+function newArticle() {
+  editingId = null;
+  document.getElementById('editorTitle').value = '';
+  document.getElementById('editorCat').value = 'PC';
+  document.getElementById('editorTag').value = '';
+  document.getElementById('editorExcerpt').value = '';
+  document.getElementById('editorContent').innerHTML = '<h3>Sous-titre</h3><p>Votre contenu ici...</p>';
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('editorPanel').style.display = 'block';
+  document.getElementById('publishStatus').textContent = '';
+  document.getElementById('publishStatus').className = 'publish-status';
+
+  // Deselect sidebar
+  document.querySelectorAll('.sidebar-card').forEach(function(c) { c.classList.remove('active'); });
+
+  updatePreview();
+  document.getElementById('editorTitle').focus();
+}
+
+function selectArticle(id) {
+  const art = articles.find(function(a) { return a.id === id; });
+  if (!art) return;
+
+  editingId = id;
+  document.getElementById('editorTitle').value = art.title;
+  document.getElementById('editorCat').value = art.cat;
+  document.getElementById('editorTag').value = art.tag;
+  document.getElementById('editorExcerpt').value = art.excerpt;
+  document.getElementById('editorContent').innerHTML = art.content;
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('editorPanel').style.display = 'block';
+  document.getElementById('publishStatus').textContent = '';
+  document.getElementById('publishStatus').className = 'publish-status';
+
+  // Highlight sidebar
+  document.querySelectorAll('.sidebar-card').forEach(function(c) {
+    c.classList.toggle('active', c.dataset.id === id);
+  });
+
+  updatePreview();
+}
+
+function updatePreview() {
+  const title = document.getElementById('editorTitle').value || 'Titre de l\'article';
+  const cat = document.getElementById('editorCat').value;
+  const tag = document.getElementById('editorTag').value || CATEGORY_TAGS[cat] || cat;
+  const excerpt = document.getElementById('editorExcerpt').value || 'L\'extrait appara\u00eetra ici...';
+
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('previewTag').textContent = tag;
+  document.getElementById('previewExcerpt').textContent = excerpt;
+  document.getElementById('previewDate').textContent = todayFr();
+  document.getElementById('previewIcon').innerHTML = CATEGORY_SVGS[cat] || CATEGORY_SVGS['PC'];
+}
+
+/* ===== TOOLBAR ===== */
+function execCmd(cmd, value) {
+  document.getElementById('editorContent').focus();
+  if (cmd === 'formatBlock') {
+    document.execCommand('formatBlock', false, '<' + value + '>');
+  } else {
+    document.execCommand(cmd, false, value || null);
+  }
+}
+
+function insertLink() {
+  const url = prompt('URL du lien :');
+  if (url) {
+    document.getElementById('editorContent').focus();
+    document.execCommand('createLink', false, url);
+  }
+}
+
+/* ===== PUBLISH ===== */
+async function handlePublish() {
+  const title = document.getElementById('editorTitle').value.trim();
+  const cat = document.getElementById('editorCat').value;
+  const tag = document.getElementById('editorTag').value.trim() || CATEGORY_TAGS[cat] || cat;
+  const excerpt = document.getElementById('editorExcerpt').value.trim();
+  const content = document.getElementById('editorContent').innerHTML.trim();
+
+  if (!title) { showToast('Veuillez entrer un titre.', 'error'); return; }
+  if (!excerpt) { showToast('Veuillez entrer un extrait.', 'error'); return; }
+  if (!content || content === '<br>') { showToast('Veuillez entrer du contenu.', 'error'); return; }
+
+  const cfg = getGitHubConfig();
+  if (!cfg.token) {
+    showToast('Token GitHub manquant. Allez dans les param\u00e8tres.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btnPublish');
+  const status = document.getElementById('publishStatus');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Publication...';
+  status.textContent = 'Envoi en cours...';
+  status.className = 'publish-status';
+
+  try {
+    // 1. Fetch latest index.html to get current SHA
+    const fetchRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!fetchRes.ok) throw new Error('Impossible de charger index.html (erreur ' + fetchRes.status + ')');
+
+    const fetchData = await fetchRes.json();
+    currentSha = fetchData.sha;
+    let html = base64ToUtf8(fetchData.content);
+
+    const startMarker = '<!-- BLOG-ARTICLES-START -->';
+    const endMarker = '<!-- BLOG-ARTICLES-END -->';
+    const startIdx = html.indexOf(startMarker);
+    const endIdx = html.indexOf(endMarker);
+
+    if (startIdx === -1 || endIdx === -1) throw new Error('Marqueurs BLOG-ARTICLES introuvables dans index.html');
+
+    // 2. Generate article HTML
+    const artId = editingId || ('art-' + Date.now());
+    const svg = CATEGORY_SVGS[cat] || CATEGORY_SVGS['PC'];
+    const dateStr = todayFr();
+
+    const articleHtml = '\n      <article class="blog-card reveal" data-id="' + artId + '" data-cat="' + cat + '">\n' +
+      '        <div class="blog-card-img" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">\n' +
+      '          ' + svg + '\n' +
+      '        </div>\n' +
+      '        <div class="blog-card-body">\n' +
+      '          <span class="blog-card-tag">' + escapeHtml(tag) + '</span>\n' +
+      '          <h3 class="blog-card-title">' + escapeHtml(title) + '</h3>\n' +
+      '          <p class="blog-card-excerpt">' + escapeHtml(excerpt) + '</p>\n' +
+      '          <div class="blog-card-footer">\n' +
+      '            <span class="blog-card-date">' + dateStr + '</span>\n' +
+      '            <button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '        <div class="blog-card-full">\n' +
+      '          ' + content + '\n' +
+      '        </div>\n' +
+      '      </article>\n';
+
+    // 3. If editing, remove old article first
+    if (editingId) {
+      const oldRegex = new RegExp('\\s*<article\\s+class="blog-card[^"]*"\\s+data-id="' + editingId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[\\s\\S]*?<\\/article>\\s*', 'g');
+      html = html.replace(oldRegex, '\n');
+    }
+
+    // 4. Insert new article right after start marker
+    const insertPos = html.indexOf(startMarker) + startMarker.length;
+    html = html.substring(0, insertPos) + articleHtml + html.substring(insertPos);
+
+    // 5. PUT to GitHub
+    const putRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + cfg.token,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: (editingId ? 'Mise \u00e0 jour' : 'Ajout') + ' article blog : ' + title,
+        content: utf8ToBase64(html),
+        sha: currentSha
+      })
+    });
+
+    if (!putRes.ok) {
+      const errData = await putRes.json().catch(function() { return {}; });
+      throw new Error('Erreur GitHub ' + putRes.status + ' : ' + (errData.message || 'Publication impossible'));
+    }
+
+    // 6. Success
+    editingId = artId;
+    status.textContent = 'Publi\u00e9 avec succ\u00e8s !';
+    status.className = 'publish-status success';
+    showToast('Article publi\u00e9 avec succ\u00e8s !', 'success');
+
+    // 7. Reload articles
+    await loadArticles();
+
+    // Re-highlight the published article
+    document.querySelectorAll('.sidebar-card').forEach(function(c) {
+      c.classList.toggle('active', c.dataset.id === artId);
+    });
+
+  } catch (err) {
+    status.textContent = err.message;
+    status.className = 'publish-status error';
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Publier';
+  }
+}
+
+/* ===== DELETE ===== */
+function askDelete(id) {
+  const art = articles.find(function(a) { return a.id === id; });
+  if (!art) return;
+  showConfirm(
+    'Supprimer cet article ?',
+    '\u00ab ' + art.title.substring(0, 50) + (art.title.length > 50 ? '...' : '') + ' \u00bb sera retir\u00e9 du site.',
+    function() { deleteArticle(id); }
+  );
+}
+
+async function deleteArticle(articleId) {
+  const cfg = getGitHubConfig();
+  if (!cfg.token) {
+    showToast('Token GitHub manquant.', 'error');
+    return;
+  }
+
+  showToast('Suppression en cours...', 'info');
+
+  try {
+    // 1. Fetch latest
+    const fetchRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!fetchRes.ok) throw new Error('Impossible de charger index.html');
+
+    const fetchData = await fetchRes.json();
+    currentSha = fetchData.sha;
+    let html = base64ToUtf8(fetchData.content);
+
+    // 2. Remove article
+    const regex = new RegExp('\\s*<article\\s+class="blog-card[^"]*"\\s+data-id="' + articleId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[\\s\\S]*?<\\/article>\\s*', 'g');
+    const newHtml = html.replace(regex, '\n');
+
+    if (newHtml === html) throw new Error('Article introuvable dans le HTML');
+
+    // 3. PUT
+    const putRes = await fetch('https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/index.html', {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + cfg.token,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Suppression article blog : ' + articleId,
+        content: utf8ToBase64(newHtml),
+        sha: currentSha
+      })
+    });
+
+    if (!putRes.ok) throw new Error('Erreur GitHub ' + putRes.status);
+
+    // 4. Clear editor if that article was selected
+    if (editingId === articleId) {
+      editingId = null;
+      document.getElementById('editorPanel').style.display = 'none';
+      document.getElementById('welcomeScreen').style.display = 'flex';
+    }
+
+    showToast('Article supprim\u00e9.', 'success');
+    await loadArticles();
+
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+/* ===== BOOT ===== */
+checkAuth();
+</script>
+</body>
+</html>
