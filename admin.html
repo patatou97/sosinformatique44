@@ -531,7 +531,7 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
     </div>
     <h1>Admin Blog</h1>
     <p class="login-sub">SOS Informatique 44</p>
-    <form id="loginForm" onsubmit="return handleLogin(event)">
+    <form id="loginForm" onsubmit="event.preventDefault();handleLogin(event)">
       <input type="password" id="loginPwd" placeholder="Mot de passe" autocomplete="current-password" autofocus>
       <button type="submit" class="login-btn">Connexion</button>
       <p class="login-error" id="loginError">Mot de passe incorrect</p>
@@ -948,6 +948,15 @@ const CATEGORY_TAGS = {
 /* ===== UTILS ===== */
 function simpleHash(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return(h>>>0).toString(16)}
 
+/* PBKDF2 secure hash */
+var PWD_SALT = 'sos44_v2_salt';
+async function secureHash(pwd) {
+  var enc = new TextEncoder();
+  var key = await crypto.subtle.importKey('raw', enc.encode(pwd), 'PBKDF2', false, ['deriveBits']);
+  var bits = await crypto.subtle.deriveBits({name:'PBKDF2', salt:enc.encode(PWD_SALT), iterations:100000, hash:'SHA-256'}, key, 256);
+  return Array.from(new Uint8Array(bits)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+
 function formatDateFr(date) {
   if (typeof date === 'string') date = new Date(date);
   const d = date.getDate();
@@ -992,27 +1001,50 @@ let editingId = null;
 let pendingConfirm = null;
 
 /* ===== AUTH ===== */
-const DEFAULT_HASH = 'cdd72758';
+var DEFAULT_OLD_HASH = 'cdd72758';
+var DEFAULT_SECURE_HASH = '8bcccae06983e2bad9b5d39e3c83ca3631faa6faa6b4442e8225f5a2f0c33b2f';
 
 function getStoredHash() {
-  return localStorage.getItem('sos44_admin_pwd_hash') || DEFAULT_HASH;
+  return localStorage.getItem('sos44_admin_pwd_v2') || null;
+}
+function getOldHash() {
+  return localStorage.getItem('sos44_admin_pwd_hash') || DEFAULT_OLD_HASH;
 }
 
-function handleLogin(e) {
+async function handleLogin(e) {
   e.preventDefault();
-  const pwd = document.getElementById('loginPwd').value;
-  const hash = simpleHash(pwd);
-  if (hash === getStoredHash()) {
-    sessionStorage.setItem('sos44_admin_auth', '1');
-    document.getElementById('loginOverlay').classList.add('hidden');
-    document.getElementById('app').classList.add('visible');
-    initApp();
-    return false;
+  var pwd = document.getElementById('loginPwd').value;
+  var storedSecure = getStoredHash();
+
+  if (storedSecure) {
+    /* V2 : compare PBKDF2 */
+    var hash = await secureHash(pwd);
+    if (hash === storedSecure) { loginSuccess(); return false; }
+  } else {
+    /* Migration V1→V2 : vérifier ancien hash puis migrer */
+    var oldHash = simpleHash(pwd);
+    if (oldHash === getOldHash()) {
+      var newHash = await secureHash(pwd);
+      localStorage.setItem('sos44_admin_pwd_v2', newHash);
+      localStorage.removeItem('sos44_admin_pwd_hash');
+      loginSuccess(); return false;
+    }
+    /* Aussi tester le hash sécurisé par défaut (premier lancement) */
+    var hash2 = await secureHash(pwd);
+    if (hash2 === DEFAULT_SECURE_HASH) { loginSuccess(); return false; }
   }
+
   document.getElementById('loginError').classList.add('visible');
   document.getElementById('loginPwd').value = '';
   document.getElementById('loginPwd').focus();
   return false;
+}
+
+function loginSuccess() {
+  sessionStorage.setItem('sos44_admin_auth', '1');
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  initApp();
 }
 
 function checkAuth() {
@@ -1076,7 +1108,7 @@ function openSettings() {
   document.getElementById('settingsWhatsapp').value = localStorage.getItem('sos44_whatsapp') || '33658458091';
   document.getElementById('settingsPhone').value = localStorage.getItem('sos44_phone') || '0285523814';
   document.getElementById('settingsMobile').value = localStorage.getItem('sos44_mobile') || '0658458091';
-  document.getElementById('settingsToken').value = localStorage.getItem('sos44_github_token') || '';
+  document.getElementById('settingsToken').value = sessionStorage.getItem('sos44_github_token') || '';
   document.getElementById('settingsOwner').value = localStorage.getItem('sos44_repo_owner') || 'patatou97';
   document.getElementById('settingsRepo').value = localStorage.getItem('sos44_repo_name') || 'sosinformatique44';
   document.getElementById('settingsTrackingUrl').value = localStorage.getItem('sos44_tracking_url') || '';
@@ -1114,13 +1146,13 @@ function saveToken() {
     showSettingsMsg('tokenMsg', 'Veuillez entrer un token.', 'err');
     return;
   }
-  localStorage.setItem('sos44_github_token', token);
+  sessionStorage.setItem('sos44_github_token', token);
   showSettingsMsg('tokenMsg', 'Token enregistr\u00e9.', 'ok');
   showToast('Token GitHub enregistr\u00e9', 'success');
 }
 
 async function testToken() {
-  const token = document.getElementById('settingsToken').value.trim() || localStorage.getItem('sos44_github_token');
+  const token = document.getElementById('settingsToken').value.trim() || sessionStorage.getItem('sos44_github_token');
   if (!token) {
     showSettingsMsg('tokenMsg', 'Aucun token \u00e0 tester.', 'err');
     return;
@@ -1156,9 +1188,9 @@ function saveRepo() {
   showToast('D\u00e9p\u00f4t mis \u00e0 jour', 'success');
 }
 
-function changePassword() {
-  const newPwd = document.getElementById('settingsNewPwd').value;
-  const confirmPwd = document.getElementById('settingsConfirmPwd').value;
+async function changePassword() {
+  var newPwd = document.getElementById('settingsNewPwd').value;
+  var confirmPwd = document.getElementById('settingsConfirmPwd').value;
   if (!newPwd) {
     showSettingsMsg('pwdMsg', 'Veuillez entrer un mot de passe.', 'err');
     return;
@@ -1171,7 +1203,9 @@ function changePassword() {
     showSettingsMsg('pwdMsg', 'Le mot de passe doit contenir au moins 8 caract\u00e8res.', 'err');
     return;
   }
-  localStorage.setItem('sos44_admin_pwd_hash', simpleHash(newPwd));
+  var hash = await secureHash(newPwd);
+  localStorage.setItem('sos44_admin_pwd_v2', hash);
+  localStorage.removeItem('sos44_admin_pwd_hash');
   showSettingsMsg('pwdMsg', 'Mot de passe modifi\u00e9 avec succ\u00e8s.', 'ok');
   showToast('Mot de passe modifi\u00e9', 'success');
   document.getElementById('settingsNewPwd').value = '';
@@ -1193,7 +1227,7 @@ function initApp() {
 /* ===== GITHUB API ===== */
 function getGitHubConfig() {
   return {
-    token: localStorage.getItem('sos44_github_token'),
+    token: sessionStorage.getItem('sos44_github_token'),
     owner: localStorage.getItem('sos44_repo_owner') || 'patatou97',
     repo: localStorage.getItem('sos44_repo_name') || 'sosinformatique44'
   };

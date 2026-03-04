@@ -1500,6 +1500,7 @@ ul{list-style:none}
               <label for="fmsg">Description du problème</label>
               <textarea id="fmsg" name="message" placeholder="Décrivez brièvement votre problème…"></textarea>
             </div>
+            <input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
             <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               Envoyer la demande
@@ -1794,6 +1795,7 @@ ul{list-style:none}
 /* Contact form — save to CRM + Google Sheets + mailto */
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();var f=this;
+  if(f.querySelector('[name="website"]').value){return}
   var name=f.querySelector('#fname').value;
   var email=f.querySelector('#femail').value;
   var phone=f.querySelector('#ftel').value;
@@ -1838,18 +1840,18 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
 
 /* ===== TRACKING — localStorage + Google Sheets ===== */
 var TRACKING_URL='';
-try{TRACKING_URL=localStorage.getItem('sos44_tracking_url')||''}catch(e){}
+try{
+  var _url=localStorage.getItem('sos44_tracking_url')||'';
+  if(_url.indexOf('https://script.google.com/')===0) TRACKING_URL=_url;
+}catch(e){}
 
-function _trackStore(key,item){try{var a=JSON.parse(localStorage.getItem(key)||'[]');a.push(item);localStorage.setItem(key,JSON.stringify(a))}catch(e){}}
 function _trackSend(payload){if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
 
 function trackEvent(type,detail){
-  _trackStore('sos44_crm_events',{date:new Date().toISOString(),type:type,detail:detail});
   _trackSend({type:'event',date:new Date().toISOString(),eventType:type,detail:detail});
 }
 
 function trackContact(data){
-  _trackStore('sos44_crm_contacts',data);
   _trackSend({type:'contact',date:data.date,name:data.name,email:data.email,phone:data.phone,device:data.device,source:data.source,message:data.message});
 }
 
@@ -1995,10 +1997,11 @@ function dvSubmit(){
       var d=document.createElement('div');
       d.id='sos44popup';
       d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;will-change:opacity';
-      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
       document.body.appendChild(d);
       document.getElementById('sos44popupForm').onsubmit=function(e){
         e.preventDefault();
+        if(this.querySelector('[name="website"]').value){d.remove();return}
         trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString()});
         trackEvent('formulaire','Popup rempli par '+this.name.value);
         d.remove();
