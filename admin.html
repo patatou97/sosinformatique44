@@ -351,6 +351,26 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
 .settings-msg.ok{color:var(--green)}
 .settings-msg.err{color:var(--danger)}
 
+/* Gallery in settings */
+.gallery-upload-zone{border:2px dashed var(--border);border-radius:var(--radius-xs);padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;background:var(--bg)}
+.gallery-upload-zone:hover,.gallery-upload-zone.dragover{border-color:var(--blue);background:var(--blue-light)}
+.gallery-upload-zone svg{color:var(--text-muted);margin-bottom:6px}
+.gallery-upload-zone p{font-size:.8125rem;color:var(--text-secondary);margin:0}
+.gallery-upload-zone span{font-size:.6875rem;color:var(--text-muted)}
+.gallery-caption-row{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.gallery-caption-row input{flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius-xs);font-size:.875rem;background:var(--bg);color:var(--text);transition:all .2s}
+.gallery-caption-row input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:12px 0}
+.gallery-item-admin{position:relative;border-radius:var(--radius-xs);overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.gallery-item-admin img{width:100%;height:100px;object-fit:cover;display:block}
+.gallery-item-caption{padding:6px 8px;font-size:.6875rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gallery-item-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.75rem;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s}
+.gallery-item-admin:hover .gallery-item-del{opacity:1}
+.gallery-item-del:hover{background:var(--danger)}
+.gallery-empty-msg{text-align:center;padding:20px;color:var(--text-muted);font-size:.75rem}
+.gallery-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.gallery-size-info{font-size:.6875rem;color:var(--text-muted);margin-top:4px}
+
 /* Toast */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px}
 .toast{
@@ -1264,6 +1284,42 @@ textarea.editor-input{resize:vertical;min-height:72px;line-height:1.5}
       <p class="settings-msg" id="pricesMsg"></p>
     </div>
 
+    <!-- Galerie Atelier -->
+    <div class="settings-group">
+      <h3>Galerie &laquo; En direct de l'atelier &raquo;</h3>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:10px">T&eacute;l&eacute;chargez vos photos d'atelier. Elles sont redimensionn&eacute;es automatiquement (300&times;220 px, JPEG optimis&eacute;). Ajoutez une l&eacute;gende puis exportez le HTML pour index.html.</p>
+
+      <input type="file" id="galleryFileInput" accept="image/*" multiple style="display:none" onchange="handleGalleryFiles(this.files)">
+      <div class="gallery-upload-zone" id="galleryDropZone" onclick="document.getElementById('galleryFileInput').click()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Cliquez ou glissez vos images ici</p>
+        <span>JPG, PNG, WebP &mdash; redimensionnement auto 300&times;220 px</span>
+      </div>
+
+      <div class="gallery-caption-row" id="galleryCaptionRow" style="display:none">
+        <input type="text" id="galleryCaption" placeholder="L&eacute;gende pour l'image (ex: R&eacute;paration carte m&egrave;re)">
+        <button class="btn-settings btn-settings-blue" onclick="confirmGalleryAdd()">Ajouter</button>
+        <button class="btn-settings btn-settings-outline" onclick="cancelGalleryAdd()">Annuler</button>
+      </div>
+      <div id="galleryCaptionPreview" style="display:none;text-align:center;margin-bottom:12px">
+        <img id="galleryCaptionImg" style="max-width:200px;max-height:140px;border-radius:8px;border:1px solid var(--border)">
+      </div>
+
+      <div id="galleryGrid" class="gallery-grid"></div>
+      <div class="gallery-actions" id="galleryActions" style="display:none">
+        <button class="btn-settings btn-settings-blue" onclick="exportGalleryHTML()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          T&eacute;l&eacute;charger HTML
+        </button>
+        <button class="btn-settings btn-settings-outline" onclick="copyGalleryHTML()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copier HTML
+        </button>
+      </div>
+      <p class="gallery-size-info" id="gallerySizeInfo"></p>
+      <p class="settings-msg" id="galleryMsg"></p>
+    </div>
+
     <!-- Password -->
     <div class="settings-group">
       <h3>Mot de passe admin</h3>
@@ -2114,6 +2170,7 @@ function openSettings() {
   document.getElementById('settingsNewPwd').value = '';
   document.getElementById('settingsConfirmPwd').value = '';
   loadPriceRows();
+  renderGallery();
   clearSettingsMsgs();
   document.getElementById('settingsOverlay').classList.add('active');
 }
@@ -2990,6 +3047,212 @@ function exportCSV() {
   link.download = 'contacts-sos44-' + new Date().toISOString().slice(0, 10) + '.csv';
   link.click();
   showToast('Export CSV t\u00e9l\u00e9charg\u00e9', 'success');
+}
+
+/* ===== GALLERY ATELIER ===== */
+var pendingGalleryFiles = [];
+var currentGalleryFileIndex = 0;
+
+function getGallery() {
+  try { return JSON.parse(localStorage.getItem('sos44_gallery')) || []; } catch(e) { return []; }
+}
+function saveGallery(arr) { localStorage.setItem('sos44_gallery', JSON.stringify(arr)); }
+
+/* Drag & drop */
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var dz = document.getElementById('galleryDropZone');
+    if (!dz) return;
+    dz.addEventListener('dragover', function(e) { e.preventDefault(); dz.classList.add('dragover'); });
+    dz.addEventListener('dragleave', function() { dz.classList.remove('dragover'); });
+    dz.addEventListener('drop', function(e) {
+      e.preventDefault(); dz.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleGalleryFiles(e.dataTransfer.files);
+    });
+  });
+})();
+
+/* Resize image to 300x220 JPEG */
+function resizeImage(file, maxW, maxH, quality) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = maxW;
+        canvas.height = maxH;
+        var ctx = canvas.getContext('2d');
+        /* Cover: crop au centre */
+        var srcRatio = img.width / img.height;
+        var dstRatio = maxW / maxH;
+        var sx, sy, sw, sh;
+        if (srcRatio > dstRatio) {
+          sh = img.height;
+          sw = sh * dstRatio;
+          sx = (img.width - sw) / 2;
+          sy = 0;
+        } else {
+          sw = img.width;
+          sh = sw / dstRatio;
+          sx = 0;
+          sy = (img.height - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, maxW, maxH);
+        resolve(canvas.toDataURL('image/jpeg', quality || 0.82));
+      };
+      img.onerror = function() { reject(new Error('Image illisible')); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { reject(new Error('Erreur lecture fichier')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* Handle multiple file selection */
+function handleGalleryFiles(files) {
+  pendingGalleryFiles = [];
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].type.startsWith('image/')) pendingGalleryFiles.push(files[i]);
+  }
+  if (pendingGalleryFiles.length === 0) {
+    showSettingsMsg('galleryMsg', 'Aucune image valide s\u00e9lectionn\u00e9e.', 'err');
+    return;
+  }
+  currentGalleryFileIndex = 0;
+  processNextGalleryFile();
+}
+
+function processNextGalleryFile() {
+  if (currentGalleryFileIndex >= pendingGalleryFiles.length) {
+    document.getElementById('galleryCaptionRow').style.display = 'none';
+    document.getElementById('galleryCaptionPreview').style.display = 'none';
+    document.getElementById('galleryFileInput').value = '';
+    renderGallery();
+    showSettingsMsg('galleryMsg', pendingGalleryFiles.length + ' image(s) ajout\u00e9e(s).', 'ok');
+    showToast(pendingGalleryFiles.length + ' image(s) ajout\u00e9e(s)', 'success');
+    pendingGalleryFiles = [];
+    return;
+  }
+  var file = pendingGalleryFiles[currentGalleryFileIndex];
+  resizeImage(file, 300, 220, 0.82).then(function(dataUrl) {
+    document.getElementById('galleryCaptionImg').src = dataUrl;
+    document.getElementById('galleryCaptionImg').dataset.pending = dataUrl;
+    document.getElementById('galleryCaptionPreview').style.display = 'block';
+    document.getElementById('galleryCaptionRow').style.display = 'flex';
+    var nameHint = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    document.getElementById('galleryCaption').value = nameHint;
+    document.getElementById('galleryCaption').focus();
+    showSettingsMsg('galleryMsg', 'Image ' + (currentGalleryFileIndex + 1) + ' / ' + pendingGalleryFiles.length + ' \u2014 ajoutez une l\u00e9gende.', '');
+  }).catch(function(err) {
+    showSettingsMsg('galleryMsg', 'Erreur : ' + err.message, 'err');
+    currentGalleryFileIndex++;
+    processNextGalleryFile();
+  });
+}
+
+function confirmGalleryAdd() {
+  var caption = (document.getElementById('galleryCaption').value || '').trim();
+  if (!caption) { showSettingsMsg('galleryMsg', 'Veuillez saisir une l\u00e9gende.', 'err'); return; }
+  var dataUrl = document.getElementById('galleryCaptionImg').dataset.pending;
+  var gallery = getGallery();
+  gallery.push({ id: 'img-' + Date.now() + '-' + currentGalleryFileIndex, url: dataUrl, caption: caption });
+  saveGallery(gallery);
+  document.getElementById('galleryCaption').value = '';
+  currentGalleryFileIndex++;
+  processNextGalleryFile();
+}
+
+function cancelGalleryAdd() {
+  currentGalleryFileIndex++;
+  processNextGalleryFile();
+}
+
+function removeGalleryItem(id) {
+  var gallery = getGallery().filter(function(item) { return item.id !== id; });
+  saveGallery(gallery);
+  renderGallery();
+}
+
+function renderGallery() {
+  var gallery = getGallery();
+  var container = document.getElementById('galleryGrid');
+  var actions = document.getElementById('galleryActions');
+  var sizeInfo = document.getElementById('gallerySizeInfo');
+  if (!container) return;
+
+  if (gallery.length === 0) {
+    container.innerHTML = '<div class="gallery-empty-msg" style="grid-column:1/-1">Aucune image. T\u00e9l\u00e9chargez des photos ci-dessus.</div>';
+    if (actions) actions.style.display = 'none';
+    if (sizeInfo) sizeInfo.textContent = '';
+    return;
+  }
+
+  if (actions) actions.style.display = 'flex';
+  var html = '';
+  gallery.forEach(function(item) {
+    html += '<div class="gallery-item-admin">';
+    html += '<img src="' + DOMPurify.sanitize(item.url) + '" alt="' + DOMPurify.sanitize(item.caption) + '">';
+    html += '<div class="gallery-item-caption" title="' + DOMPurify.sanitize(item.caption) + '">' + DOMPurify.sanitize(item.caption) + '</div>';
+    html += '<button class="gallery-item-del" onclick="removeGalleryItem(\'' + item.id + '\')" title="Supprimer">&times;</button>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+
+  /* Taille localStorage */
+  if (sizeInfo) {
+    var bytes = (localStorage.getItem('sos44_gallery') || '').length * 2;
+    var kb = (bytes / 1024).toFixed(0);
+    sizeInfo.textContent = gallery.length + ' image(s) \u2014 ' + kb + ' Ko utilis\u00e9s en stockage local';
+  }
+}
+
+function buildGalleryHTML() {
+  var gallery = getGallery();
+  if (gallery.length === 0) return '';
+  var html = '';
+  html += '    <div class="gallery-scroll reveal">\n';
+  gallery.forEach(function(item) {
+    html += '      <figure class="gallery-item">\n';
+    html += '        <img src="' + item.url + '" alt="' + item.caption + '" width="300" height="220" style="object-fit:cover;display:block" loading="lazy">\n';
+    html += '        <figcaption>' + item.caption + '</figcaption>\n';
+    html += '      </figure>\n';
+  });
+  html += '    </div>';
+  return html;
+}
+
+function exportGalleryHTML() {
+  var gallery = getGallery();
+  if (gallery.length === 0) { showSettingsMsg('galleryMsg', 'Aucune image \u00e0 exporter.', 'err'); return; }
+  var html = buildGalleryHTML();
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'galerie-atelier.html';
+  link.click();
+  URL.revokeObjectURL(link.href);
+  showSettingsMsg('galleryMsg', 'Fichier HTML t\u00e9l\u00e9charg\u00e9.', 'ok');
+  showToast('HTML galerie t\u00e9l\u00e9charg\u00e9', 'success');
+}
+
+function copyGalleryHTML() {
+  var gallery = getGallery();
+  if (gallery.length === 0) { showSettingsMsg('galleryMsg', 'Aucune image \u00e0 copier.', 'err'); return; }
+  var html = buildGalleryHTML();
+  navigator.clipboard.writeText(html).then(function() {
+    showSettingsMsg('galleryMsg', 'HTML copi\u00e9 dans le presse-papier \u2014 collez-le dans index.html \u00e0 la place de la section atelier.', 'ok');
+    showToast('HTML copi\u00e9', 'success');
+  }).catch(function() {
+    var textarea = document.createElement('textarea');
+    textarea.value = html;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showSettingsMsg('galleryMsg', 'HTML copi\u00e9 dans le presse-papier.', 'ok');
+    showToast('HTML copi\u00e9', 'success');
+  });
 }
 
 /* ===== BOOT ===== */

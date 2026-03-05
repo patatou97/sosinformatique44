@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.github.com https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -17,7 +17,7 @@
 <link id="gfPre1" rel="preconnect" data-href="https://fonts.googleapis.com">
 <link id="gfPre2" rel="preconnect" data-href="https://fonts.gstatic.com" crossorigin>
 <link id="gfStyle" rel="preload" as="style" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet"></noscript>
+<!-- noscript Google Fonts removed: loads without RGPD consent -->
 <script>(function(){if(localStorage.getItem('sos44_consent')==='accepted'){['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}})}})()</script>
 <script type="application/ld+json">
 {
@@ -423,6 +423,18 @@ ul{list-style:none}
   .stat-item{border-bottom:1px solid var(--border)}
   .stat-item:nth-child(2){border-right:none}
 }
+.stat-stars{color:#F59E0B;font-size:1.25rem;letter-spacing:2px;margin-bottom:6px}
+.stat-quote{font-size:.875rem;color:var(--text-secondary);font-style:italic;line-height:1.5;margin-bottom:4px}
+.stat-author{font-size:.8125rem;color:var(--text-muted);font-weight:600}
+.stats-bar-footer{
+  text-align:center;padding:10px 16px;
+  font-size:.75rem;color:var(--text-muted);
+  background:var(--bg-alt);
+  border:1px solid var(--border);border-top:none;
+  border-radius:0 0 var(--radius) var(--radius);
+  margin-top:-1px;position:relative;z-index:5;
+}
+.stats-bar-footer svg{vertical-align:middle;margin-right:4px}
 @media(max-width:450px){.stats-bar{grid-template-columns:1fr}.stat-item{border-right:none}}
 
 /* ===== BONUS QUALIRÉPARE ===== */
@@ -1015,6 +1027,15 @@ ul{list-style:none}
 .review-text{color:var(--text-secondary);font-size:.9375rem;font-style:italic;line-height:1.7;margin-bottom:18px}
 .review-author{font-family:var(--font-heading);font-weight:700;font-size:.9375rem;color:var(--text)}
 .review-repair{font-size:.8125rem;color:var(--text-muted)}
+.review-source{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:6px;padding:3px 10px;
+  background:#f1f3f4;border-radius:12px;
+  font-size:.75rem;color:#5f6368;font-weight:500;
+}
+.review-source svg{flex-shrink:0}
+.reviews-google-link{text-align:center;margin-top:8px;font-size:.875rem;color:var(--text-muted)}
+.reviews-google-link a{color:var(--blue);text-decoration:underline}
 .reviews-banner{
   margin-top:40px;
   background:linear-gradient(135deg,#F59E0B,#D97706);
@@ -1192,25 +1213,33 @@ ul{list-style:none}
   </div>
 </section>
 
-<!-- Stats Bar -->
+<!-- Stats Bar — Mini-avis Google -->
 <div class="container">
   <div class="stats-bar reveal">
     <div class="stat-item">
-      <div class="stat-number">50 €</div>
-      <div class="stat-label">Bonus QualiRépare</div>
+      <div class="stat-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="stat-quote">&laquo;&nbsp;Rapide et soigné&nbsp;!&nbsp;&raquo;</div>
+      <div class="stat-author">— Karine E.</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">90 j</div>
-      <div class="stat-label">Garantie minimum</div>
+      <div class="stat-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="stat-quote">&laquo;&nbsp;Parfait, rien à redire&nbsp;&raquo;</div>
+      <div class="stat-author">— Annie M.</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">0 €</div>
-      <div class="stat-label">Diagnostic</div>
+      <div class="stat-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="stat-quote">&laquo;&nbsp;Très réactif et rapide&nbsp;!&nbsp;&raquo;</div>
+      <div class="stat-author">— Annie L.</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">6/7 j</div>
-      <div class="stat-label">Disponibilité</div>
+      <div class="stat-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="stat-quote">&laquo;&nbsp;Parfait merci&nbsp;!&nbsp;&raquo;</div>
+      <div class="stat-author">— Johnny H.</div>
     </div>
+  </div>
+  <div class="stats-bar-footer">
+    <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    Avis Google &middot; 4.8/5 &middot; 62 avis
   </div>
 </div>
 
@@ -1342,7 +1371,7 @@ ul{list-style:none}
     <div class="compare-wrap reveal">
       <table class="compare-table">
         <thead>
-          <tr><th>Situation</th><th>Remplacement (neuf)</th><th>Réparation SOS 44</th></tr>
+          <tr><th>Situation</th><th>Remplacement (neuf)</th><th>Chez SOS Informatique</th></tr>
         </thead>
         <tbody>
           <tr>
@@ -1657,34 +1686,59 @@ ul{list-style:none}
       <div class="section-tag reveal">Avis clients</div>
       <h2 class="section-title reveal">Ce que nos clients disent de nous</h2>
       <p class="section-subtitle reveal">Des réparations réussies, des clients satisfaits. Découvrez leurs témoignages.</p>
+      <p class="reviews-google-link reveal"><a href="https://www.google.com/maps/place/SOS+INFORMATIQUE+44/@47.2960198,-1.5494939,17z/data=!4m8!3m7!1s0x4805eea890cdb8b1:0x59579760be592b0a!8m2!3d47.2960198!4d-1.546919!9m1!1b1!16s%2Fg%2F11h03d2v_p" target="_blank" rel="noopener noreferrer">Voir tous les avis sur Google</a></p>
     </div>
     <div class="reviews-grid">
       <div class="review-card reveal">
         <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="review-text">«&nbsp;Réparation rapide et soignée. Mon iPhone est comme neuf&nbsp;! Merci pour le bonus QualiRépare.&nbsp;»</p>
-        <div class="review-author">Sophie M.</div>
-        <div class="review-repair">Écran iPhone</div>
+        <p class="review-text">&laquo;&nbsp;Service exceptionnel, équipe compétente, tarifs raisonnables.&nbsp;&raquo;</p>
+        <div class="review-author">luc A.</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
       </div>
       <div class="review-card reveal">
         <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="review-text">«&nbsp;Mon PC portable ne démarrait plus. Diagnostic gratuit et réparation en 48h. Excellent rapport qualité-prix.&nbsp;»</p>
-        <div class="review-author">Thomas L.</div>
-        <div class="review-repair">PC portable</div>
+        <p class="review-text">&laquo;&nbsp;Le technicien a été extrêmement compétent et très agréable&nbsp;! Super service.&nbsp;&raquo;</p>
+        <div class="review-author">Jade</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
       </div>
       <div class="review-card reveal">
         <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="review-text">«&nbsp;Micro-soudure réussie sur mon MacBook Pro, je pensais devoir le remplacer. Bravo&nbsp;!&nbsp;»</p>
-        <div class="review-author">Marie D.</div>
-        <div class="review-repair">MacBook</div>
+        <p class="review-text">&laquo;&nbsp;Super accueil. Patrick a été très à l'écoute et arrangeant. Je recommande vivement.&nbsp;&raquo;</p>
+        <div class="review-author">Nicolas Le Bihan</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
       </div>
       <div class="review-card reveal">
         <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="review-text">«&nbsp;Toutes mes photos récupérées sur un disque dur endommagé. Professionnel et rassurant.&nbsp;»</p>
-        <div class="review-author">Jean-Pierre R.</div>
-        <div class="review-repair">Récupération données</div>
+        <p class="review-text">&laquo;&nbsp;Très compétent, sympathique, réactif. Réparation en moins de 2 jours.&nbsp;&raquo;</p>
+        <div class="review-author">Arena A.</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&laquo;&nbsp;Réparation Macbook en moins d'une semaine, tarifs dérisoires.&nbsp;&raquo;</p>
+        <div class="review-author">Patrick O.</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&laquo;&nbsp;Super professionnel qui a réparé l'iMac condamné à la casse par d'autres.&nbsp;&raquo;</p>
+        <div class="review-author">Elie B.</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&laquo;&nbsp;Merci pour votre gentillesse, votre professionnalisme, et rapidité d'exécution.&nbsp;&raquo;</p>
+        <div class="review-author">CATHERINE FATON</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">&laquo;&nbsp;Données et disque dur sauvés. Merci Patrick. Très demandé car très compétent.&nbsp;&raquo;</p>
+        <div class="review-author">André I.</div>
+        <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
       </div>
     </div>
-    <div class="reviews-banner reveal">&#9733; Note moyenne : 5/5 — 100 % de clients satisfaits</div>
+    <div class="reviews-banner reveal">&#9733; 4.8/5 sur Google — 62 avis &middot; Uniquement des avis 5 étoiles sélectionnés</div>
   </div>
 </section>
 
@@ -1817,7 +1871,7 @@ ul{list-style:none}
               <input type="checkbox" id="fConsent" required>
               <label for="fConsent">J'accepte que mes donn&eacute;es soient trait&eacute;es par SOS Informatique 44 pour r&eacute;pondre &agrave; ma demande. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></label>
             </div>
-            <input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="text" name="address2" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
             <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               Envoyer la demande
@@ -1964,6 +2018,7 @@ ul{list-style:none}
               <div class="dv-recap-row"><span class="dv-recap-key">Téléphone</span><span class="dv-recap-val" id="dvR_tel">—</span></div>
               <div class="dv-recap-row"><span class="dv-recap-key">Adresse</span><span class="dv-recap-val" id="dvR_adresse">—</span></div>
             </div>
+            <input type="text" name="fax_number" id="dvHoneypot" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="dv-hint" style="margin-bottom:18px">
               <span>&#128231;</span>
               <span>En cliquant sur <strong>Envoyer</strong>, vous recevrez une confirmation par email. Réponse sous <strong>24h ouvrées</strong>.</span>
@@ -2066,32 +2121,27 @@ function refuseRGPD(){SOS44_CONSENT.refuse()}
 function openLegal(id){var el=document.getElementById(id);if(el)el.classList.add('open');document.body.style.overflow='hidden'}
 function closeLegal(id){var el=document.getElementById(id);if(el)el.classList.remove('open');document.body.style.overflow=''}
 
-/* ===== Configurable contact info ===== */
+/* ===== Contact info — hardcoded for security ===== */
+var SOS44_EMAIL = 'contact@sos-informatique44.fr';
+var SOS44_WA = '33658458091';
+var SOS44_PHONE = '0285523814';
+var SOS44_MOBILE = '0658458091';
 (function(){
-  var email = localStorage.getItem('sos44_email') || 'contact@sos-informatique44.fr';
-  var wa = localStorage.getItem('sos44_whatsapp') || '33658458091';
-  var phone = localStorage.getItem('sos44_phone') || '0285523814';
-  var mobile = localStorage.getItem('sos44_mobile') || '0658458091';
   var waMsg = encodeURIComponent('Bonjour, je souhaite un devis pour une réparation');
-  var waUrl = 'https://wa.me/' + wa + '?text=' + waMsg;
+  var waUrl = 'https://wa.me/' + SOS44_WA + '?text=' + waMsg;
   function fmt(n){ return n.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5'); }
   document.querySelectorAll('[data-wa]').forEach(function(el){ el.href = waUrl; });
   document.querySelectorAll('[data-tel]').forEach(function(el){
-    el.href = 'tel:' + phone;
+    el.href = 'tel:' + SOS44_PHONE;
     var s = el.querySelector('[data-tel-display]');
-    if(s) s.textContent = fmt(phone);
+    if(s) s.textContent = fmt(SOS44_PHONE);
   });
   document.querySelectorAll('[data-mobile]').forEach(function(el){
-    el.href = 'tel:' + mobile;
+    el.href = 'tel:' + SOS44_MOBILE;
     var s = el.querySelector('[data-mobile-display]');
-    if(s) s.textContent = fmt(mobile);
+    if(s) s.textContent = fmt(SOS44_MOBILE);
   });
-  document.querySelectorAll('[data-mobile-display]').forEach(function(el){ el.textContent = fmt(mobile); });
-  /* Update JSON-LD schema */
-  var ld = document.querySelector('script[type="application/ld+json"]');
-  if(ld){ try { var j=JSON.parse(ld.textContent); j.telephone='+'+phone.replace(/^0/,'33'); j.email=email; ld.textContent=JSON.stringify(j); } catch(e){} }
-  window.SOS44_EMAIL = email;
-  window.SOS44_WA = wa;
+  document.querySelectorAll('[data-mobile-display]').forEach(function(el){ el.textContent = fmt(SOS44_MOBILE); });
 })();
 
 /* Atelier status */
@@ -2122,8 +2172,9 @@ function closeLegal(id){var el=document.getElementById(id);if(el)el.classList.re
     {name:'Remplacement SSD (PC)',price:120},{name:'Charnière PC portable',price:130},
     {name:'Nettoyage interne',price:80},{name:'Récupération de données',price:150}
   ];
-  var prices=JSON.parse(localStorage.getItem('sos44_calc_prices')||'null')||defaultPrices;
-  var bonus=parseInt(localStorage.getItem('sos44_calc_bonus'))||50;
+  var prices=defaultPrices;
+  try{var _p=JSON.parse(localStorage.getItem('sos44_calc_prices'));if(Array.isArray(_p)&&_p.every(function(i){return typeof i.name==='string'&&typeof i.price==='number'&&i.price>0}))prices=_p}catch(e){}
+  var bonus=50;try{var _b=parseInt(localStorage.getItem('sos44_calc_bonus'));if(_b>0&&_b<500)bonus=_b}catch(e){}
   var sel=document.getElementById('calcSelect');
   prices.forEach(function(p){
     var o=document.createElement('option');
@@ -2141,10 +2192,21 @@ function closeLegal(id){var el=document.getElementById(id);if(el)el.classList.re
   });
 })();
 
+/* ===== Anti-bot: timer + rate-limit ===== */
+var _formLoadTime=Date.now();
+var _submitCount=parseInt(sessionStorage.getItem('sos44_submit_count')||'0');
+function _antiBot(formName){
+  if(Date.now()-_formLoadTime<3000){return true}
+  if(_submitCount>=3){return true}
+  _submitCount++;sessionStorage.setItem('sos44_submit_count',_submitCount.toString());
+  return false;
+}
+
 /* Contact form — save to CRM + Google Sheets + mailto */
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();var f=this;
-  if(f.querySelector('[name="website"]').value){return}
+  if(f.querySelector('[name="address2"]').value){return}
+  if(_antiBot('rapide')){return}
   var name=f.querySelector('#fname').value;
   var email=f.querySelector('#femail').value;
   var phone=f.querySelector('#ftel').value;
@@ -2153,7 +2215,7 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   trackContact({id:Date.now().toString(),name:name,email:email,phone:phone,device:device,source:'Formulaire',status:'Nouveau',message:msg,date:new Date().toISOString()});
   trackEvent('formulaire','Formulaire envoyé par '+name);
   var body='Nom : '+name+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\n\nMessage :\n'+msg;
-  window.location.href='mailto:'+(window.SOS44_EMAIL||'contact@sos-informatique44.fr')+'?subject='+encodeURIComponent('Demande de devis — '+(device||'Réparation'))+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:'+SOS44_EMAIL+'?subject='+encodeURIComponent('Demande de devis — '+(device||'Réparation'))+'&body='+encodeURIComponent(body);
 });
 
 /* Scroll reveal */
@@ -2187,12 +2249,8 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
   },10000);
 })();
 
-/* ===== TRACKING — localStorage + Google Sheets ===== */
-var TRACKING_URL='';
-try{
-  var _url=localStorage.getItem('sos44_tracking_url')||'';
-  if(_url.indexOf('https://script.google.com/')===0) TRACKING_URL=_url;
-}catch(e){}
+/* ===== TRACKING — Google Sheets ===== */
+var TRACKING_URL=(function(){try{var u=localStorage.getItem('sos44_tracking_url')||'';return(u.indexOf('https://script.google.com/')===0)?u:''}catch(e){return''}})();
 
 function _trackSend(payload){if(!SOS44_CONSENT.hasConsented())return;if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
 
@@ -2325,6 +2383,8 @@ function dvGoStep3(){
 }
 
 function dvSubmit(){
+  if(document.getElementById('dvHoneypot').value){return}
+  if(_antiBot('detaille')){return}
   var fullName=document.getElementById('dv_prenom').value+' '+document.getElementById('dv_nom').value;
   var email=document.getElementById('dv_email').value;
   var phone=document.getElementById('dv_telephone').value;
@@ -2340,7 +2400,7 @@ function dvSubmit(){
 
   /* Send mailto */
   var body='Nom : '+fullName+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\nProblème : '+defaut+(adresse?'\nAdresse : '+adresse:'')+(source?'\nSource : '+source:'');
-  window.location.href='mailto:'+(window.SOS44_EMAIL||'contact@sos-informatique44.fr')+'?subject='+encodeURIComponent('Demande de devis détaillé — '+device)+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:'+SOS44_EMAIL+'?subject='+encodeURIComponent('Demande de devis détaillé — '+device)+'&body='+encodeURIComponent(body);
 
   /* Show success */
   var ticketNum='SOS-'+Date.now().toString().slice(-6);
@@ -2358,11 +2418,12 @@ function dvSubmit(){
       var d=document.createElement('div');
       d.id='sos44popup';
       d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;will-change:opacity';
-      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><div style="display:flex;align-items:flex-start;gap:8px;margin:10px 0"><input type="checkbox" id="popupConsent" required style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#0EA5E9"><label for="popupConsent" style="font-size:.75rem;color:#475569;line-height:1.4;cursor:pointer">J\'accepte le traitement de mes donn\u00e9es. <a href="#" onclick="openLegal(\'privacy\');return false" style="color:#0EA5E9">Confidentialit\u00e9</a></label></div><input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><div style="display:flex;align-items:flex-start;gap:8px;margin:10px 0"><input type="checkbox" id="popupConsent" required style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#0EA5E9"><label for="popupConsent" style="font-size:.75rem;color:#475569;line-height:1.4;cursor:pointer">J\'accepte le traitement de mes donn\u00e9es. <a href="#" onclick="openLegal(\'privacy\');return false" style="color:#0EA5E9">Confidentialit\u00e9</a></label></div><input type="text" name="company" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
       document.body.appendChild(d);
       document.getElementById('sos44popupForm').onsubmit=function(e){
         e.preventDefault();
-        if(this.querySelector('[name="website"]').value){d.remove();return}
+        if(this.querySelector('[name="company"]').value){d.remove();return}
+        if(_antiBot('popup')){d.remove();return}
         trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString()});
         trackEvent('formulaire','Popup rempli par '+this.name.value);
         d.remove();

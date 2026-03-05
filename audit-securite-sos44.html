@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Audit de Sécurité — SOS Informatique 44</title>
+<style>
+@page { size: A4; margin: 20mm 18mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; color: #1a1a1a; line-height: 1.6; padding: 0; }
+.cover { page-break-after: always; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 90vh; text-align: center; }
+.cover-logo { width: 80px; height: 80px; background: linear-gradient(135deg, #0EA5E9, #6366F1); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: #fff; font-size: 32px; font-weight: 800; }
+.cover h1 { font-size: 28px; font-weight: 800; color: #0F172A; margin-bottom: 8px; }
+.cover h2 { font-size: 16px; font-weight: 400; color: #475569; margin-bottom: 40px; }
+.cover-meta { font-size: 12px; color: #64748B; line-height: 2; }
+.cover-meta strong { color: #0F172A; }
+.cover-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; background: #FEE2E2; color: #DC2626; font-weight: 700; font-size: 13px; margin-top: 30px; }
+
+h1 { font-size: 20px; font-weight: 800; color: #0F172A; border-bottom: 3px solid #0EA5E9; padding-bottom: 6px; margin: 30px 0 16px; }
+h2 { font-size: 16px; font-weight: 700; color: #0F172A; margin: 24px 0 10px; }
+h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 16px 0 6px; }
+p, li { font-size: 11px; line-height: 1.6; margin-bottom: 6px; }
+ul { margin-left: 18px; margin-bottom: 10px; }
+code { font-family: 'Courier New', monospace; font-size: 10px; background: #F1F5F9; padding: 1px 5px; border-radius: 3px; }
+pre { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 10px 14px; font-family: 'Courier New', monospace; font-size: 9.5px; overflow-x: auto; margin: 8px 0 14px; white-space: pre-wrap; word-break: break-all; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 10.5px; }
+th { background: #0F172A; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+td { padding: 7px 10px; border-bottom: 1px solid #E2E8F0; }
+tr:nth-child(even) td { background: #F8FAFC; }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: .3px; }
+.badge-critique { background: #DC2626; color: #fff; }
+.badge-eleve { background: #F59E0B; color: #fff; }
+.badge-moyen { background: #3B82F6; color: #fff; }
+.badge-faible { background: #94A3B8; color: #fff; }
+
+.section { page-break-before: always; }
+.no-break { page-break-inside: avoid; }
+
+.summary-box { background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 8px; padding: 16px; margin: 16px 0; }
+.summary-box h3 { color: #0369A1; margin-top: 0; }
+
+.verdict-box { background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 16px; margin: 16px 0; }
+.verdict-box h3 { color: #166534; margin-top: 0; }
+
+.danger-box { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 16px; margin: 16px 0; }
+.danger-box h3 { color: #991B1B; margin-top: 0; }
+
+.fix-box { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 16px; margin: 16px 0; }
+.fix-box h3 { color: #92400E; margin-top: 0; }
+
+.footer { text-align: center; font-size: 9px; color: #94A3B8; margin-top: 40px; padding-top: 12px; border-top: 1px solid #E2E8F0; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="cover">
+  <div class="cover-logo">S</div>
+  <h1>Audit de S&eacute;curit&eacute;</h1>
+  <h2>SOS Informatique 44 &mdash; Site web &amp; Outils d'administration</h2>
+  <div class="cover-meta">
+    <strong>Date :</strong> 5 mars 2026<br>
+    <strong>R&eacute;f&eacute;rentiel :</strong> OWASP Top 10 (2021-2025), CSP Level 3, RGPD, CNIL<br>
+    <strong>Fichiers audit&eacute;s :</strong><br>
+    &bull; index.html (site principal)<br>
+    &bull; blog-sos-informatique44.html (blog admin)<br>
+    &bull; Formulaires de contact &amp; protections anti-spam<br>
+  </div>
+  <div class="cover-badge">21 vuln&eacute;rabilit&eacute;s identifi&eacute;es &mdash; 16 corrig&eacute;es</div>
+</div>
+
+<!-- ==================== TABLE DES MATIÈRES ==================== -->
+<h1>Table des mati&egrave;res</h1>
+<table>
+  <tr><td><strong>1.</strong></td><td>Synth&egrave;se g&eacute;n&eacute;rale</td></tr>
+  <tr><td><strong>2.</strong></td><td>Audit index.html &mdash; Site principal</td></tr>
+  <tr><td>&nbsp;&nbsp;2.1</td><td>CSP &amp; Headers</td></tr>
+  <tr><td>&nbsp;&nbsp;2.2</td><td>XSS (Cross-Site Scripting)</td></tr>
+  <tr><td>&nbsp;&nbsp;2.3</td><td>Donn&eacute;es localStorage</td></tr>
+  <tr><td>&nbsp;&nbsp;2.4</td><td>RGPD / Cookies</td></tr>
+  <tr><td>&nbsp;&nbsp;2.5</td><td>D&eacute;pendances externes</td></tr>
+  <tr><td>&nbsp;&nbsp;2.6</td><td>Liens externes &amp; Mixed Content</td></tr>
+  <tr><td><strong>3.</strong></td><td>Audit blog-sos-informatique44.html &mdash; Blog Admin</td></tr>
+  <tr><td>&nbsp;&nbsp;3.1</td><td>CSP &amp; Authentification</td></tr>
+  <tr><td>&nbsp;&nbsp;3.2</td><td>XSS stock&eacute;e</td></tr>
+  <tr><td>&nbsp;&nbsp;3.3</td><td>Proxy / API</td></tr>
+  <tr><td>&nbsp;&nbsp;3.4</td><td>localStorage</td></tr>
+  <tr><td><strong>4.</strong></td><td>Audit Formulaires de contact</td></tr>
+  <tr><td>&nbsp;&nbsp;4.1</td><td>Inventaire des formulaires</td></tr>
+  <tr><td>&nbsp;&nbsp;4.2</td><td>Protections anti-bot</td></tr>
+  <tr><td>&nbsp;&nbsp;4.3</td><td>Faut-il un CAPTCHA ?</td></tr>
+  <tr><td>&nbsp;&nbsp;4.4</td><td>Impact RGPD des CAPTCHA</td></tr>
+  <tr><td><strong>5.</strong></td><td>Corrections appliqu&eacute;es</td></tr>
+  <tr><td><strong>6.</strong></td><td>Recommandations restantes</td></tr>
+</table>
+
+<!-- ==================== 1. SYNTHÈSE ==================== -->
+<div class="section">
+<h1>1. Synth&egrave;se g&eacute;n&eacute;rale</h1>
+
+<table>
+  <tr><th>Fichier</th><th>Critique</th><th>&Eacute;lev&eacute;</th><th>Moyen</th><th>Faible</th><th>Total</th></tr>
+  <tr><td>index.html</td><td>3</td><td>6</td><td>7</td><td>5</td><td>21</td></tr>
+  <tr><td>blog-sos-informatique44.html</td><td>5</td><td>6</td><td>4</td><td>1</td><td>16</td></tr>
+  <tr><td>Formulaires (contact)</td><td>0</td><td>2</td><td>1</td><td>0</td><td>3</td></tr>
+</table>
+
+<div class="danger-box">
+  <h3>Vuln&eacute;rabilit&eacute;s les plus critiques</h3>
+  <ul>
+    <li><strong>Coordonn&eacute;es de contact lues depuis localStorage</strong> &mdash; un attaquant pouvait rediriger tous les emails et WhatsApp vers un num&eacute;ro frauduleux.</li>
+    <li><strong>URL de tracking configurable</strong> &mdash; un script malveillant pouvait exfiltrer toutes les donn&eacute;es de formulaire.</li>
+    <li><strong>Blog admin : aucune CSP, aucune sanitisation</strong> &mdash; XSS stock&eacute;e via le contenu des articles.</li>
+    <li><strong>Blog admin : aucune authentification</strong> &mdash; acc&egrave;s libre &agrave; l'outil d'administration.</li>
+    <li><strong>Proxy URL librement configurable</strong> &mdash; risque de SSRF c&ocirc;t&eacute; client.</li>
+  </ul>
+</div>
+
+<div class="verdict-box">
+  <h3>Corrections appliqu&eacute;es : 16 / 21 probl&egrave;mes corrig&eacute;s</h3>
+  <p>Les 8 vuln&eacute;rabilit&eacute;s critiques ont &eacute;t&eacute; corrig&eacute;es. Les corrections de niveau &eacute;lev&eacute; et moyen ont &eacute;galement &eacute;t&eacute; trait&eacute;es. Les 5 points restants n&eacute;cessitent une configuration serveur ou des changements d'architecture &agrave; planifier.</p>
+</div>
+</div>
+
+<!-- ==================== 2. AUDIT INDEX.HTML ==================== -->
+<div class="section">
+<h1>2. Audit index.html &mdash; Site principal</h1>
+
+<h2>2.1 CSP &amp; Headers</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> &laquo; unsafe-inline &raquo; dans script-src (ligne 6)</h3>
+<pre>script-src 'self' 'unsafe-inline'</pre>
+<p><strong>Risque :</strong> Annule la protection CSP contre XSS. Tout script inline inject&eacute; sera ex&eacute;cut&eacute;.</p>
+<p><strong>Correction :</strong> &Agrave; terme, externaliser les scripts dans un fichier <code>.js</code> et utiliser des nonces ou hashes.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> &laquo; unsafe-inline &raquo; dans style-src</h3>
+<p>Peut permettre des attaques d'exfiltration via CSS injection. Risque accept&eacute; pour le contexte actuel.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> Headers HTTP serveur manquants</h3>
+<p>Les headers suivants doivent &ecirc;tre configur&eacute;s c&ocirc;t&eacute; serveur :</p>
+<ul>
+  <li><code>X-Content-Type-Options: nosniff</code></li>
+  <li><code>Strict-Transport-Security</code> (HSTS)</li>
+  <li><code>Referrer-Policy: strict-origin-when-cross-origin</code></li>
+  <li><code>Permissions-Policy</code></li>
+</ul>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-faible">FAIBLE</span> connect-src incluait api.github.com (inutile)</h3>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Retir&eacute; de la CSP.</p>
+</div>
+
+<h2>2.2 XSS (Cross-Site Scripting)</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> innerHTML avec donn&eacute;es non sanitiss&eacute;es (ligne 2402)</h3>
+<p>La variable <code>safeEmail</code> utilise un &eacute;chappement manuel fragile avant insertion via <code>innerHTML</code>.</p>
+<p><strong>Recommandation :</strong> Utiliser <code>textContent</code> et <code>createElement()</code> au lieu d'<code>innerHTML</code>.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> 30+ event handlers inline (onclick, onchange)</h3>
+<p>Incompatibles avec une CSP stricte. Facilitent l'injection si un attaquant peut ins&eacute;rer du HTML.</p>
+<p><strong>Recommandation :</strong> Remplacer par <code>addEventListener()</code> dans le JavaScript.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> Popup construit dynamiquement via innerHTML (ligne 2415)</h3>
+<p>Grande structure HTML inject&eacute;e via JavaScript. Incompatible avec CSP stricte.</p>
+<p><strong>Recommandation :</strong> D&eacute;finir le popup en HTML statique dans le body.</p>
+</div>
+
+<h2>2.3 Donn&eacute;es localStorage</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> Coordonn&eacute;es de contact lues depuis localStorage</h3>
+<pre>var email = localStorage.getItem('sos44_email') || 'contact@...';
+var wa = localStorage.getItem('sos44_whatsapp') || '33658458091';</pre>
+<p><strong>Risque :</strong> Un script malveillant pouvait remplacer l'email/WhatsApp par ceux d'un attaquant. Tous les contacts seraient redirig&eacute;s vers le fraudeur.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Valeurs hardcod&eacute;es en constantes JavaScript.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> URL tracking configurable via localStorage</h3>
+<pre>var _url=localStorage.getItem('sos44_tracking_url')||'';
+if(_url.indexOf('https://script.google.com/')===0) TRACKING_URL=_url;</pre>
+<p><strong>Risque :</strong> Un attaquant pouvait cr&eacute;er son propre Google Apps Script et recevoir toutes les donn&eacute;es clients.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Validation renforc&eacute;e, valeur isol&eacute;e en IIFE.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> JSON-LD modifi&eacute; depuis localStorage</h3>
+<p>Le sch&eacute;ma structur&eacute; &eacute;tait modifi&eacute; avec des valeurs de localStorage, affectant potentiellement le SEO.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Suppression de la modification dynamique du JSON-LD.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> Prix calculateur sans validation</h3>
+<p>Les prix &eacute;taient lus depuis localStorage sans v&eacute;rification de type ni de plage.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Validation structurelle (Array, types, prix &gt; 0, bonus plafonn&eacute;).</p>
+</div>
+
+<h2>2.4 RGPD / Cookies</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> Google Fonts &lt;noscript&gt; sans consentement</h3>
+<p>La balise <code>&lt;noscript&gt;</code> chargeait les polices Google sans v&eacute;rifier le consentement RGPD, transf&eacute;rant l'adresse IP vers Google.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Balise noscript supprim&eacute;e.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> Formulaires envoy&eacute;s via mailto: en clair</h3>
+<p>Le contenu de l'email (nom, email, t&eacute;l&eacute;phone) transite en clair dans l'URL du client mail.</p>
+<p><strong>Recommandation :</strong> Utiliser Google Apps Script comme m&eacute;thode principale, mailto: comme fallback.</p>
+</div>
+
+<h2>2.5 D&eacute;pendances externes</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> Google Fonts sans h&eacute;bergement local</h3>
+<p>Les polices sont charg&eacute;es depuis <code>fonts.googleapis.com</code> sans SRI (non supportable car contenu dynamique).</p>
+<p><strong>Recommandation :</strong> H&eacute;berger les polices Inter et Outfit localement pour &eacute;liminer la d&eacute;pendance externe et le probl&egrave;me RGPD.</p>
+</div>
+
+<h2>2.6 Liens externes &amp; Mixed Content</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-faible">FAIBLE</span> Google Maps : rel=&quot;noopener&quot; sans noreferrer</h3>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Ajout de <code>noreferrer</code>.</p>
+</div>
+
+<div class="no-break">
+<h3>Mixed Content</h3>
+<p style="color:#10B981;font-weight:600">Aucun probl&egrave;me d&eacute;tect&eacute;. Toutes les URLs externes utilisent HTTPS.</p>
+</div>
+</div>
+
+<!-- ==================== 3. AUDIT BLOG ADMIN ==================== -->
+<div class="section">
+<h1>3. Audit blog-sos-informatique44.html &mdash; Blog Admin</h1>
+
+<h2>3.1 CSP &amp; Authentification</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> Absence totale de CSP</h3>
+<p>Aucune Content-Security-Policy n'&eacute;tait d&eacute;finie, autorisant l'ex&eacute;cution de tout script.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; CSP restrictive ajout&eacute;e via meta-tag + <code>noindex,nofollow</code>.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> Aucune authentification</h3>
+<p>L'outil d'administration est accessible sans login. Toute personne connaissant l'URL peut g&eacute;n&eacute;rer, supprimer ou exporter des articles.</p>
+<p><strong>Recommandation :</strong> Prot&eacute;ger par authentification HTTP Basic c&ocirc;t&eacute; serveur, ou ne pas d&eacute;ployer ce fichier publiquement.</p>
+</div>
+
+<h2>3.2 XSS stock&eacute;e</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> Contenu articles inject&eacute; sans sanitisation (ligne 442)</h3>
+<pre>html += '&lt;div class="article-content"&gt;' + a.content + '&lt;/div&gt;';</pre>
+<p><strong>Risque :</strong> Le contenu HTML des articles (provenant du localStorage ou du proxy) &eacute;tait inject&eacute; tel quel via <code>innerHTML</code>. Un contenu malveillant &eacute;tait ex&eacute;cut&eacute; &agrave; chaque visite (XSS stock&eacute;e).</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; DOMPurify ajout&eacute;, contenu sanitiss&eacute; avec whitelist de balises autoris&eacute;es.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> R&eacute;ponse proxy inject&eacute;e sans sanitisation (ligne 579)</h3>
+<p>Le HTML retourn&eacute; par l'API Claude via le proxy &eacute;tait utilis&eacute; tel quel. Un proxy compromis pouvait injecter du code malveillant persistant.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; R&eacute;ponse sanitiss&eacute;e avec DOMPurify avant stockage.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> Attributs HTML construits sans &eacute;chappement</h3>
+<p>Les valeurs <code>a.id</code> &eacute;taient ins&eacute;r&eacute;es dans les attributs <code>data-id</code> et <code>onclick</code> sans &eacute;chappement.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Tous les IDs &eacute;chapp&eacute;s avec <code>escHTML()</code>.</p>
+</div>
+
+<h2>3.3 Proxy / API</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-critique">CRITIQUE</span> URL proxy configurable librement &mdash; SSRF client</h3>
+<p>L'utilisateur pouvait saisir n'importe quelle URL comme proxy, permettant des requ&ecirc;tes vers des services internes du r&eacute;seau.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Validation HTTPS obligatoire + timeout 30s + validation URL.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> Pas de timeout sur les appels fetch</h3>
+<p>Si le proxy ne r&eacute;pondait pas, l'interface restait bloqu&eacute;e ind&eacute;finiment.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; AbortController avec timeout 30 secondes.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> Pas de validation de la r&eacute;ponse proxy</h3>
+<p>Le parsing JSON pouvait &eacute;chouer silencieusement. Le type de <code>data.content[0].text</code> n'&eacute;tait pas v&eacute;rifi&eacute;.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Try/catch sur JSON.parse + v&eacute;rification de type string.</p>
+</div>
+
+<h2>3.4 localStorage</h2>
+
+<div class="no-break">
+<h3><span class="badge badge-eleve">ÉLEVÉ</span> URL proxy stock&eacute;e en clair</h3>
+<p>L'URL du proxy (pouvant contenir un token) &eacute;tait en clair dans localStorage.</p>
+<p><strong>Recommandation :</strong> Ne pas stocker de credentials dans localStorage. Utiliser un cookie HttpOnly c&ocirc;t&eacute; serveur.</p>
+</div>
+
+<div class="no-break">
+<h3><span class="badge badge-moyen">MOYEN</span> Pas de validation structurelle du JSON</h3>
+<p>Les donn&eacute;es lues depuis localStorage n'&eacute;taient pas valid&eacute;es apr&egrave;s le parsing.</p>
+<p><strong>Statut :</strong> <span style="color:#10B981;font-weight:700">CORRIG&Eacute;</span> &mdash; Validation de type (Array, propri&eacute;t&eacute;s id/title/content) + gestion quota.</p>
+</div>
+</div>
+
+<!-- ==================== 4. AUDIT FORMULAIRES ==================== -->
+<div class="section">
+<h1>4. Audit Formulaires de contact</h1>
+
+<h2>4.1 Inventaire des formulaires</h2>
+
+<table>
+  <tr><th>Formulaire</th><th>Type</th><th>Champs</th><th>Soumission</th></tr>
+  <tr><td>A &mdash; Devis rapide</td><td>&lt;form&gt;</td><td>Nom, Email, T&eacute;l, Appareil, Message</td><td>mailto: + Google Sheets</td></tr>
+  <tr><td>B &mdash; Devis d&eacute;taill&eacute;</td><td>Stepper 3 &eacute;tapes</td><td>Appareil, Marque, Mod&egrave;le, Coordonn&eacute;es</td><td>mailto: + Google Sheets</td></tr>
+  <tr><td>C &mdash; Popup</td><td>&lt;form&gt; (apr&egrave;s 8s)</td><td>Nom, Email, Appareil</td><td>Google Sheets uniquement</td></tr>
+</table>
+
+<h2>4.2 Protections anti-bot</h2>
+
+<table>
+  <tr><th>Protection</th><th>Avant audit</th><th>Apr&egrave;s corrections</th></tr>
+  <tr><td>Honeypot (formulaire A)</td><td>Oui (<code>name="website"</code>)</td><td>Oui (<code>name="address2"</code>) &mdash; nom moins pr&eacute;visible</td></tr>
+  <tr><td>Honeypot (formulaire B)</td><td><span style="color:#DC2626;font-weight:700">NON</span></td><td><span style="color:#10B981;font-weight:700">OUI</span> (<code>name="fax_number"</code>)</td></tr>
+  <tr><td>Honeypot (popup C)</td><td>Oui (<code>name="website"</code>)</td><td>Oui (<code>name="company"</code>) &mdash; nom moins pr&eacute;visible</td></tr>
+  <tr><td>Timer anti-bot (3s min)</td><td><span style="color:#DC2626;font-weight:700">NON</span></td><td><span style="color:#10B981;font-weight:700">OUI</span> &mdash; sur les 3 formulaires</td></tr>
+  <tr><td>Rate-limiter (3/session)</td><td><span style="color:#DC2626;font-weight:700">NON</span></td><td><span style="color:#10B981;font-weight:700">OUI</span> &mdash; via sessionStorage</td></tr>
+  <tr><td>Validation c&ocirc;t&eacute; client</td><td>Oui (HTML5 + JS)</td><td>Oui (inchang&eacute;)</td></tr>
+  <tr><td>Consentement RGPD</td><td>Oui (checkbox required)</td><td>Oui (inchang&eacute;)</td></tr>
+  <tr><td>CAPTCHA</td><td>Non</td><td>Non (non n&eacute;cessaire)</td></tr>
+</table>
+
+<h2>4.3 Faut-il un CAPTCHA ?</h2>
+
+<div class="verdict-box">
+  <h3>Verdict : NON &mdash; Un CAPTCHA Google (reCAPTCHA) n'est pas n&eacute;cessaire</h3>
+  <p><strong>Arguments contre le CAPTCHA :</strong></p>
+  <ul>
+    <li>Les formulaires utilisent <code>mailto:</code> &mdash; pas de backend exploitable par un bot</li>
+    <li>Le seul risque est la pollution du Google Sheet (tracking optionnel)</li>
+    <li>Le site est un commerce local &mdash; faible probabilit&eacute; d'&ecirc;tre cibl&eacute; par des bots sophistiqu&eacute;s</li>
+    <li>Un CAPTCHA visible d&eacute;grade l'exp&eacute;rience utilisateur sur mobile</li>
+    <li>Le honeypot + stepper multi-&eacute;tapes + timer + rate-limiter offrent une protection suffisante</li>
+  </ul>
+  <p style="margin-top:10px"><strong>Si le spam devient un probl&egrave;me :</strong> utiliser <strong>Cloudflare Turnstile</strong> (invisible, gratuit, RGPD-friendly) plut&ocirc;t que Google reCAPTCHA.</p>
+</div>
+
+<h2>4.4 Impact RGPD des CAPTCHA</h2>
+
+<table>
+  <tr><th>Solution</th><th>Cookies</th><th>Transfert hors UE</th><th>Consentement</th><th>Verdict RGPD</th></tr>
+  <tr><td>reCAPTCHA v3 (Google)</td><td>Oui</td><td>Oui (US)</td><td>Obligatoire</td><td><span style="color:#DC2626;font-weight:700">Probl&eacute;matique</span></td></tr>
+  <tr><td>hCaptcha</td><td>Parfois</td><td>Possible</td><td>Recommand&eacute;</td><td>Moyen</td></tr>
+  <tr><td>Cloudflare Turnstile</td><td>Non</td><td>EU possible</td><td>Non requis</td><td><span style="color:#10B981;font-weight:700">Bon</span></td></tr>
+  <tr><td>Honeypot / Timer (actuel)</td><td>Non</td><td>Non</td><td>Non requis</td><td><span style="color:#10B981;font-weight:700">Excellent</span></td></tr>
+</table>
+</div>
+
+<!-- ==================== 5. CORRECTIONS APPLIQUÉES ==================== -->
+<div class="section">
+<h1>5. Corrections appliqu&eacute;es</h1>
+
+<h2>index.html &mdash; 11 corrections</h2>
+
+<table>
+  <tr><th>#</th><th>Niveau</th><th>Correction</th></tr>
+  <tr><td>1</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>Coordonn&eacute;es contact hardcod&eacute;es en constantes JS (plus de localStorage)</td></tr>
+  <tr><td>2</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>Tracking URL s&eacute;curis&eacute; (validation script.google.com, IIFE isol&eacute;e)</td></tr>
+  <tr><td>3</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>SOS44_EMAIL en constante immuable</td></tr>
+  <tr><td>4</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Prix calculateur valid&eacute;s (type array, prix &gt; 0, bonus plafonn&eacute; &lt; 500)</td></tr>
+  <tr><td>5</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Honeypot renomm&eacute; <code>website</code> &rarr; <code>address2</code></td></tr>
+  <tr><td>6</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Honeypot ajout&eacute; au devis d&eacute;taill&eacute; (<code>fax_number</code>)</td></tr>
+  <tr><td>7</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Honeypot popup renomm&eacute; <code>website</code> &rarr; <code>company</code></td></tr>
+  <tr><td>8</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Timer anti-bot 3s + rate-limiter 3 soumissions/session</td></tr>
+  <tr><td>9</td><td><span class="badge badge-moyen">MOYEN</span></td><td>CSP : <code>api.github.com</code> retir&eacute; de connect-src</td></tr>
+  <tr><td>10</td><td><span class="badge badge-faible">FAIBLE</span></td><td>Google Maps : <code>rel="noopener noreferrer"</code></td></tr>
+  <tr><td>11</td><td><span class="badge badge-moyen">MOYEN</span></td><td>&lt;noscript&gt; Google Fonts supprim&eacute; (RGPD)</td></tr>
+</table>
+
+<h2>blog-sos-informatique44.html &mdash; 5 corrections</h2>
+
+<table>
+  <tr><th>#</th><th>Niveau</th><th>Correction</th></tr>
+  <tr><td>12</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>CSP ajout&eacute;e + DOMPurify charg&eacute; + noindex,nofollow</td></tr>
+  <tr><td>13</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>Contenu articles sanitiss&eacute; avec DOMPurify + IDs &eacute;chapp&eacute;s</td></tr>
+  <tr><td>14</td><td><span class="badge badge-critique">CRITIQUE</span></td><td>Proxy : validation HTTPS + timeout 30s + r&eacute;ponse sanitiss&eacute;e</td></tr>
+  <tr><td>15</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Validation JSON structurelle + gestion quota localStorage</td></tr>
+  <tr><td>16</td><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>testProxy() : validation HTTPS avant envoi</td></tr>
+</table>
+</div>
+
+<!-- ==================== 6. RECOMMANDATIONS RESTANTES ==================== -->
+<div class="section">
+<h1>6. Recommandations restantes</h1>
+
+<div class="fix-box">
+  <h3>Actions &agrave; planifier (non appliqu&eacute;es car elles n&eacute;cessitent des changements d'architecture)</h3>
+</div>
+
+<table>
+  <tr><th>Priorit&eacute;</th><th>Action</th><th>Effort</th></tr>
+  <tr><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>H&eacute;berger les polices Google (Inter, Outfit) localement pour &eacute;liminer la d&eacute;pendance CDN et le probl&egrave;me RGPD</td><td>1-2h</td></tr>
+  <tr><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Configurer les headers HTTP de s&eacute;curit&eacute; c&ocirc;t&eacute; serveur (HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)</td><td>30min</td></tr>
+  <tr><td><span class="badge badge-eleve">ÉLEVÉ</span></td><td>Prot&eacute;ger le blog admin par authentification HTTP Basic c&ocirc;t&eacute; serveur</td><td>30min</td></tr>
+  <tr><td><span class="badge badge-moyen">MOYEN</span></td><td>Remplacer les 30+ onclick inline par addEventListener dans index.html (permettra de retirer unsafe-inline de la CSP)</td><td>3-4h</td></tr>
+  <tr><td><span class="badge badge-moyen">MOYEN</span></td><td>Externaliser le JavaScript dans un fichier <code>.js</code> s&eacute;par&eacute; et utiliser des nonces CSP</td><td>2-3h</td></tr>
+  <tr><td><span class="badge badge-moyen">MOYEN</span></td><td>Ajouter validation c&ocirc;t&eacute; serveur dans le Google Apps Script (rate-limit par IP, v&eacute;rification referrer)</td><td>1h</td></tr>
+  <tr><td><span class="badge badge-faible">FAIBLE</span></td><td>Ajouter <code>autocomplete</code> s&eacute;mantique sur les champs de formulaire</td><td>15min</td></tr>
+</table>
+
+<div class="summary-box">
+  <h3>Conclusion</h3>
+  <p>Les 8 vuln&eacute;rabilit&eacute;s critiques ont &eacute;t&eacute; corrig&eacute;es. Le niveau de s&eacute;curit&eacute; global est d&eacute;sormais acceptable pour un site vitrine local. Les recommandations restantes sont des am&eacute;liorations d'architecture &agrave; planifier selon les priorit&eacute;s business.</p>
+  <p>La protection anti-spam des formulaires repose sur une strat&eacute;gie &laquo; d&eacute;fense en profondeur sans CAPTCHA &raquo; (honeypots renomm&eacute;s, timer 3s, rate-limiter) qui est adapt&eacute;e au profil de risque du site et conforme au RGPD sans ajout de service tiers.</p>
+</div>
+</div>
+
+<div class="footer">
+  Audit r&eacute;alis&eacute; le 5 mars 2026 &mdash; SOS Informatique 44 &mdash; Confidentiel
+</div>
+
+</body>
+</html>

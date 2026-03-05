@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https:; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta name="robots" content="noindex,nofollow">
+<title>Blog SEO — SOS Informatique 44 | Générateur d'articles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<style>
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --text: #0F172A;
+  --text-secondary: #475569;
+  --border: #E2E8F0;
+  --accent: #0EA5E9;
+  --accent-dark: #0284C7;
+  --accent-light: #E0F2FE;
+  --green: #10B981;
+  --green-dark: #059669;
+  --green-light: #D1FAE5;
+  --whatsapp: #25D366;
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
+  --shadow-md: 0 4px 12px rgba(15,23,42,.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{cursor:pointer;font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Layout */
+.app-header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  position:sticky;top:0;z-index:100;
+}
+.app-logo{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--text)}
+.app-logo svg{color:var(--accent)}
+.mode-toggle{display:flex;align-items:center;gap:8px;font-size:.875rem}
+.mode-toggle label{font-weight:500;color:var(--text-secondary)}
+.mode-switch{position:relative;width:44px;height:24px;display:inline-block}
+.mode-switch input{opacity:0;width:0;height:0}
+.mode-slider{position:absolute;inset:0;background:var(--border);border-radius:12px;transition:.3s;cursor:pointer}
+.mode-slider::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.3s;box-shadow:var(--shadow-sm)}
+.mode-switch input:checked+.mode-slider{background:var(--accent)}
+.mode-switch input:checked+.mode-slider::before{transform:translateX(20px)}
+
+.main-layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 60px)}
+@media(max-width:900px){.main-layout{grid-template-columns:1fr}.sidebar{position:fixed;left:-100%;top:60px;bottom:0;width:320px;z-index:99;transition:left .3s}.sidebar.open{left:0}.sidebar-toggle{display:flex!important}}
+
+/* Sidebar */
+.sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  padding:24px;
+  overflow-y:auto;
+  display:flex;flex-direction:column;gap:20px;
+}
+.sidebar-toggle{display:none;position:fixed;bottom:24px;left:24px;z-index:100;background:var(--accent);color:#fff;border:none;width:48px;height:48px;border-radius:50%;font-size:1.25rem;box-shadow:var(--shadow-md);align-items:center;justify-content:center}
+.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.stat-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-icon-blue{background:var(--accent-light);color:var(--accent)}
+.stat-icon-green{background:var(--green-light);color:var(--green-dark)}
+.stat-value{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;line-height:1}
+.stat-label{font-size:.75rem;color:var(--text-secondary)}
+
+.sidebar h3{font-family:var(--font-heading);font-size:.9375rem;color:var(--text-secondary);margin-bottom:4px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.875rem;border:none;transition:background .2s,transform .15s;width:100%}
+.btn:hover{transform:translateY(-1px);text-decoration:none}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:var(--accent-dark)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dark)}
+.btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent)}.btn-outline:hover{background:var(--accent-light)}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#B91C1C}
+.btn-sm{padding:6px 12px;font-size:.8125rem}
+
+.proxy-config{margin-top:8px}
+.proxy-config label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.proxy-config input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8125rem;font-family:var(--font-mono);background:var(--bg);color:var(--text)}
+.proxy-config input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.proxy-status{margin-top:6px;font-size:.75rem;padding:4px 8px;border-radius:4px;display:none}
+.proxy-status.ok{display:block;background:var(--green-light);color:var(--green-dark)}
+.proxy-status.err{display:block;background:var(--danger-light);color:var(--danger)}
+.security-note{background:var(--warning-light);border:1px solid var(--warning);border-radius:var(--radius-sm);padding:12px;font-size:.75rem;color:#92400E;margin-top:12px}
+.security-note strong{display:block;margin-bottom:2px}
+
+/* Content */
+.content{padding:24px;overflow-y:auto}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.content-header h2{font-family:var(--font-heading);font-size:1.5rem}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border-radius:20px;font-size:.8125rem;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Month group */
+.month-group{margin-bottom:32px}
+.month-group h3{font-family:var(--font-heading);font-size:1.125rem;color:var(--text-secondary);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* Article card */
+.article-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:12px;
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:box-shadow .2s;
+}
+.article-card:hover{box-shadow:var(--shadow-md)}
+.article-header{
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  gap:12px;
+}
+.article-header:hover{background:var(--bg)}
+.article-meta{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.article-meta h4{font-family:var(--font-heading);font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.article-meta-info{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.article-date{font-size:.75rem;color:var(--text-secondary)}
+.article-tag{font-size:.6875rem;padding:2px 8px;border-radius:10px;font-weight:500}
+.tag-pc{background:var(--accent-light);color:var(--accent-dark)}
+.tag-mac{background:#F3E8FF;color:#7C3AED}
+.tag-phone{background:var(--green-light);color:var(--green-dark)}
+.tag-security{background:var(--danger-light);color:var(--danger)}
+.tag-data{background:var(--warning-light);color:#92400E}
+.tag-qualire{background:var(--green-light);color:var(--green-dark)}
+.tag-micro{background:#FEF3C7;color:#92400E}
+.tag-trends{background:#E0F2FE;color:#0369A1}
+.article-actions{display:flex;gap:6px;flex-shrink:0}
+.article-actions button{background:none;border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text-secondary);font-size:.75rem;transition:all .2s}
+.article-actions button:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-light)}
+.article-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border)}
+.article-body.open{display:block}
+.article-body .article-content{font-size:.9375rem;line-height:1.7;color:var(--text)}
+.article-body .article-content h2{font-family:var(--font-heading);font-size:1.25rem;margin:20px 0 8px;color:var(--text)}
+.article-body .article-content h3{font-family:var(--font-heading);font-size:1.0625rem;margin:16px 0 6px;color:var(--text)}
+.article-body .article-content p{margin-bottom:10px}
+.article-body .article-content ul{margin:8px 0 12px 20px;list-style:disc}
+.article-body .article-content a{color:var(--accent)}
+.article-expand{color:var(--accent);font-size:.8125rem;display:flex;align-items:center;gap:4px}
+
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
+.empty-state svg{color:var(--border);margin-bottom:16px}
+.empty-state h3{font-family:var(--font-heading);color:var(--text);margin-bottom:8px}
+.empty-state p{font-size:.875rem;max-width:400px;margin:0 auto}
+
+/* Loading */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(248,250,252,.8);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-overlay.active{display:flex}
+.spinner{width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-weight:600;color:var(--text)}
+.loading-sub{font-size:.875rem;color:var(--text-secondary)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;box-shadow:var(--shadow-md);z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+
+@media(max-width:600px){
+  .content{padding:16px}
+  .article-header{flex-direction:column;align-items:flex-start}
+  .article-actions{align-self:flex-end}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="app-header">
+  <div class="app-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+    Blog SEO — SOS Informatique 44
+  </div>
+  <div class="mode-toggle">
+    <label for="modeSwitch">Mode</label>
+    <span style="font-size:.8125rem;color:var(--text-secondary)">Demo</span>
+    <label class="mode-switch">
+      <input type="checkbox" id="modeSwitch">
+      <span class="mode-slider"></span>
+    </label>
+    <span style="font-size:.8125rem;color:var(--text-secondary)">Pro</span>
+  </div>
+</header>
+
+<div class="main-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <h3>Statistiques</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+          </div>
+          <div>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label">Articles total</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div>
+            <div class="stat-value" id="statLastMonth">—</div>
+            <div class="stat-label">Dernier mois généré</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3>Actions</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        <button class="btn btn-accent" onclick="generateArticles()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Générer 5 articles du mois
+        </button>
+        <button class="btn btn-green" onclick="downloadSitemap()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Télécharger sitemap.xml
+        </button>
+        <button class="btn btn-outline" onclick="exportHTML()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Exporter HTML (tous)
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="purgeAll()" style="margin-top:8px">Purger tous les articles</button>
+      </div>
+    </div>
+
+    <!-- Proxy config (Pro mode) -->
+    <div id="proxyConfig" class="proxy-config" style="display:none">
+      <h3>Configuration Proxy (Mode Pro)</h3>
+      <label for="proxyUrl">URL du proxy</label>
+      <input type="url" id="proxyUrl" placeholder="https://votre-serveur.com/api/claude" value="">
+      <button class="btn btn-outline btn-sm" onclick="testProxy()" style="margin-top:8px;width:auto">Tester la connexion</button>
+      <div id="proxyStatus" class="proxy-status"></div>
+      <div class="security-note">
+        <strong>Sécurité API</strong>
+        Une clé API Claude ne doit jamais être exposée dans le front-end. Le mode Pro envoie les requêtes à votre endpoint proxy qui gère la clé côté serveur.
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="content" id="content">
+    <div class="content-header">
+      <h2>Articles du blog</h2>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="pc">PC Windows</button>
+        <button class="filter-btn" data-filter="mac">Apple</button>
+        <button class="filter-btn" data-filter="phone">iPhone/iPad</button>
+        <button class="filter-btn" data-filter="security">Sécurité</button>
+        <button class="filter-btn" data-filter="data">Données</button>
+        <button class="filter-btn" data-filter="qualire">QualiRépare</button>
+        <button class="filter-btn" data-filter="micro">Micro-soudure</button>
+        <button class="filter-btn" data-filter="trends">Tendances</button>
+      </div>
+    </div>
+    <div id="articlesContainer"></div>
+  </main>
+</div>
+
+<!-- Sidebar toggle (mobile) -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le panneau">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+</button>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Génération en cours…</div>
+  <div class="loading-sub" id="loadingSub">Article 1 / 5</div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== CONFIG ===== */
+const STORAGE_KEYS = {
+  articles: 'sos44_blog_articles',
+  usedTopics: 'sos44_blog_used_topics',
+  settings: 'sos44_blog_settings',
+};
+
+const WA_LINK = 'https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration';
+const PHONE = '02 85 52 38 14';
+const SITE_URL = 'https://sos-informatique44.fr';
+
+/* ===== TOPICS (30) ===== */
+const ALL_TOPICS = [
+  {id:'pc-lenteur',cat:'pc',title:'Pourquoi mon PC Windows est devenu lent ?',slug:'pc-windows-lent-solutions'},
+  {id:'pc-ecranbleu',cat:'pc',title:'Écran bleu sur PC : causes et solutions',slug:'ecran-bleu-pc-causes-solutions'},
+  {id:'pc-ssd',cat:'pc',title:'Upgrade SSD : redonnez vie à votre PC',slug:'upgrade-ssd-pc-portable'},
+  {id:'pc-nettoyage',cat:'pc',title:'Nettoyage interne PC : évitez la surchauffe',slug:'nettoyage-interne-pc-surchauffe'},
+  {id:'mac-surchauffe',cat:'mac',title:'MacBook qui surchauffe : que faire ?',slug:'macbook-surchauffe-solutions'},
+  {id:'mac-lent',cat:'mac',title:'Votre Mac est lent ? Nos solutions',slug:'mac-lent-solutions-optimisation'},
+  {id:'mac-ecran',cat:'mac',title:'Écran MacBook cassé : réparation vs remplacement',slug:'ecran-macbook-casse-reparation'},
+  {id:'mac-imac',cat:'mac',title:'iMac vs MacBook : quel Mac choisir ?',slug:'imac-vs-macbook-comparatif'},
+  {id:'iphone-batterie',cat:'phone',title:'Batterie iPhone qui se décharge vite : solutions',slug:'batterie-iphone-decharge-rapide'},
+  {id:'iphone-ecran',cat:'phone',title:'Écran iPhone cassé : faut-il le réparer ?',slug:'ecran-iphone-casse-reparation'},
+  {id:'iphone-connecteur',cat:'phone',title:'Connecteur de charge iPhone : réparation',slug:'connecteur-charge-iphone-reparation'},
+  {id:'ipad-entretien',cat:'phone',title:'Entretien iPad : conseils de pro',slug:'entretien-ipad-conseils'},
+  {id:'virus-protection',cat:'security',title:'Protéger son PC des virus en 2024',slug:'proteger-pc-virus-malware'},
+  {id:'ransomware',cat:'security',title:'Ransomware : comment réagir ?',slug:'ransomware-reagir-proteger'},
+  {id:'wifi-securite',cat:'security',title:'Sécuriser son réseau Wi-Fi à la maison',slug:'securiser-reseau-wifi-maison'},
+  {id:'phishing',cat:'security',title:'Phishing : reconnaître les arnaques email',slug:'phishing-reconnaitre-arnaques'},
+  {id:'data-recup',cat:'data',title:'Récupération de données : ce qu\'il faut savoir',slug:'recuperation-donnees-disque-dur'},
+  {id:'data-sauvegarde',cat:'data',title:'Sauvegarde de données : les bonnes pratiques',slug:'sauvegarde-donnees-bonnes-pratiques'},
+  {id:'qr-bonus',cat:'qualire',title:'Bonus Réparation 50 € : comment en profiter',slug:'bonus-reparation-50-euros-qualire'},
+  {id:'qr-reparer',cat:'qualire',title:'Réparer plutôt que jeter : un geste durable',slug:'reparer-plutot-que-jeter-ecologie'},
+  {id:'micro-cm',cat:'micro',title:'Micro-soudure : sauver une carte mère',slug:'micro-soudure-carte-mere-reparation'},
+  {id:'micro-puces',cat:'micro',title:'Remplacement de puces : la micro-soudure expliquée',slug:'remplacement-puces-micro-soudure'},
+  {id:'trend-w11',cat:'trends',title:'Windows 11 : faut-il mettre à jour ?',slug:'windows-11-mise-a-jour-compatibilite'},
+  {id:'trend-gamer',cat:'trends',title:'PC Gamer : optimiser ses performances',slug:'pc-gamer-optimiser-performances'},
+  {id:'trend-recond',cat:'trends',title:'Reconditionné vs neuf : que choisir ?',slug:'reconditionne-vs-neuf-comparatif'},
+  {id:'trend-usbc',cat:'trends',title:'USB-C : tout savoir sur le connecteur universel',slug:'usb-c-connecteur-universel-guide'},
+  {id:'pc-ventilateur',cat:'pc',title:'Ventilateur PC bruyant : causes et solutions',slug:'ventilateur-pc-bruyant-solutions'},
+  {id:'mac-batterie',cat:'mac',title:'Batterie MacBook : quand la remplacer ?',slug:'batterie-macbook-remplacement'},
+  {id:'iphone-eau',cat:'phone',title:'iPhone tombé dans l\'eau : les bons réflexes',slug:'iphone-tombe-eau-que-faire'},
+  {id:'data-ssd',cat:'data',title:'SSD en panne : peut-on récupérer les données ?',slug:'ssd-panne-recuperation-donnees'}
+];
+
+const CAT_LABELS = {pc:'PC Windows',mac:'Apple',phone:'iPhone/iPad',security:'Sécurité',data:'Données',qualire:'QualiRépare',micro:'Micro-soudure',trends:'Tendances'};
+const CAT_TAG_CLASS = {pc:'tag-pc',mac:'tag-mac',phone:'tag-phone',security:'tag-security',data:'tag-data',qualire:'tag-qualire',micro:'tag-micro',trends:'tag-trends'};
+
+const CITIES = ['La Chapelle-sur-Erdre','Nantes Nord','Nantes','Carquefou','Sucé-sur-Erdre','Sainte-Luce-sur-Loire','Orvault','Treillières','Grandchamp-des-Fontaines','Petit-Mars'];
+const SERVICE_URLS = [
+  SITE_URL+'/#services',
+  SITE_URL+'/#bonus',
+  SITE_URL+'/#contact',
+  SITE_URL+'/#comparatif',
+  SITE_URL+'/#calculateur'
+];
+
+/* ===== STORAGE ===== */
+function getArticles() {
+  try {
+    var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.articles));
+    if (!Array.isArray(data)) return [];
+    return data.filter(function(a) { return typeof a.id === 'string' && typeof a.title === 'string' && typeof a.content === 'string'; });
+  } catch(e) { return []; }
+}
+function saveArticles(arr) {
+  try { localStorage.setItem(STORAGE_KEYS.articles, JSON.stringify(arr)); }
+  catch(e) { toast('Stockage plein — supprimez des articles.'); }
+}
+function getUsedTopics() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.usedTopics)) || []; } catch(e) { return []; }
+}
+function saveUsedTopics(arr) { localStorage.setItem(STORAGE_KEYS.usedTopics, JSON.stringify(arr)); }
+function getSettings() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.settings)) || {}; } catch(e) { return {}; }
+}
+function saveSettings(obj) { localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(obj)); }
+
+/* ===== UI HELPERS ===== */
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function showLoading(text, sub) {
+  document.getElementById('loadingText').textContent = text || 'Génération en cours…';
+  document.getElementById('loadingSub').textContent = sub || '';
+  document.getElementById('loadingOverlay').classList.add('active');
+}
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+
+/* ===== RENDER ===== */
+var currentFilter = 'all';
+
+function renderArticles() {
+  var articles = getArticles();
+  var container = document.getElementById('articlesContainer');
+  var filtered = currentFilter === 'all' ? articles : articles.filter(function(a) { return a.category === currentFilter; });
+
+  // Stats
+  document.getElementById('statTotal').textContent = articles.length;
+  if (articles.length > 0) {
+    var sorted = articles.slice().sort(function(a,b) { return new Date(b.date) - new Date(a.date); });
+    var d = new Date(sorted[0].date);
+    document.getElementById('statLastMonth').textContent = d.toLocaleDateString('fr-FR', {month:'short',year:'numeric'});
+  } else {
+    document.getElementById('statLastMonth').textContent = '—';
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg><h3>Aucun article</h3><p>Cliquez sur "Générer 5 articles du mois" pour créer vos premiers articles SEO optimisés.</p></div>';
+    return;
+  }
+
+  // Group by month
+  var groups = {};
+  filtered.forEach(function(a) {
+    var d = new Date(a.date);
+    var key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(a);
+  });
+
+  var sortedKeys = Object.keys(groups).sort().reverse();
+  var html = '';
+  sortedKeys.forEach(function(key) {
+    var d = new Date(key + '-01');
+    var label = d.toLocaleDateString('fr-FR', {month:'long',year:'numeric'});
+    label = label.charAt(0).toUpperCase() + label.slice(1);
+    html += '<div class="month-group"><h3>' + label + ' (' + groups[key].length + ' articles)</h3>';
+    groups[key].forEach(function(a) {
+      var tagClass = CAT_TAG_CLASS[a.category] || 'tag-pc';
+      var catLabel = CAT_LABELS[a.category] || a.category;
+      html += '<div class="article-card" data-id="' + escHTML(a.id) + '">';
+      html += '<div class="article-header" onclick="toggleArticle(\'' + escHTML(a.id) + '\')">';
+      html += '<div class="article-meta"><h4>' + escHTML(a.title) + '</h4>';
+      html += '<div class="article-meta-info"><span class="article-date">' + new Date(a.date).toLocaleDateString('fr-FR') + '</span>';
+      html += '<span class="article-tag ' + tagClass + '">' + catLabel + '</span></div></div>';
+      html += '<div class="article-actions"><button onclick="event.stopPropagation();deleteArticle(\'' + escHTML(a.id) + '\')" title="Supprimer">&#x2715;</button></div>';
+      html += '<span class="article-expand"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></span>';
+      html += '</div>';
+      html += '<div class="article-body" id="body-' + escHTML(a.id) + '"><div class="article-content">' + DOMPurify.sanitize(a.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div></div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function toggleArticle(id) {
+  var el = document.getElementById('body-' + id);
+  if (el) el.classList.toggle('open');
+}
+function deleteArticle(id) {
+  if (!confirm('Supprimer cet article ?')) return;
+  var articles = getArticles().filter(function(a) { return a.id !== id; });
+  saveArticles(articles);
+  renderArticles();
+  toast('Article supprimé');
+}
+function purgeAll() {
+  if (!confirm('Supprimer TOUS les articles ? Cette action est irréversible.')) return;
+  saveArticles([]);
+  saveUsedTopics([]);
+  renderArticles();
+  toast('Tous les articles supprimés');
+}
+function escHTML(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+/* ===== FILTER ===== */
+document.getElementById('filterBar').addEventListener('click', function(e) {
+  var btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentFilter = btn.dataset.filter;
+  renderArticles();
+});
+
+/* ===== TOPIC SELECTION ===== */
+function pickTopics(count) {
+  var used = getUsedTopics();
+  var available = ALL_TOPICS.filter(function(t) { return used.indexOf(t.id) === -1; });
+  if (available.length < count) {
+    // Reset used topics (cycle)
+    saveUsedTopics([]);
+    available = ALL_TOPICS.slice();
+  }
+  // Shuffle
+  for (var i = available.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = available[i]; available[i] = available[j]; available[j] = tmp;
+  }
+  return available.slice(0, count);
+}
+
+/* ===== DEMO ARTICLE GENERATION ===== */
+function generateDemoArticle(topic) {
+  var c1 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  var c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  while (c2 === c1) c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  var serviceUrl = SERVICE_URLS[Math.floor(Math.random()*SERVICE_URLS.length)];
+
+  var content = '<h2>' + topic.title + '</h2>';
+  content += '<p>Vous habitez à <strong>' + c1 + '</strong> ou <strong>' + c2 + '</strong> et vous rencontrez un problème informatique ? ';
+  content += 'Chez <strong>SOS Informatique 44</strong>, notre atelier situé à La Chapelle-sur-Erdre, en Loire-Atlantique (44), ';
+  content += 'est spécialisé dans la réparation de PC, Mac, smartphones et tablettes.</p>';
+
+  content += '<h3>Le problème expliqué simplement</h3>';
+  content += '<p>Ce type de panne est fréquent et touche de nombreux appareils. ';
+  content += 'Nos techniciens diagnostiquent gratuitement votre appareil pour identifier la cause exacte du problème. ';
+  content += 'Contrairement au remplacement complet, la réparation au composant permet de réduire les coûts tout en prolongeant la durée de vie de votre matériel.</p>';
+
+  content += '<h3>Notre méthode de réparation</h3>';
+  content += '<p>À notre atelier de La Chapelle-sur-Erdre (à proximité de Nantes Nord), nous procédons étape par étape :</p>';
+  content += '<ul><li>Diagnostic complet gratuit de votre appareil</li>';
+  content += '<li>Devis transparent avant toute intervention</li>';
+  content += '<li>Réparation au composant (micro-soudure si nécessaire)</li>';
+  content += '<li>Tests approfondis après réparation</li>';
+  content += '<li>Garantie 90 jours minimum sur pièces et main d\'œuvre</li></ul>';
+
+  content += '<h3>Pourquoi choisir SOS Informatique 44 ?</h3>';
+  content += '<p>Nous intervenons pour les particuliers et les entreprises de ' + c1 + ', ' + c2 + ' et de toute l\'agglomération nantaise. ';
+  content += 'Notre expertise en micro-soudure nous permet de réparer des cartes mères que d\'autres considèrent comme irréparables. ';
+  content += 'La confidentialité de vos données est garantie à chaque intervention.</p>';
+
+  content += '<p>Consultez <a href="' + serviceUrl + '">nos services de réparation</a> pour en savoir plus.</p>';
+
+  content += '<h3>Profitez du Bonus Réparation QualiRépare</h3>';
+  content += '<p>Grâce au label <strong>QualiRépare</strong>, bénéficiez de <strong>50 € déduits immédiatement</strong> sur votre facture de réparation. ';
+  content += 'Aucune démarche à faire : le bonus est appliqué directement par notre atelier certifié.</p>';
+
+  content += '<p><strong>Contactez-nous dès maintenant :</strong></p>';
+  content += '<ul><li><a href="' + WA_LINK + '" target="_blank" rel="noopener">WhatsApp : 06 58 45 80 91</a></li>';
+  content += '<li>Téléphone : <a href="tel:0285523814">' + PHONE + '</a></li></ul>';
+
+  return content;
+}
+
+/* ===== PRO ARTICLE GENERATION ===== */
+function buildPrompt(topic) {
+  var c1 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  var c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  while (c2 === c1) c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+
+  return 'Rédige un article de blog SEO en français (500 à 650 mots) pour le site SOS Informatique 44 (réparation informatique à La Chapelle-sur-Erdre, Loire-Atlantique 44).\n\n' +
+    'Sujet : ' + topic.title + '\n' +
+    'Slug URL : ' + topic.slug + '\n\n' +
+    'Règles obligatoires :\n' +
+    '- Mots-clés locaux : La Chapelle-sur-Erdre, Nantes, Loire-Atlantique (44)\n' +
+    '- Cite au moins ces 2 villes : ' + c1 + ', ' + c2 + '\n' +
+    '- Rappelle le Bonus Réparation 50 € grâce au label QualiRépare en fin d\'article\n' +
+    '- CTA final : WhatsApp (06 58 45 80 91) et téléphone (02 85 52 38 14)\n' +
+    '- Inclus au moins 1 lien interne vers : ' + SITE_URL + '/#services\n' +
+    '- Style : clair, utile, concret, professionnel. Pas de promesses exagérées.\n' +
+    '- Format : HTML (h2, h3, p, ul/li, a). Pas de balise html/head/body, juste le contenu article.\n' +
+    '- Commence directement par un <h2> avec le titre de l\'article.';
+}
+
+async function generateProArticle(topic) {
+  var settings = getSettings();
+  var proxyUrl = settings.proxyUrl;
+  if (!proxyUrl) throw new Error('URL du proxy non configurée');
+  /* Validate proxy URL: must be HTTPS */
+  try { var _u = new URL(proxyUrl); if (_u.protocol !== 'https:') throw 0; } catch(e) { throw new Error('Le proxy doit utiliser HTTPS'); }
+
+  var prompt = buildPrompt(topic);
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 30000);
+  var resp;
+  try {
+    resp = await fetch(proxyUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2000,
+        messages: [{role: 'user', content: prompt}]
+      }),
+      signal: controller.signal
+    });
+  } finally { clearTimeout(timeout); }
+  if (!resp.ok) throw new Error('Erreur proxy : ' + resp.status);
+  var data;
+  try { data = await resp.json(); } catch(e) { throw new Error('Réponse proxy invalide (pas JSON)'); }
+  // Extract text from Claude Messages API response + sanitize
+  if (data.content && data.content[0] && typeof data.content[0].text === 'string') {
+    return DOMPurify.sanitize(data.content[0].text, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']});
+  }
+  throw new Error('Réponse invalide du proxy');
+}
+
+/* ===== GENERATE ===== */
+async function generateArticles() {
+  var isPro = document.getElementById('modeSwitch').checked;
+  var topics = pickTopics(5);
+  if (topics.length === 0) { toast('Aucun sujet disponible'); return; }
+
+  showLoading('Génération en cours…', 'Article 1 / ' + topics.length);
+  var articles = getArticles();
+  var used = getUsedTopics();
+  var now = new Date();
+  var generated = 0;
+
+  for (var i = 0; i < topics.length; i++) {
+    document.getElementById('loadingSub').textContent = 'Article ' + (i+1) + ' / ' + topics.length + (isPro ? ' (appel proxy…)' : ' (mode démo)');
+    var topic = topics[i];
+    var content = '';
+
+    try {
+      if (isPro) {
+        content = await generateProArticle(topic);
+      } else {
+        // Simulate delay for demo
+        await new Promise(function(r) { setTimeout(r, 400); });
+        content = generateDemoArticle(topic);
+      }
+
+      articles.push({
+        id: topic.id + '-' + Date.now() + '-' + i,
+        topicId: topic.id,
+        title: topic.title,
+        slug: topic.slug,
+        category: topic.cat,
+        date: now.toISOString(),
+        content: content
+      });
+      used.push(topic.id);
+      generated++;
+    } catch (err) {
+      console.error('Erreur génération:', err);
+      toast('Erreur : ' + err.message);
+    }
+  }
+
+  saveArticles(articles);
+  saveUsedTopics(used);
+  hideLoading();
+  renderArticles();
+  toast(generated + ' article(s) généré(s) avec succès');
+}
+
+/* ===== SITEMAP ===== */
+function downloadSitemap() {
+  var articles = getArticles();
+  var today = new Date().toISOString().slice(0,10);
+  var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+  // Static pages
+  var staticPages = [
+    {loc: SITE_URL + '/', priority: '1.0'},
+    {loc: SITE_URL + '/#services', priority: '0.9'},
+    {loc: SITE_URL + '/#bonus', priority: '0.8'},
+    {loc: SITE_URL + '/#contact', priority: '0.8'},
+    {loc: SITE_URL + '/blog/', priority: '0.8'}
+  ];
+  staticPages.forEach(function(p) {
+    xml += '  <url>\n    <loc>' + p.loc + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>' + p.priority + '</priority>\n  </url>\n';
+  });
+
+  // Articles
+  articles.forEach(function(a) {
+    xml += '  <url>\n    <loc>' + SITE_URL + '/blog/' + a.slug + '/</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n';
+  });
+
+  xml += '</urlset>';
+  download('sitemap.xml', xml, 'application/xml');
+  toast('Sitemap téléchargé');
+}
+
+/* ===== EXPORT HTML ===== */
+function exportHTML() {
+  var articles = getArticles();
+  if (articles.length === 0) { toast('Aucun article à exporter'); return; }
+
+  var html = '<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
+  html += '<title>Blog — SOS Informatique 44</title>';
+  html += '<style>body{font-family:Inter,sans-serif;max-width:800px;margin:0 auto;padding:20px;color:#0F172A;background:#F8FAFC;line-height:1.7}';
+  html += 'article{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:28px;margin-bottom:24px}';
+  html += 'h1{font-family:Outfit,sans-serif;font-size:2rem;margin-bottom:24px}';
+  html += 'h2{font-family:Outfit,sans-serif;font-size:1.5rem;color:#0F172A;margin-top:0}';
+  html += 'h3{font-family:Outfit,sans-serif;font-size:1.125rem}';
+  html += 'a{color:#0EA5E9}.meta{font-size:.8125rem;color:#475569;margin-bottom:12px}';
+  html += '</style></head><body>';
+  html += '<h1>Blog — SOS Informatique 44</h1>';
+  articles.forEach(function(a) {
+    html += '<article><div class="meta">' + new Date(a.date).toLocaleDateString('fr-FR') + ' — ' + (CAT_LABELS[a.category]||'') + '</div>';
+    html += a.content;
+    html += '</article>';
+  });
+  html += '</body></html>';
+  download('blog-sos-informatique44-export.html', html, 'text/html');
+  toast('Export HTML téléchargé');
+}
+
+function download(filename, content, type) {
+  var blob = new Blob([content], {type: type + ';charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===== MODE TOGGLE ===== */
+document.getElementById('modeSwitch').addEventListener('change', function() {
+  var pro = this.checked;
+  document.getElementById('proxyConfig').style.display = pro ? 'block' : 'none';
+  var settings = getSettings();
+  settings.mode = pro ? 'pro' : 'demo';
+  saveSettings(settings);
+  if (pro) {
+    var s = getSettings();
+    if (s.proxyUrl) document.getElementById('proxyUrl').value = s.proxyUrl;
+  }
+});
+
+document.getElementById('proxyUrl').addEventListener('change', function() {
+  var settings = getSettings();
+  settings.proxyUrl = this.value;
+  saveSettings(settings);
+});
+
+async function testProxy() {
+  var url = document.getElementById('proxyUrl').value;
+  var statusEl = document.getElementById('proxyStatus');
+  if (!url) { statusEl.className = 'proxy-status err'; statusEl.textContent = 'URL vide'; return; }
+  try { var _u = new URL(url); if (_u.protocol !== 'https:') { statusEl.className = 'proxy-status err'; statusEl.textContent = 'Le proxy doit utiliser HTTPS'; return; } } catch(e) { statusEl.className = 'proxy-status err'; statusEl.textContent = 'URL invalide'; return; }
+  statusEl.className = 'proxy-status'; statusEl.style.display = 'block'; statusEl.textContent = 'Test en cours…'; statusEl.style.background = '#F8FAFC'; statusEl.style.color = 'var(--text-secondary)';
+
+  try {
+    var resp = await fetch(url, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:10,messages:[{role:'user',content:'Dis "ok"'}]})});
+    if (resp.ok) {
+      statusEl.className = 'proxy-status ok'; statusEl.textContent = 'Connexion réussie';
+    } else {
+      statusEl.className = 'proxy-status err'; statusEl.textContent = 'Erreur ' + resp.status;
+    }
+  } catch(e) {
+    statusEl.className = 'proxy-status err'; statusEl.textContent = 'Échec : ' + e.message;
+  }
+}
+
+/* ===== MOBILE SIDEBAR ===== */
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ===== INIT ===== */
+(function() {
+  var settings = getSettings();
+  if (settings.mode === 'pro') {
+    document.getElementById('modeSwitch').checked = true;
+    document.getElementById('proxyConfig').style.display = 'block';
+    if (settings.proxyUrl) document.getElementById('proxyUrl').value = settings.proxyUrl;
+  }
+  renderArticles();
+})();
+</script>
+</body>
+</html>
