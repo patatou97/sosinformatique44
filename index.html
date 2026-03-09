@@ -31,7 +31,7 @@
   "geo":{"@type":"GeoCoordinates","latitude":47.298,"longitude":-1.554},
   "openingHoursSpecification":[
     {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"18:00"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"13:00"}
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","description":"Sur rendez-vous"}
   ],
   "hasOfferCatalog":{"@type":"OfferCatalog","name":"Services de réparation","itemListElement":[
     {"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation PC Windows"}},
@@ -1111,18 +1111,18 @@ ul{list-style:none}
 <!-- Navigation -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
   <div class="nav-inner">
-    <a href="#" class="nav-logo" aria-label="SOS Informatique 44 — Accueil">
-      <div class="nav-logo-icon">
+    <a href="#" class="nav-logo" id="siteLogo" aria-label="SOS Informatique 44 — Accueil">
+      <div class="nav-logo-icon" id="siteLogoIcon">
         <svg width="22" height="22" style="stroke:#fff"><use href="#i-desktop"/></svg>
       </div>
-      SOS Informatique 44
+      <span id="siteLogoText">SOS Informatique 44</span>
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.nextElementSibling.classList.contains('open'))">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
     <div class="nav-links">
       <a href="#services">Services</a>
-      <a href="#blog">Blog</a>
+      <a href="blog.html">Blog</a>
       <a href="#creation-web">Création web</a>
       <a href="#pourquoi">Pourquoi nous</a>
       <a href="#avis">Avis</a>
@@ -1205,7 +1205,7 @@ ul{list-style:none}
           </div>
           <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="btn btn-blue" style="width:100%;justify-content:center" target="_blank" rel="noopener noreferrer" data-wa>Prendre rendez-vous</a>
           <div class="hero-card-info">
-            <strong>Horaires :</strong> Lun–Ven 9h–18h / Sam 9h–13h<br>
+            <strong>Horaires :</strong> Lun–Ven 9h–18h / Sam sur rendez-vous<br>
             27 Rue de la Vrière, 44240 La Chapelle-sur-Erdre
           </div>
         </div>
@@ -1566,6 +1566,12 @@ ul{list-style:none}
 
       <!-- BLOG-ARTICLES-END -->
     </div>
+    <div style="text-align:center;margin-top:32px" class="reveal">
+      <a href="blog.html" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--blue);color:#fff;border-radius:var(--radius-xs);font-weight:700;font-size:.9375rem;text-decoration:none;transition:background .2s">
+        Voir tous les articles
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -1739,7 +1745,7 @@ ul{list-style:none}
         <div class="review-source"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Avis Google</div>
       </div>
     </div>
-    <div class="reviews-banner reveal">&#9733; 4.8/5 sur Google — 62 avis &middot; Uniquement des avis 5 étoiles sélectionnés</div>
+    <div class="reviews-banner reveal">&#9733; 4.8/5 sur Google — 62 avis</div>
   </div>
 </section>
 
@@ -2043,7 +2049,7 @@ ul{list-style:none}
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-logo">
+        <div class="footer-logo" id="footerLogo">
           <svg width="20" height="20" style="stroke:#0EA5E9"><use href="#i-desktop"/></svg>
           SOS Informatique 44
         </div>
@@ -2255,12 +2261,31 @@ var TRACKING_URL=(function(){try{var u=localStorage.getItem('sos44_tracking_url'
 
 function _trackSend(payload){if(!SOS44_CONSENT.hasConsented())return;if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
 
+function _crmSaveEvent(type,detail){
+  try{
+    var events=JSON.parse(localStorage.getItem('sos44_crm_events')||'[]');
+    events.push({date:new Date().toISOString(),type:type,detail:detail});
+    if(events.length>2000) events=events.slice(-1500);
+    localStorage.setItem('sos44_crm_events',JSON.stringify(events));
+  }catch(e){}
+}
+
+function _crmSaveContact(data){
+  try{
+    var contacts=JSON.parse(localStorage.getItem('sos44_crm_contacts')||'[]');
+    contacts.push({date:data.date||new Date().toISOString(),name:data.name||'',email:data.email||'',phone:data.phone||'',device:data.device||'',source:data.source||'',message:data.message||''});
+    localStorage.setItem('sos44_crm_contacts',JSON.stringify(contacts));
+  }catch(e){}
+}
+
 function trackEvent(type,detail){
   _trackSend({type:'event',date:new Date().toISOString(),eventType:type,detail:detail});
+  _crmSaveEvent(type,detail);
 }
 
 function trackContact(data){
   _trackSend({type:'contact',date:data.date,name:data.name,email:data.email,phone:data.phone,device:data.device,source:data.source,message:data.message});
+  _crmSaveContact(data);
 }
 
 /* Click tracking — WhatsApp & Téléphone */
@@ -2271,6 +2296,28 @@ document.addEventListener('click',function(e){
   if(h.indexOf('wa.me')!==-1) trackEvent('whatsapp','Clic WhatsApp');
   else if(h.indexOf('tel:')===0) trackEvent('telephone','Clic Téléphone : '+h.replace('tel:',''));
 });
+
+/* Page view tracking */
+(function(){
+  try{
+    if(!SOS44_CONSENT.hasConsented()) return;
+    var section='Accueil';
+    if(location.hash) section=decodeURIComponent(location.hash.replace('#',''));
+    _crmSaveEvent('page','Page vue : '+section);
+  }catch(e){}
+})();
+
+/* ===== LOGO — Load custom logo from localStorage ===== */
+(function(){
+  try {
+    var logo = localStorage.getItem('sos44_logo');
+    if (!logo || logo.length < 10 || logo.indexOf('data:image/') !== 0) return;
+    var navIcon = document.getElementById('siteLogoIcon');
+    if (navIcon) navIcon.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:32px;width:auto;border-radius:4px">';
+    var footerEl = document.getElementById('footerLogo');
+    if (footerEl) footerEl.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:24px;width:auto;border-radius:3px"> SOS Informatique 44';
+  } catch(e) {}
+})();
 
 /* ===== BLOG — Toggle Lire/Fermer ===== */
 function blogToggle(btn){
@@ -2507,7 +2554,7 @@ function dvSubmit(){
 
   /* Track contact + event */
   trackContact({id:Date.now().toString(),name:fullName,email:email,phone:phone,device:device,source:source||'Devis détaillé',status:'Nouveau',message:msg,date:new Date().toISOString()});
-  trackEvent('formulaire','Devis détaillé par '+fullName);
+  trackEvent('devis','Devis détaillé par '+fullName);
 
   /* Send mailto */
   var body='Nom : '+fullName+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\nProblème : '+defaut+(adresse?'\nAdresse : '+adresse:'')+(source?'\nSource : '+source:'');
@@ -2529,15 +2576,26 @@ function dvSubmit(){
       var d=document.createElement('div');
       d.id='sos44popup';
       d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;will-change:opacity';
-      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" class="popup-input"><select name="device" class="popup-input" style="margin-bottom:14px"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><div style="display:flex;align-items:flex-start;gap:8px;margin:10px 0"><input type="checkbox" id="popupConsent" required style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#0EA5E9"><label for="popupConsent" style="font-size:.75rem;color:#475569;line-height:1.4;cursor:pointer">J\'accepte le traitement de mes donn\u00e9es. <a href="#" onclick="openLegal(\'privacy\');return false" style="color:#0EA5E9">Confidentialit\u00e9</a></label></div><input type="text" name="company" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
+      d.innerHTML='<div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:100%;box-shadow:0 24px 48px rgba(0,0,0,.15)"><h3 style="margin:0 0 4px;font-family:Outfit,sans-serif;font-size:1.25rem;color:#0F172A">Besoin d\'aide informatique ?</h3><p style="color:#475569;font-size:.875rem;margin:0 0 18px">Diagnostic gratuit + Bonus 50\u20ac QualiR\u00e9pare</p><form id="sos44popupForm"><input name="name" placeholder="Votre nom" required class="popup-input"><input name="email" type="email" placeholder="Email" required class="popup-input"><input name="phone" type="tel" placeholder="T\u00e9l\u00e9phone (ex: 06 12 34 56 78)" class="popup-input"><select name="device" class="popup-input"><option value="">Appareil concern\u00e9</option><option>PC Windows</option><option>Mac / MacBook</option><option>iPhone</option><option>Smartphone Android</option><option>Tablette</option><option>Autre</option></select><textarea name="message" placeholder="D\u00e9crivez votre probl\u00e8me en quelques mots..." rows="2" class="popup-input" style="resize:vertical;min-height:50px"></textarea><p style="font-size:.8rem;color:#475569;margin:8px 0 4px;font-weight:600">Comment souhaitez-vous \u00eatre contact\u00e9 ?</p><div style="display:flex;gap:8px;margin-bottom:12px"><label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 12px;border:2px solid #E2E8F0;border-radius:8px;cursor:pointer;font-size:.8125rem;transition:border-color .2s"><input type="radio" name="contactPref" value="whatsapp" checked style="accent-color:#25D366">WhatsApp</label><label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 12px;border:2px solid #E2E8F0;border-radius:8px;cursor:pointer;font-size:.8125rem;transition:border-color .2s"><input type="radio" name="contactPref" value="email" style="accent-color:#0EA5E9">Email</label><label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 12px;border:2px solid #E2E8F0;border-radius:8px;cursor:pointer;font-size:.8125rem;transition:border-color .2s"><input type="radio" name="contactPref" value="telephone" style="accent-color:#F97316">T\u00e9l\u00e9phone</label></div><div style="display:flex;align-items:flex-start;gap:8px;margin:10px 0"><input type="checkbox" id="popupConsent" required style="margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:#0EA5E9"><label for="popupConsent" style="font-size:.75rem;color:#475569;line-height:1.4;cursor:pointer">J\'accepte le traitement de mes donn\u00e9es. <a href="#" onclick="openLegal(\'privacy\');return false" style="color:#0EA5E9">Confidentialit\u00e9</a></label></div><input type="text" name="company" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true"><button type="submit" style="width:100%;padding:12px;background:#0EA5E9;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9375rem;cursor:pointer;font-family:Inter,sans-serif">Demander un diagnostic gratuit</button></form><button onclick="this.closest(\'#sos44popup\').remove()" style="margin-top:10px;background:none;border:none;color:#475569;font-size:.8125rem;cursor:pointer;width:100%;text-align:center">Non merci</button></div>';
       document.body.appendChild(d);
       document.getElementById('sos44popupForm').onsubmit=function(e){
         e.preventDefault();
         if(this.querySelector('[name="company"]').value){d.remove();return}
         if(_antiBot('popup')){d.remove();return}
-        trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:'',device:this.device.value,source:'Popup',status:'Nouveau',message:'',date:new Date().toISOString()});
-        trackEvent('formulaire','Popup rempli par '+this.name.value);
+        var pref=this.querySelector('[name="contactPref"]:checked');
+        var prefVal=pref?pref.value:'whatsapp';
+        var popupPhone=this.phone.value.trim();
+        var popupMsg=(this.message.value||'').trim();
+        trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:popupPhone,device:this.device.value,source:'Popup',status:'Nouveau',message:(popupMsg?popupMsg+' | ':'')+'Contact souhaite : '+prefVal,date:new Date().toISOString()});
+        trackEvent('formulaire','Popup rempli par '+this.name.value+' ('+prefVal+')');
+        /* Redirect based on preference */
         d.remove();
+        if(prefVal==='whatsapp'){
+          var waMsg=encodeURIComponent('Bonjour, je suis '+this.name.value+'. '+(popupMsg||'J\'ai besoin d\'aide pour mon '+this.device.value)+'. Merci !');
+          window.open('https://wa.me/'+SOS44_WA+'?text='+waMsg,'_blank');
+        } else if(prefVal==='telephone'){
+          window.location.href='tel:'+SOS44_PHONE;
+        }
       };
     });
   }

@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<title>Blog - SOS Informatique 44 | Réparation informatique La Chapelle-sur-Erdre</title>
+<meta name="description" content="Blog SOS Informatique 44 : conseils, astuces et actualités sur la réparation PC, Mac, iPhone, sécurité informatique, récupération de données et micro-soudure à La Chapelle-sur-Erdre.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sos-informatique44.fr/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog - SOS Informatique 44 | Réparation informatique La Chapelle-sur-Erdre">
+<meta property="og:description" content="Conseils et actualités sur la réparation informatique : PC, Mac, iPhone, sécurité, données, micro-soudure.">
+<meta property="og:url" content="https://sos-informatique44.fr/blog.html">
+<meta property="og:locale" content="fr_FR">
+<link id="gfPre1" rel="preconnect" data-href="https://fonts.googleapis.com">
+<link id="gfPre2" rel="preconnect" data-href="https://fonts.gstatic.com" crossorigin>
+<link id="gfStyle" rel="preload" as="style" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<script>(function(){if(localStorage.getItem('sos44_consent')==='accepted'){['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}})}})()</script>
+<style>
+/* ===== VARIABLES — Premium Light ===== */
+:root {
+  --blue: #0EA5E9;
+  --blue-hover: #0284C7;
+  --blue-dark: #0369A1;
+  --blue-light: #E0F2FE;
+  --blue-glow: rgba(14,165,233,.25);
+  --indigo: #6366F1;
+  --indigo-light: #EEF2FF;
+  --bg: #F8FAFC;
+  --bg-alt: #FFFFFF;
+  --bg-hero: linear-gradient(180deg, #EFF6FF 0%, #F8FAFC 50%, #FFFFFF 100%);
+  --text: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --border: #E2E8F0;
+  --border-light: #F1F5F9;
+  --green: #10B981;
+  --green-dark: #059669;
+  --green-light: #D1FAE5;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #1EBE5D;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,.06), 0 24px 48px rgba(0,0,0,.09);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+  --transition: .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:140px}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none;transition:color var(--transition)}
+a:hover{color:var(--blue-hover)}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit}
+ul{list-style:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ===== TOP BANNER ===== */
+.top-banner{
+  background:linear-gradient(135deg, #0EA5E9, #6366F1);
+  color:#fff;
+  text-align:center;
+  padding:10px 20px;
+  font-size:.875rem;
+  font-weight:600;
+  position:relative;
+  z-index:1002;
+  letter-spacing:.3px;
+}
+.top-banner svg{vertical-align:middle;margin-right:6px}
+.top-banner span{
+  font-family:var(--font-mono);
+  background:rgba(255,255,255,.2);
+  padding:2px 10px;
+  border-radius:6px;
+  font-size:.9375rem;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  background:var(--bg-alt);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  border-bottom:1px solid var(--border);
+  transition:box-shadow var(--transition);
+}
+.navbar.scrolled{
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  border-bottom-color:transparent;
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  max-width:1200px;
+  margin:0 auto;
+  height:72px;
+}
+.nav-logo{
+  font-family:var(--font-heading);
+  font-size:1.3rem;
+  font-weight:800;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+.nav-logo:hover{color:var(--text);text-decoration:none}
+.nav-logo-icon{
+  width:42px;height:42px;
+  background:linear-gradient(135deg, #0EA5E9, #6366F1);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px var(--blue-glow);
+}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{
+  color:var(--text-secondary);
+  font-size:.8125rem;
+  font-weight:500;
+  transition:color var(--transition);
+  position:relative;
+  white-space:nowrap;
+}
+.nav-links a:hover{color:var(--blue);text-decoration:none}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:2px;background:var(--blue);
+  transform:scaleX(0);transition:transform var(--transition);
+  border-radius:1px;
+}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--whatsapp);color:#fff !important;
+  padding:7px 16px;border-radius:50px;font-size:.8125rem;
+  font-weight:700;font-size:.875rem;
+  box-shadow:0 4px 16px rgba(37,211,102,.3);
+  transition:all var(--transition);
+  border:none;
+}
+.nav-cta:hover{
+  background:var(--whatsapp-dark);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(37,211,102,.4);
+  text-decoration:none;
+}
+.nav-toggle{
+  display:none;background:none;border:none;
+  padding:8px;color:var(--text);
+}
+@media(max-width:960px){
+  .nav-links{
+    display:none;position:absolute;top:72px;left:0;right:0;
+    background:var(--bg-alt);
+    flex-direction:column;padding:20px 24px;gap:16px;
+    border-top:1px solid var(--border);
+    box-shadow:var(--shadow-lg);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a::after{display:none}
+  .nav-toggle{display:block}
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:15px 30px;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.9375rem;
+  border:none;transition:all var(--transition);
+  text-decoration:none;
+}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn:active{transform:translateY(0)}
+.btn-blue{
+  background:var(--blue);color:#fff;
+  box-shadow:0 4px 16px var(--blue-glow);
+}
+.btn-blue:hover{background:var(--blue-hover);box-shadow:0 8px 24px rgba(14,165,233,.35);color:#fff}
+.btn-outline{
+  background:transparent;color:var(--blue);
+  border:2px solid var(--blue);
+}
+.btn-outline:hover{background:var(--blue-light);color:var(--blue)}
+
+/* ===== SECTION BASE ===== */
+.section{padding:100px 0}
+.section-white{background:var(--bg-alt)}
+.section-light{background:var(--bg)}
+.section-header{text-align:center;margin-bottom:56px}
+.section-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue-light);color:var(--blue-hover);
+  padding:6px 18px;border-radius:50px;
+  font-size:.8125rem;font-weight:700;
+  margin-bottom:14px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.section-title{
+  font-family:var(--font-heading);
+  font-size:2.25rem;font-weight:700;
+  line-height:1.15;margin-bottom:14px;
+  letter-spacing:-.02em;
+  color:var(--text);
+}
+.section-subtitle{
+  color:var(--text-secondary);
+  font-size:1.0625rem;
+  max-width:620px;margin:0 auto;
+}
+
+/* ===== BLOG HERO ===== */
+.blog-hero{
+  background:var(--bg-hero);
+  padding:60px 0 40px;
+  position:relative;
+  overflow:hidden;
+}
+.blog-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle, #CBD5E1 1px, transparent 1px);
+  background-size:32px 32px;
+  opacity:.03;
+}
+.blog-hero::after{
+  content:'';position:absolute;
+  top:-120px;right:-120px;
+  width:500px;height:500px;
+  background:radial-gradient(circle, rgba(14,165,233,.12) 0%, rgba(99,102,241,.06) 40%, transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.blog-hero .container{position:relative;z-index:2}
+.blog-hero h1{
+  font-family:var(--font-heading);
+  font-size:2.5rem;font-weight:800;
+  line-height:1.15;margin-bottom:12px;
+  color:var(--text);
+  letter-spacing:-.02em;
+  text-align:center;
+}
+.blog-hero h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg, #0EA5E9, #6366F1);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.blog-hero-sub{
+  text-align:center;
+  font-size:1.0625rem;color:var(--text-secondary);
+  max-width:600px;margin:0 auto;
+}
+@media(max-width:500px){.blog-hero h1{font-size:1.75rem}}
+
+/* ===== FILTER BAR ===== */
+.filter-bar{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:48px;
+}
+.filter-btn{
+  padding:8px 20px;border-radius:50px;
+  font-size:.8125rem;font-weight:600;
+  border:2px solid var(--border);
+  background:var(--bg-alt);color:var(--text-secondary);
+  transition:all var(--transition);
+  cursor:pointer;
+  font-family:var(--font-body);
+}
+.filter-btn:hover{
+  border-color:var(--blue);color:var(--blue);
+  background:var(--blue-light);
+}
+.filter-btn.active{
+  background:var(--blue);color:#fff;
+  border-color:var(--blue);
+  box-shadow:0 4px 12px var(--blue-glow);
+}
+
+/* ===== BLOG GRID ===== */
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.blog-card{
+  background:var(--bg-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+  display:flex;flex-direction:column;
+  will-change:transform;
+}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.blog-card-img{
+  height:180px;
+  background:linear-gradient(135deg, #E0F2FE 0%, #EEF2FF 100%);
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;position:relative;
+}
+.blog-card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.blog-card-img svg{color:var(--blue);opacity:.4}
+.blog-card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.blog-card-tag{
+  display:inline-flex;padding:3px 10px;border-radius:10px;
+  font-size:.6875rem;font-weight:600;
+  background:var(--blue-light);color:var(--blue-hover);
+  margin-bottom:10px;align-self:flex-start;
+}
+.blog-card-title{
+  font-family:var(--font-heading);font-size:1rem;font-weight:700;
+  color:var(--text);margin-bottom:8px;line-height:1.4;
+}
+.blog-card-excerpt{
+  font-size:.8125rem;color:var(--text-secondary);
+  line-height:1.6;margin-bottom:16px;flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.blog-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--border);
+}
+.blog-card-date{font-size:.75rem;color:var(--text-muted)}
+.blog-card-link{
+  font-size:.8125rem;font-weight:600;color:var(--blue);
+  display:flex;align-items:center;gap:4px;
+}
+.blog-card-link:hover{color:var(--blue-hover)}
+/* Article expandable */
+.blog-card-full{display:none;padding:20px;border-top:1px solid var(--border);font-size:.9375rem;line-height:1.7;color:var(--text)}
+.blog-card-full.open{display:block}
+.blog-card-full h2{font-family:var(--font-heading);font-size:1.25rem;margin:0 0 10px;color:var(--text)}
+.blog-card-full h3{font-family:var(--font-heading);font-size:1.0625rem;margin:18px 0 8px;color:var(--text)}
+.blog-card-full p{margin-bottom:10px}
+.blog-card-full ul{margin:8px 0 14px 20px;list-style:disc}
+.blog-card-full a{color:var(--blue)}
+.blog-card-toggle{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.8125rem;font-weight:600;color:var(--blue);
+  cursor:pointer;background:none;border:none;padding:0;
+  font-family:var(--font-body);
+}
+.blog-card-toggle:hover{color:var(--blue-hover)}
+.blog-card-toggle svg{transition:transform .3s}
+.blog-card-toggle.opened svg{transform:rotate(180deg)}
+@media(max-width:960px){.blog-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.blog-grid{grid-template-columns:1fr}}
+
+/* Category gradient backgrounds */
+.bg-gradient-blog{background:linear-gradient(135deg,#EFF6FF,#DBEAFE)}
+.bg-gradient-pc{background:linear-gradient(135deg,#E0F2FE,#BAE6FD)}
+.bg-gradient-mac{background:linear-gradient(135deg,#F5F3FF,#DDD6FE)}
+.bg-gradient-phone{background:linear-gradient(135deg,#EEF2FF,#C7D2FE)}
+.bg-gradient-security{background:linear-gradient(135deg,#FEF3C7,#FDE68A)}
+.bg-gradient-data{background:linear-gradient(135deg,#D1FAE5,#A7F3D0)}
+.bg-gradient-qualire{background:linear-gradient(135deg,#DBEAFE,#BFDBFE)}
+.bg-gradient-micro{background:linear-gradient(135deg,#FCE7F3,#FBCFE8)}
+.bg-gradient-trends{background:linear-gradient(135deg,#F0FDFA,#CCFBF1)}
+
+/* ===== EMPTY STATE ===== */
+.blog-empty{
+  text-align:center;
+  padding:80px 24px;
+  max-width:500px;
+  margin:0 auto;
+}
+.blog-empty-icon{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--blue-light);color:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+}
+.blog-empty h2{
+  font-family:var(--font-heading);font-size:1.5rem;
+  color:var(--text);margin-bottom:12px;
+}
+.blog-empty p{
+  color:var(--text-secondary);font-size:1rem;
+  margin-bottom:28px;
+}
+
+/* ===== ARTICLE COUNT ===== */
+.blog-count{
+  text-align:center;
+  font-size:.875rem;color:var(--text-muted);
+  margin-bottom:24px;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  background:#0F172A;color:rgba(255,255,255,.5);
+  padding:56px 0 28px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:32px;margin-bottom:40px;
+}
+.footer h4{color:#fff;font-family:var(--font-heading);font-size:.9375rem;margin-bottom:14px}
+.footer p,.footer a{font-size:.8125rem;color:rgba(255,255,255,.45);line-height:1.9}
+.footer a:hover{color:var(--blue);text-decoration:none}
+.footer-logo{
+  font-family:var(--font-heading);font-size:1.25rem;font-weight:800;
+  color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:20px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:.75rem;color:rgba(255,255,255,.3);
+}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
+
+/* ===== WHATSAPP FLOAT ===== */
+.wa-float{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  display:flex;align-items:center;gap:10px;
+  background:var(--whatsapp);color:#fff;
+  padding:16px 28px;border-radius:50px;
+  box-shadow:0 6px 24px rgba(37,211,102,.4);
+  font-weight:700;font-size:1rem;
+  transition:all var(--transition);
+  text-decoration:none;
+}
+.wa-float:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 8px 28px rgba(37,211,102,.5);
+  color:#fff;text-decoration:none;
+}
+
+/* ===== ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .blog-card:hover,.wa-float:hover,.btn:hover{transform:none!important}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous" defer></script>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-desktop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  <symbol id="i-article" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+</svg>
+
+<!-- Top Banner -->
+<div class="top-banner">
+  <svg width="16" height="16"><use href="#i-check"/></svg>
+  Bonus Réparation : <span>-50 &euro;</span> immédiat grâce au label QualiRépare
+</div>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" id="siteLogo" aria-label="SOS Informatique 44 — Accueil">
+      <div class="nav-logo-icon" id="siteLogoIcon">
+        <svg width="22" height="22" style="stroke:#fff"><use href="#i-desktop"/></svg>
+      </div>
+      <span id="siteLogoText">SOS Informatique 44</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.nextElementSibling.classList.contains('open'))">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="index.html#services">Services</a>
+      <a href="blog.html" style="color:var(--blue);font-weight:700">Blog</a>
+      <a href="index.html#creation-web">Création web</a>
+      <a href="index.html#pourquoi">Pourquoi nous</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener noreferrer" data-wa>
+        <svg width="13" height="13"><use href="#i-wa"/></svg>
+        Devis WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Blog Hero -->
+<section class="blog-hero">
+  <div class="container">
+    <h1>Notre <em>Blog</em></h1>
+    <p class="blog-hero-sub">Conseils, astuces et actualités sur la réparation informatique, la sécurité et les nouvelles technologies.</p>
+  </div>
+</section>
+
+<!-- Blog Content -->
+<section class="section section-light">
+  <div class="container">
+
+    <!-- Filter buttons -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="pc">PC</button>
+      <button class="filter-btn" data-filter="mac">Mac</button>
+      <button class="filter-btn" data-filter="phone">iPhone/iPad</button>
+      <button class="filter-btn" data-filter="security">Sécurité</button>
+      <button class="filter-btn" data-filter="data">Données</button>
+      <button class="filter-btn" data-filter="qualire">QualiRépare</button>
+      <button class="filter-btn" data-filter="micro">Micro-soudure</button>
+      <button class="filter-btn" data-filter="trends">Tendances</button>
+    </div>
+
+    <!-- Article count -->
+    <div class="blog-count" id="blogCount"></div>
+
+    <!-- Articles grid -->
+    <div class="blog-grid" id="blogGrid"></div>
+
+    <!-- Empty state -->
+    <div class="blog-empty" id="blogEmpty" style="display:none">
+      <div class="blog-empty-icon">
+        <svg width="36" height="36"><use href="#i-article"/></svg>
+      </div>
+      <h2>Aucun article pour le moment</h2>
+      <p>Nos experts préparent des contenus passionnants sur la réparation informatique. Revenez bientôt !</p>
+      <a href="index.html" class="btn btn-blue">Retour à l'accueil</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo" id="footerLogo">
+          <svg width="20" height="20" style="stroke:#0EA5E9"><use href="#i-desktop"/></svg>
+          SOS Informatique 44
+        </div>
+        <p>Réparation informatique à La Chapelle-sur-Erdre. PC, Mac, iPhone, smartphones, tablettes. Label QualiRépare — Bonus Réparation 50 &euro;.</p>
+        <p style="margin-top:8px">27 Rue de la Vrière, 1er étage porte 121<br>44240 La Chapelle-sur-Erdre</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <p><a href="index.html#services">Réparation PC</a></p>
+        <p><a href="index.html#services">Réparation Mac</a></p>
+        <p><a href="index.html#services">Réparation iPhone</a></p>
+        <p><a href="index.html#services">Micro-soudure</a></p>
+        <p><a href="index.html#services">Récupération de données</a></p>
+        <p><a href="index.html#services">Suppression virus</a></p>
+      </div>
+      <div>
+        <h4>Informations</h4>
+        <p><a href="index.html#bonus">Bonus QualiRépare</a></p>
+        <p><a href="index.html#calculateur">Calculer mes économies</a></p>
+        <p><a href="index.html#comparatif">Réparer vs Remplacer</a></p>
+        <p><a href="index.html#avis">Avis clients</a></p>
+        <p><a href="index.html#faq">FAQ</a></p>
+        <p><a href="index.html#contact">Contact</a></p>
+      </div>
+      <div>
+        <h4>Zones d'intervention</h4>
+        <p>La Chapelle-sur-Erdre</p>
+        <p>Nantes Nord &amp; Centre</p>
+        <p>Carquefou</p>
+        <p>Sucé-sur-Erdre</p>
+        <p>Sainte-Luce-sur-Loire</p>
+        <p>Orvault &bull; Treillières</p>
+        <p>Grandchamp-des-Fontaines</p>
+        <p>Petit-Mars</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 SOS Informatique 44 — Tous droits réservés</span>
+      <span>Réparation informatique La Chapelle-sur-Erdre (44)</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Floating -->
+<a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="wa-float" id="waFloat" target="_blank" rel="noopener noreferrer" aria-label="Contacter par WhatsApp" data-wa>
+  <svg width="22" height="22"><use href="#i-wa"/></svg>
+  Besoin d'un devis ?
+</a>
+
+<script>
+/* ===== Navbar scroll effect ===== */
+(function(){
+  var navbar = document.getElementById('navbar');
+  var last = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if (y > 20) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+    last = y;
+  }, {passive:true});
+})();
+
+/* ===== Contact info — configurable from blog admin ===== */
+var SOS44_WA = (function(){ try { var v=localStorage.getItem('sos44_wa'); if(v&&/^\d{10,15}$/.test(v)) return v; } catch(e){} return '33658458091'; })();
+(function(){
+  var waMsg = encodeURIComponent((function(){ try { var v=localStorage.getItem('sos44_wa_message'); if(v) return v; } catch(e){} return 'Bonjour, je souhaite un devis pour une réparation'; })());
+  var waUrl = 'https://wa.me/' + SOS44_WA + '?text=' + waMsg;
+  document.querySelectorAll('[data-wa]').forEach(function(el){ el.href = waUrl; });
+})();
+
+/* ===== LOGO — Load custom logo from localStorage ===== */
+(function(){
+  try {
+    var logo = localStorage.getItem('sos44_logo');
+    if (!logo || logo.length < 10 || logo.indexOf('data:image/') !== 0) return;
+    var navIcon = document.getElementById('siteLogoIcon');
+    if (navIcon) navIcon.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:32px;width:auto;border-radius:4px">';
+    var footerEl = document.getElementById('footerLogo');
+    if (footerEl) footerEl.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:24px;width:auto;border-radius:3px"> SOS Informatique 44';
+  } catch(e) {}
+})();
+
+/* ===== Scroll reveal observer ===== */
+var _revealObserver;
+(function(){
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  _revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');_revealObserver.unobserve(e.target)}
+    });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){_revealObserver.observe(el)});
+})();
+
+/* ===== Blog toggle expand/collapse ===== */
+function blogToggle(btn){
+  var card = btn.closest('.blog-card');
+  if (!card) return;
+  var full = card.querySelector('.blog-card-full');
+  if (!full) return;
+  var isOpen = full.classList.contains('open');
+  full.classList.toggle('open');
+  btn.classList.toggle('opened');
+  btn.innerHTML = isOpen
+    ? 'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>'
+    : 'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
+}
+
+/* ===== BLOG — Load and render articles ===== */
+(function(){
+  var grid = document.getElementById('blogGrid');
+  var emptyEl = document.getElementById('blogEmpty');
+  var countEl = document.getElementById('blogCount');
+  var filterBar = document.getElementById('filterBar');
+
+  var catIcons = {
+    pc:'#i-desktop', mac:'#i-desktop', phone:'#i-mobile',
+    security:'#i-shield', data:'#i-desktop', qualire:'#i-shield',
+    micro:'#i-desktop', trends:'#i-desktop'
+  };
+  var catLabels = {
+    pc:'PC Windows', mac:'Apple', phone:'iPhone/iPad',
+    security:'Sécurité', data:'Données', qualire:'QualiRépare',
+    micro:'Micro-soudure', trends:'Tendances'
+  };
+  var catGradients = {
+    pc:'bg-gradient-pc', mac:'bg-gradient-mac', phone:'bg-gradient-phone',
+    security:'bg-gradient-security', data:'bg-gradient-data', qualire:'bg-gradient-qualire',
+    micro:'bg-gradient-micro', trends:'bg-gradient-trends'
+  };
+
+  /* Parse articles from localStorage */
+  var articles = [];
+  try {
+    var raw = JSON.parse(localStorage.getItem('sos44_blog_articles'));
+    if (Array.isArray(raw)) {
+      articles = raw.filter(function(a){
+        return typeof a.title === 'string' && typeof a.content === 'string' && a.title.length > 3;
+      });
+    }
+  } catch(e) {
+    console.warn('Blog load error:', e);
+  }
+
+  /* Sort by date descending */
+  articles.sort(function(a, b){
+    return new Date(b.date || 0) - new Date(a.date || 0);
+  });
+
+  /* Show empty state if no articles */
+  if (articles.length === 0) {
+    emptyEl.style.display = 'block';
+    countEl.style.display = 'none';
+    filterBar.style.display = 'none';
+    return;
+  }
+
+  /* Build all cards */
+  var allCards = [];
+  articles.forEach(function(art){
+    var cat = art.category || 'pc';
+    var icon = catIcons[cat] || '#i-desktop';
+    var label = catLabels[cat] || cat;
+    var gradient = catGradients[cat] || 'bg-gradient-blog';
+    var dateStr = '';
+    try {
+      dateStr = new Date(art.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+    } catch(e){}
+
+    /* Extract excerpt: first 150 chars of text content */
+    var tmp = document.createElement('div');
+    tmp.innerHTML = art.content || '';
+    var excerpt = (tmp.textContent || '').trim().slice(0, 150);
+    if (excerpt.length >= 148) excerpt += '\u2026';
+
+    /* Validate image source */
+    var hasImg = art.image && art.image.length > 10 && art.image.indexOf('data:image/') === 0;
+
+    var card = document.createElement('article');
+    card.className = 'blog-card reveal';
+    card.setAttribute('data-category', cat);
+
+    var safeTitle = (art.title || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    var safeExcerpt = excerpt.replace(/</g, '&lt;');
+
+    /* Sanitize content with DOMPurify */
+    var sanitized = '';
+    if (typeof DOMPurify !== 'undefined') {
+      sanitized = DOMPurify.sanitize(art.content, {
+        ALLOWED_TAGS: ['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],
+        ALLOWED_ATTR: ['href','target','rel']
+      });
+    } else {
+      sanitized = (art.content || '').replace(/</g, '&lt;');
+    }
+
+    card.innerHTML =
+      (hasImg
+        ? '<div class="blog-card-img" style="padding:0"><img src="' + art.image + '" alt="' + safeTitle + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block"></div>'
+        : '<div class="blog-card-img ' + gradient + '"><svg width="48" height="48"><use href="' + icon + '"/></svg></div>') +
+      '<div class="blog-card-body">' +
+        '<span class="blog-card-tag">' + label + '</span>' +
+        '<h3 class="blog-card-title">' + safeTitle + '</h3>' +
+        '<p class="blog-card-excerpt">' + safeExcerpt + '</p>' +
+        '<div class="blog-card-footer">' +
+          '<span class="blog-card-date">' + dateStr + '</span>' +
+          '<button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="blog-card-full">' + sanitized + '</div>';
+
+    allCards.push({el: card, cat: cat});
+  });
+
+  /* Current filter */
+  var currentFilter = 'all';
+
+  function renderCards(){
+    grid.innerHTML = '';
+    var count = 0;
+    allCards.forEach(function(item){
+      if (currentFilter === 'all' || item.cat === currentFilter) {
+        grid.appendChild(item.el);
+        count++;
+        /* Observe for reveal animation */
+        if (_revealObserver) _revealObserver.observe(item.el);
+        else item.el.classList.add('visible');
+      }
+    });
+
+    if (count === 0) {
+      countEl.textContent = 'Aucun article dans cette catégorie';
+    } else if (count === 1) {
+      countEl.textContent = '1 article';
+    } else {
+      countEl.textContent = count + ' articles';
+    }
+  }
+
+  /* Initial render */
+  renderCards();
+
+  /* Filter button clicks */
+  var filterBtns = filterBar.querySelectorAll('.filter-btn');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      renderCards();
+      /* Scroll to grid top smoothly */
+      grid.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -166,6 +166,20 @@ button{cursor:pointer;font-family:inherit}
 .article-img-placeholder:hover{border-color:var(--accent)}
 .article-body .article-image{width:100%;max-height:300px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:16px}
 
+/* === CRM === */
+.crm-contact{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start}
+.crm-contact:hover{box-shadow:var(--shadow-md)}
+.crm-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff;flex-shrink:0}
+.crm-contact-info{flex:1;min-width:0}
+.crm-contact-name{font-weight:600;font-size:.9rem}
+.crm-contact-meta{font-size:.75rem;color:var(--text-secondary);display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+.crm-contact-msg{font-size:.8125rem;color:var(--text);margin-top:6px;background:var(--bg);padding:8px 10px;border-radius:6px;border-left:3px solid var(--accent)}
+.crm-event{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border);font-size:.8125rem}
+.crm-event:last-child{border-bottom:none}
+.crm-event-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem}
+.crm-event-time{font-size:.7rem;color:var(--text-secondary);white-space:nowrap;margin-left:auto}
+.crm-empty{text-align:center;color:var(--text-secondary);padding:32px;font-size:.9rem}
+
 /* === Veille IA cards === */
 .veille-card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
@@ -309,6 +323,10 @@ button{cursor:pointer;font-family:inherit}
   <button class="tab-btn" data-tab="atelier" onclick="switchTab('atelier',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
     Atelier &amp; Photos
+  </button>
+  <button class="tab-btn" data-tab="crm" onclick="switchTab('crm',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    CRM Clients
   </button>
   <button class="tab-btn" data-tab="config" onclick="switchTab('config',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -526,10 +544,91 @@ button{cursor:pointer;font-family:inherit}
 </div>
 
 <!-- ============================================================ -->
-<!-- TAB 4: CONFIGURATION -->
+<!-- TAB 5: CRM CLIENTS -->
+<!-- ============================================================ -->
+<div class="tab-panel" id="panel-crm">
+  <div class="config-panel" style="max-width:1200px">
+
+    <!-- Dashboard Stats -->
+    <div class="config-section">
+      <h3>Tableau de bord</h3>
+      <div id="crmStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0">
+        <div class="crm-stat-card" style="background:var(--accent-light);border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:2rem;font-weight:700;color:var(--accent-dark)" id="statContacts">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">Contacts recus</div>
+        </div>
+        <div class="crm-stat-card" style="background:var(--green-light);border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:2rem;font-weight:700;color:var(--green-dark)" id="statWhatsapp">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">Clics WhatsApp</div>
+        </div>
+        <div class="crm-stat-card" style="background:#E0F2FE;border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:2rem;font-weight:700;color:#0369A1" id="statTelephone">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">Clics Telephone</div>
+        </div>
+        <div class="crm-stat-card" style="background:var(--warning-light);border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:2rem;font-weight:700;color:#92400E" id="statPages">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">Pages vues</div>
+        </div>
+        <div class="crm-stat-card" style="background:#F3E8FF;border-radius:var(--radius-sm);padding:16px;text-align:center">
+          <div style="font-size:2rem;font-weight:700;color:#7C3AED" id="statDevis">0</div>
+          <div style="font-size:.8rem;color:var(--text-secondary)">Demandes devis</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-accent btn-sm" onclick="refreshCRM()" style="width:auto">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Actualiser
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="exportCRM()" style="width:auto">Exporter CSV</button>
+        <button class="btn btn-danger btn-sm" onclick="purgeCRM()" style="width:auto">Vider les donnees</button>
+      </div>
+    </div>
+
+    <!-- Liste des contacts / leads -->
+    <div class="config-section">
+      <h3>Contacts &amp; Messages <span id="crmContactCount" style="font-size:.8rem;color:var(--text-secondary);font-weight:400"></span></h3>
+      <p class="desc">Liste de tous les contacts recus via les formulaires du site (contact, devis, popup).</p>
+      <div id="crmContactsList" style="margin-top:12px"></div>
+    </div>
+
+    <!-- Journal d'activite -->
+    <div class="config-section">
+      <h3>Journal d'activite <span id="crmEventCount" style="font-size:.8rem;color:var(--text-secondary);font-weight:400"></span></h3>
+      <p class="desc">Tous les evenements : clics WhatsApp, appels telephone, formulaires envoyes, pages consultees.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
+        <button class="filter-btn active" onclick="filterCrmEvents('all',this)">Tous</button>
+        <button class="filter-btn" onclick="filterCrmEvents('formulaire',this)">Formulaires</button>
+        <button class="filter-btn" onclick="filterCrmEvents('whatsapp',this)">WhatsApp</button>
+        <button class="filter-btn" onclick="filterCrmEvents('telephone',this)">Telephone</button>
+        <button class="filter-btn" onclick="filterCrmEvents('page',this)">Pages</button>
+        <button class="filter-btn" onclick="filterCrmEvents('devis',this)">Devis</button>
+      </div>
+      <div id="crmEventsList" style="margin-top:8px;max-height:500px;overflow-y:auto"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 6: CONFIGURATION -->
 <!-- ============================================================ -->
 <div class="tab-panel" id="panel-config">
   <div class="config-panel">
+
+    <!-- Logo Config -->
+    <div class="config-section">
+      <h3>Logo du site</h3>
+      <p class="desc">Uploadez votre logo. Il remplacera l'icone par defaut dans la navbar et le footer du site. Format recommande : PNG ou JPG, fond transparent de preference. Le logo est redimensionne automatiquement.</p>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:12px 0">
+        <div id="logoPreview" style="width:120px;height:60px;border:2px dashed var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bg);cursor:pointer" onclick="pickLogo()" title="Cliquer pour changer le logo">
+          <span style="font-size:.75rem;color:var(--text-secondary)">Aucun logo</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button class="btn btn-accent btn-sm" onclick="pickLogo()" style="width:auto">Choisir un logo</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteLogo()" style="width:auto">Supprimer le logo</button>
+        </div>
+      </div>
+    </div>
 
     <!-- API Key Config -->
     <div class="config-section">
@@ -1794,6 +1893,164 @@ function copyResizedBase64() {
 }
 
 /* ================================================================
+   LOGO — Upload & manage site logo
+   ================================================================ */
+function pickLogo() {
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = function() {
+    if (!input.files[0]) return;
+    resizeImageFile(input.files[0], 200, 80, 0.90).then(function(dataUrl) {
+      localStorage.setItem('sos44_logo', dataUrl);
+      renderLogoPreview();
+      toast('Logo enregistre — rechargez le site principal pour voir', 'green');
+    }).catch(function(e) { toast('Erreur : ' + e.message, 'red'); });
+  };
+  input.click();
+}
+
+function deleteLogo() {
+  localStorage.removeItem('sos44_logo');
+  renderLogoPreview();
+  toast('Logo supprime', 'green');
+}
+
+function renderLogoPreview() {
+  var preview = document.getElementById('logoPreview');
+  var logo = localStorage.getItem('sos44_logo');
+  if (logo && logo.length > 10 && logo.indexOf('data:image/') === 0) {
+    preview.innerHTML = '<img src="' + logo + '" alt="Logo" style="max-width:100%;max-height:100%;object-fit:contain">';
+    preview.style.borderStyle = 'solid';
+  } else {
+    preview.innerHTML = '<span style="font-size:.75rem;color:var(--text-secondary)">Aucun logo</span>';
+    preview.style.borderStyle = 'dashed';
+  }
+}
+
+/* ================================================================
+   CRM — Client Relationship Management
+   ================================================================ */
+var CRM_KEYS = { contacts: 'sos44_crm_contacts', events: 'sos44_crm_events' };
+
+function getCrmContacts() { try { return JSON.parse(localStorage.getItem(CRM_KEYS.contacts)) || []; } catch(e) { return []; } }
+function getCrmEvents() { try { return JSON.parse(localStorage.getItem(CRM_KEYS.events)) || []; } catch(e) { return []; } }
+
+function refreshCRM() {
+  var contacts = getCrmContacts();
+  var events = getCrmEvents();
+
+  /* Stats */
+  var waClicks = events.filter(function(e) { return e.type === 'whatsapp'; }).length;
+  var telClicks = events.filter(function(e) { return e.type === 'telephone'; }).length;
+  var pages = events.filter(function(e) { return e.type === 'page'; }).length;
+  var devis = events.filter(function(e) { return e.type === 'devis'; }).length + contacts.filter(function(c) { return (c.source||'').indexOf('devis') !== -1; }).length;
+  document.getElementById('statContacts').textContent = contacts.length;
+  document.getElementById('statWhatsapp').textContent = waClicks;
+  document.getElementById('statTelephone').textContent = telClicks;
+  document.getElementById('statPages').textContent = pages;
+  document.getElementById('statDevis').textContent = devis;
+
+  /* Contacts list */
+  var cList = document.getElementById('crmContactsList');
+  document.getElementById('crmContactCount').textContent = contacts.length > 0 ? '(' + contacts.length + ')' : '';
+  if (contacts.length === 0) {
+    cList.innerHTML = '<div class="crm-empty">Aucun contact pour le moment.<br>Les contacts apparaitront ici quand des visiteurs rempliront un formulaire sur le site.</div>';
+  } else {
+    var sortedContacts = contacts.slice().sort(function(a,b) { return new Date(b.date||0) - new Date(a.date||0); });
+    var cHtml = '';
+    var colors = ['#0EA5E9','#10B981','#F97316','#8B5CF6','#EC4899','#EF4444'];
+    sortedContacts.forEach(function(c, i) {
+      var initials = (c.name || '?').split(' ').map(function(w) { return w.charAt(0).toUpperCase(); }).join('').slice(0,2);
+      var bg = colors[i % colors.length];
+      var dateStr = ''; try { dateStr = new Date(c.date).toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e) {}
+      var sourceLabel = c.source === 'devis' ? 'Devis detaille' : c.source === 'popup' ? 'Popup' : 'Formulaire contact';
+      cHtml += '<div class="crm-contact">';
+      cHtml += '<div class="crm-avatar" style="background:' + bg + '">' + escHTML(initials) + '</div>';
+      cHtml += '<div class="crm-contact-info">';
+      cHtml += '<div class="crm-contact-name">' + escHTML(c.name || 'Anonyme') + '</div>';
+      cHtml += '<div class="crm-contact-meta">';
+      if (c.email) cHtml += '<span>&#x2709; ' + escHTML(c.email) + '</span>';
+      if (c.phone) cHtml += '<span>&#x260E; ' + escHTML(c.phone) + '</span>';
+      if (c.device) cHtml += '<span>&#x1F4F1; ' + escHTML(c.device) + '</span>';
+      cHtml += '<span>&#x1F4C5; ' + dateStr + '</span>';
+      cHtml += '<span style="background:var(--accent-light);color:var(--accent-dark);padding:1px 6px;border-radius:4px;font-size:.7rem">' + sourceLabel + '</span>';
+      cHtml += '</div>';
+      if (c.message) cHtml += '<div class="crm-contact-msg">' + escHTML(c.message) + '</div>';
+      cHtml += '</div></div>';
+    });
+    cList.innerHTML = cHtml;
+  }
+
+  /* Events list */
+  renderCrmEvents(events, 'all');
+}
+
+function renderCrmEvents(events, filter) {
+  var eList = document.getElementById('crmEventsList');
+  document.getElementById('crmEventCount').textContent = events.length > 0 ? '(' + events.length + ')' : '';
+  var sorted = events.slice().sort(function(a,b) { return new Date(b.date||0) - new Date(a.date||0); });
+  if (filter !== 'all') sorted = sorted.filter(function(e) { return e.type === filter; });
+  if (sorted.length === 0) {
+    eList.innerHTML = '<div class="crm-empty">Aucun evenement' + (filter !== 'all' ? ' de ce type' : '') + '.</div>';
+    return;
+  }
+  var iconMap = {
+    whatsapp: { icon: '&#x1F4AC;', bg: '#D1FAE5', color: '#059669' },
+    telephone: { icon: '&#x260E;', bg: '#E0F2FE', color: '#0369A1' },
+    formulaire: { icon: '&#x2709;', bg: '#E0F2FE', color: '#0284C7' },
+    page: { icon: '&#x1F441;', bg: '#F3E8FF', color: '#7C3AED' },
+    devis: { icon: '&#x1F4CB;', bg: '#FEF3C7', color: '#92400E' },
+    clic: { icon: '&#x1F517;', bg: '#F1F5F9', color: '#475569' }
+  };
+  /* Show max 200 */
+  var shown = sorted.slice(0, 200);
+  var html = '';
+  shown.forEach(function(ev) {
+    var ic = iconMap[ev.type] || iconMap.clic;
+    var dateStr = ''; try { dateStr = new Date(ev.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}); } catch(e) {}
+    html += '<div class="crm-event" data-type="' + (ev.type||'') + '">';
+    html += '<div class="crm-event-icon" style="background:' + ic.bg + ';color:' + ic.color + '">' + ic.icon + '</div>';
+    html += '<div>' + escHTML(ev.detail || ev.type || '?') + '</div>';
+    html += '<div class="crm-event-time">' + dateStr + '</div>';
+    html += '</div>';
+  });
+  if (sorted.length > 200) html += '<div class="crm-event" style="justify-content:center;color:var(--text-secondary)">... et ' + (sorted.length - 200) + ' autres evenements</div>';
+  eList.innerHTML = html;
+}
+
+function filterCrmEvents(type, btn) {
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCrmEvents(getCrmEvents(), type);
+}
+
+function exportCRM() {
+  var contacts = getCrmContacts();
+  var events = getCrmEvents();
+  if (contacts.length === 0 && events.length === 0) { toast('Aucune donnee a exporter', 'red'); return; }
+  var csv = 'Type;Date;Nom;Email;Telephone;Appareil;Source;Detail\n';
+  contacts.forEach(function(c) {
+    csv += 'Contact;' + (c.date||'') + ';' + (c.name||'') + ';' + (c.email||'') + ';' + (c.phone||'') + ';' + (c.device||'') + ';' + (c.source||'') + ';' + (c.message||'').replace(/[\n;]/g,' ') + '\n';
+  });
+  events.forEach(function(e) {
+    csv += 'Event;' + (e.date||'') + ';;;;' + (e.type||'') + ';;' + (e.detail||'').replace(/[\n;]/g,' ') + '\n';
+  });
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'crm-sos44-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast('Export CSV telecharge', 'green');
+}
+
+function purgeCRM() {
+  if (!confirm('Supprimer TOUTES les donnees CRM (contacts + evenements) ?')) return;
+  localStorage.removeItem(CRM_KEYS.contacts);
+  localStorage.removeItem(CRM_KEYS.events);
+  refreshCRM();
+  toast('Donnees CRM supprimees', 'green');
+}
+
+/* ================================================================
    INIT
    ================================================================ */
 (function() {
@@ -1806,6 +2063,8 @@ function copyResizedBase64() {
   loadCalcConfig();
   loadContactConfig();
   renderAtelierSlots();
+  renderLogoPreview();
+  refreshCRM();
 })();
 </script>
 </body>
