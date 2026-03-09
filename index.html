@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -1073,6 +1073,7 @@ ul{list-style:none}
 .faq-answer{display:none;padding:0 24px 20px;color:var(--text-secondary);font-size:.9375rem;line-height:1.7}
 .faq-answer.open{display:block}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous" defer></script>
 </head>
 <body>
 <!-- RGPD Cookie Consent Banner -->
@@ -2082,7 +2083,7 @@ ul{list-style:none}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2024 SOS Informatique 44 — Tous droits réservés</span>
+      <span>&copy; 2025 SOS Informatique 44 — Tous droits réservés</span>
       <span>Réparation informatique La Chapelle-sur-Erdre (44)</span>
     </div>
   </div>
@@ -2121,13 +2122,13 @@ function refuseRGPD(){SOS44_CONSENT.refuse()}
 function openLegal(id){var el=document.getElementById(id);if(el)el.classList.add('open');document.body.style.overflow='hidden'}
 function closeLegal(id){var el=document.getElementById(id);if(el)el.classList.remove('open');document.body.style.overflow=''}
 
-/* ===== Contact info — hardcoded for security ===== */
-var SOS44_EMAIL = 'contact@sos-informatique44.fr';
-var SOS44_WA = '33658458091';
-var SOS44_PHONE = '0285523814';
-var SOS44_MOBILE = '0658458091';
+/* ===== Contact info — configurable from blog admin ===== */
+var SOS44_EMAIL = (function(){ try { var v=localStorage.getItem('sos44_email'); if(v&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return v; } catch(e){} return 'contact@sos-informatique44.fr'; })();
+var SOS44_WA = (function(){ try { var v=localStorage.getItem('sos44_wa'); if(v&&/^\d{10,15}$/.test(v)) return v; } catch(e){} return '33658458091'; })();
+var SOS44_PHONE = (function(){ try { var v=localStorage.getItem('sos44_phone'); if(v&&/^\d{10}$/.test(v)) return v; } catch(e){} return '0285523814'; })();
+var SOS44_MOBILE = (function(){ var wa=SOS44_WA; if(wa.indexOf('33')===0) return '0'+wa.slice(2); return wa; })();
 (function(){
-  var waMsg = encodeURIComponent('Bonjour, je souhaite un devis pour une réparation');
+  var waMsg = encodeURIComponent((function(){ try { var v=localStorage.getItem('sos44_wa_message'); if(v) return v; } catch(e){} return 'Bonjour, je souhaite un devis pour une réparation'; })());
   var waUrl = 'https://wa.me/' + SOS44_WA + '?text=' + waMsg;
   function fmt(n){ return n.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5'); }
   document.querySelectorAll('[data-wa]').forEach(function(el){ el.href = waUrl; });
@@ -2284,6 +2285,116 @@ function blogToggle(btn){
     ?'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>'
     :'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
 }
+
+/* ===== BLOG — Load dynamic articles from localStorage ===== */
+(function(){
+  try {
+    var raw = JSON.parse(localStorage.getItem('sos44_blog_articles'));
+    if (!Array.isArray(raw) || raw.length === 0) return;
+    var valid = raw.filter(function(a){ return typeof a.title === 'string' && typeof a.content === 'string' && a.title.length > 3; });
+    if (valid.length === 0) return;
+
+    /* Sort by date desc, take newest 6 */
+    valid.sort(function(a,b){ return new Date(b.date||0) - new Date(a.date||0); });
+    var toShow = valid.slice(0, 6);
+
+    var catIcons = {
+      pc:'#i-desktop', mac:'#i-desktop', phone:'#i-mobile',
+      security:'#i-shield', data:'#i-desktop', qualire:'#i-shield',
+      micro:'#i-desktop', trends:'#i-desktop'
+    };
+    var catLabels = {
+      pc:'PC Windows', mac:'Apple', phone:'iPhone/iPad',
+      security:'Sécurité', data:'Données', qualire:'QualiRépare',
+      micro:'Micro-soudure', trends:'Tendances'
+    };
+
+    var grid = document.getElementById('blogGrid');
+    if (!grid) return;
+
+    /* Insert dynamic articles before the static ones */
+    var firstStatic = grid.querySelector('.blog-card');
+
+    toShow.forEach(function(art) {
+      var cat = art.category || 'pc';
+      var icon = catIcons[cat] || '#i-desktop';
+      var label = catLabels[cat] || cat;
+      var dateStr = '';
+      try { dateStr = new Date(art.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
+
+      /* Extract first 120 chars of text from content as excerpt */
+      var tmp = document.createElement('div');
+      tmp.innerHTML = art.content || '';
+      var excerpt = (tmp.textContent || '').trim().slice(0, 150);
+      if (excerpt.length >= 148) excerpt += '…';
+
+      var card = document.createElement('article');
+      card.className = 'blog-card reveal';
+      card.setAttribute('data-id', art.id || '');
+      card.setAttribute('data-cat', label);
+      var hasImg = art.image && art.image.length > 10 && art.image.indexOf('data:image/') === 0;
+      var safeTitle = (art.title||'').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+      card.innerHTML =
+        (hasImg
+          ? '<div class="blog-card-img" style="padding:0"><img src="' + art.image + '" alt="' + safeTitle + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block"></div>'
+          : '<div class="blog-card-img bg-gradient-blog"><svg width="48" height="48"><use href="' + icon + '"/></svg></div>') +
+        '<div class="blog-card-body">' +
+          '<span class="blog-card-tag">' + label + '</span>' +
+          '<h3 class="blog-card-title">' + (art.title||'').replace(/</g,'&lt;') + '</h3>' +
+          '<p class="blog-card-excerpt">' + excerpt.replace(/</g,'&lt;') + '</p>' +
+          '<div class="blog-card-footer">' +
+            '<span class="blog-card-date">' + dateStr + '</span>' +
+            '<button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="blog-card-full">' + DOMPurify.sanitize(art.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div>';
+
+      if (firstStatic) grid.insertBefore(card, firstStatic);
+      else grid.appendChild(card);
+
+      /* Observe for scroll reveal */
+      if (window._revealObserver) window._revealObserver.observe(card);
+      else card.classList.add('visible');
+    });
+  } catch(e) { console.warn('Blog dynamic load error:', e); }
+})();
+
+/* ===== GALLERY — Load photos from localStorage (5 slots) ===== */
+(function(){
+  try {
+    var gallery = JSON.parse(localStorage.getItem('sos44_gallery'));
+    if (!Array.isArray(gallery) || gallery.length !== 5) return;
+    /* Check if at least one slot has a real photo */
+    var hasAny = gallery.some(function(g){ return g.url && g.url.length > 10; });
+    if (!hasAny) return;
+    var scroll = document.querySelector('.gallery-scroll');
+    if (!scroll) return;
+    var items = scroll.querySelectorAll('.gallery-item');
+    gallery.forEach(function(slot, i) {
+      if (i >= items.length) return;
+      var fig = items[i];
+      /* Update caption */
+      var cap = fig.querySelector('figcaption');
+      if (cap && slot.caption) cap.textContent = slot.caption;
+      /* Replace placeholder with real photo */
+      if (slot.url && slot.url.length > 10) {
+        var placeholder = fig.querySelector('.gallery-placeholder');
+        if (placeholder) {
+          var img = document.createElement('img');
+          img.src = slot.url;
+          img.alt = slot.caption || '';
+          img.width = 300; img.height = 220;
+          img.loading = 'lazy'; img.decoding = 'async';
+          img.style.cssText = 'width:300px;height:220px;object-fit:cover;display:block';
+          placeholder.replaceWith(img);
+        } else {
+          var existImg = fig.querySelector('img');
+          if (existImg) existImg.src = slot.url;
+        }
+      }
+    });
+  } catch(e) {}
+})();
 
 /* ===== FAQ — Toggle question/réponse ===== */
 function faqToggle(btn){

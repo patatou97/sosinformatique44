@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https:; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.anthropic.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com; img-src 'self' data: https:; frame-ancestors 'none';">
 <meta name="robots" content="noindex,nofollow">
-<title>Blog SEO — SOS Informatique 44 | Générateur d'articles</title>
+<title>Blog & Veille IA — SOS Informatique 44</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous" defer></script>
 <style>
 :root {
   --bg: #F8FAFC;
@@ -28,6 +28,7 @@
   --danger-light: #FEE2E2;
   --warning: #F59E0B;
   --warning-light: #FEF3C7;
+  --orange: #F97316;
   --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
   --shadow-md: 0 4px 12px rgba(15,23,42,.08);
   --radius: 12px;
@@ -43,41 +44,64 @@ a:hover{text-decoration:underline}
 button{cursor:pointer;font-family:inherit}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-/* Layout */
+/* === HEADER === */
 .app-header{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:16px 24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:12px;
-  position:sticky;top:0;z-index:100;
+  background:var(--text);color:#fff;
+  padding:0;position:sticky;top:0;z-index:100;
+  border-bottom:3px solid var(--accent);
 }
-.app-logo{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--text)}
+.header-inner{
+  max-width:1280px;margin:0 auto;padding:12px 24px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.app-logo{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:8px;color:#fff}
 .app-logo svg{color:var(--accent)}
-.mode-toggle{display:flex;align-items:center;gap:8px;font-size:.875rem}
-.mode-toggle label{font-weight:500;color:var(--text-secondary)}
-.mode-switch{position:relative;width:44px;height:24px;display:inline-block}
-.mode-switch input{opacity:0;width:0;height:0}
-.mode-slider{position:absolute;inset:0;background:var(--border);border-radius:12px;transition:.3s;cursor:pointer}
-.mode-slider::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.3s;box-shadow:var(--shadow-sm)}
-.mode-switch input:checked+.mode-slider{background:var(--accent)}
-.mode-switch input:checked+.mode-slider::before{transform:translateX(20px)}
+.logo-badge{background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:.55rem;padding:3px 7px;border-radius:3px;letter-spacing:.1em;text-transform:uppercase}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.api-field{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:6px;padding:7px 12px;color:#fff;
+  font-family:var(--font-mono);font-size:.78rem;outline:none;width:280px;transition:border-color .2s;
+}
+.api-field:focus{border-color:var(--accent)}
+.api-field::placeholder{color:rgba(255,255,255,.35)}
+.btn-hdr{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:.82rem;font-weight:600;transition:opacity .2s;white-space:nowrap}
+.btn-hdr:hover{opacity:.88}
+.api-status{font-size:.75rem;font-family:var(--font-mono);display:none}
+.api-status.ok{display:inline;color:var(--green)}
+.api-status.err{display:inline;color:var(--danger)}
 
-.main-layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 60px)}
-@media(max-width:900px){.main-layout{grid-template-columns:1fr}.sidebar{position:fixed;left:-100%;top:60px;bottom:0;width:320px;z-index:99;transition:left .3s}.sidebar.open{left:0}.sidebar-toggle{display:flex!important}}
+/* === TABS NAV === */
+.tabs-nav{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;gap:0;overflow-x:auto;
+  max-width:1280px;margin:0 auto;padding:0 24px;
+}
+.tab-btn{
+  padding:14px 24px;font-size:.875rem;font-weight:600;
+  border:none;background:none;color:var(--text-secondary);
+  border-bottom:3px solid transparent;transition:all .2s;
+  white-space:nowrap;display:flex;align-items:center;gap:8px;
+}
+.tab-btn:hover{color:var(--text);background:var(--bg)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn svg{width:16;height:16}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
-/* Sidebar */
+/* === LAYOUT (Blog & Veille) === */
+.main-layout{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 110px);max-width:1280px;margin:0 auto}
+@media(max-width:900px){.main-layout{grid-template-columns:1fr}.sidebar{display:none}.sidebar-toggle{display:flex!important}}
+
+/* === SIDEBAR === */
 .sidebar{
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  padding:24px;
-  overflow-y:auto;
-  display:flex;flex-direction:column;gap:20px;
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:20px;
 }
 .sidebar-toggle{display:none;position:fixed;bottom:24px;left:24px;z-index:100;background:var(--accent);color:#fff;border:none;width:48px;height:48px;border-radius:50%;font-size:1.25rem;box-shadow:var(--shadow-md);align-items:center;justify-content:center}
+.sidebar h3{font-family:var(--font-heading);font-size:.875rem;color:var(--text-secondary);margin-bottom:8px}
+
+/* === Stats === */
 .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;display:flex;align-items:center;gap:12px}
 .stat-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .stat-icon-blue{background:var(--accent-light);color:var(--accent)}
@@ -85,8 +109,7 @@ button{cursor:pointer;font-family:inherit}
 .stat-value{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;line-height:1}
 .stat-label{font-size:.75rem;color:var(--text-secondary)}
 
-.sidebar h3{font-family:var(--font-heading);font-size:.9375rem;color:var(--text-secondary);margin-bottom:4px}
-
+/* === Buttons === */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.875rem;border:none;transition:background .2s,transform .15s;width:100%}
 .btn:hover{transform:translateY(-1px);text-decoration:none}
 .btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:var(--accent-dark)}
@@ -94,18 +117,9 @@ button{cursor:pointer;font-family:inherit}
 .btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent)}.btn-outline:hover{background:var(--accent-light)}
 .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#B91C1C}
 .btn-sm{padding:6px 12px;font-size:.8125rem}
+.btn-dark{background:var(--text);color:#fff}.btn-dark:hover{background:var(--accent)}
 
-.proxy-config{margin-top:8px}
-.proxy-config label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
-.proxy-config input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8125rem;font-family:var(--font-mono);background:var(--bg);color:var(--text)}
-.proxy-config input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
-.proxy-status{margin-top:6px;font-size:.75rem;padding:4px 8px;border-radius:4px;display:none}
-.proxy-status.ok{display:block;background:var(--green-light);color:var(--green-dark)}
-.proxy-status.err{display:block;background:var(--danger-light);color:var(--danger)}
-.security-note{background:var(--warning-light);border:1px solid var(--warning);border-radius:var(--radius-sm);padding:12px;font-size:.75rem;color:#92400E;margin-top:12px}
-.security-note strong{display:block;margin-bottom:2px}
-
-/* Content */
+/* === Content area === */
 .content{padding:24px;overflow-y:auto}
 .content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
 .content-header h2{font-family:var(--font-heading);font-size:1.5rem}
@@ -113,29 +127,14 @@ button{cursor:pointer;font-family:inherit}
 .filter-btn{padding:6px 14px;border-radius:20px;font-size:.8125rem;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);transition:all .2s}
 .filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* Month group */
+/* === Month group === */
 .month-group{margin-bottom:32px}
 .month-group h3{font-family:var(--font-heading);font-size:1.125rem;color:var(--text-secondary);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
-/* Article card */
-.article-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  margin-bottom:12px;
-  overflow:hidden;
-  box-shadow:var(--shadow-sm);
-  transition:box-shadow .2s;
-}
+/* === Article card (Blog SEO) === */
+.article-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s}
 .article-card:hover{box-shadow:var(--shadow-md)}
-.article-header{
-  padding:16px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  cursor:pointer;
-  gap:12px;
-}
+.article-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:12px}
 .article-header:hover{background:var(--bg)}
 .article-meta{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
 .article-meta h4{font-family:var(--font-heading);font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -162,272 +161,720 @@ button{cursor:pointer;font-family:inherit}
 .article-body .article-content ul{margin:8px 0 12px 20px;list-style:disc}
 .article-body .article-content a{color:var(--accent)}
 .article-expand{color:var(--accent);font-size:.8125rem;display:flex;align-items:center;gap:4px}
+.article-img-thumb{width:48px;height:48px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)}
+.article-img-placeholder{width:48px;height:48px;border-radius:6px;flex-shrink:0;background:var(--accent-light);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px dashed var(--border);transition:border-color .2s;color:var(--accent)}
+.article-img-placeholder:hover{border-color:var(--accent)}
+.article-body .article-image{width:100%;max-height:300px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:16px}
 
-/* Empty state */
+/* === Veille IA cards === */
+.veille-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 24px;box-shadow:var(--shadow-sm);transition:all .2s;position:relative;overflow:hidden;margin-bottom:12px;
+}
+.veille-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border);transition:background .2s}
+.veille-card.rewritten::before{background:var(--green)}
+.veille-card:hover{box-shadow:var(--shadow-md)}
+.veille-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.source-label{font-family:var(--font-mono);font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--accent)}
+.topic-pill{background:var(--bg);border-radius:20px;padding:2px 9px;font-size:.7rem;color:var(--text-secondary);font-weight:500}
+.veille-date{font-size:.72rem;color:var(--text-secondary);font-family:var(--font-mono);margin-left:auto}
+.veille-title{font-family:var(--font-heading);font-size:1.1rem;line-height:1.35;margin-bottom:8px}
+.veille-title a{color:inherit;text-decoration:none}
+.veille-title a:hover{color:var(--accent)}
+.veille-summary{font-size:.86rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px}
+.veille-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.status-pill{font-size:.72rem;font-family:var(--font-mono);padding:3px 9px;border-radius:20px;margin-left:auto}
+.status-pill.pending{background:var(--warning-light);color:#92400E;border:1px solid #F9E79F}
+.status-pill.writing{background:var(--accent-light);color:var(--accent-dark);border:1px solid #BAE6FD}
+.status-pill.done{background:var(--green-light);color:var(--green-dark);border:1px solid #A7F3D0}
+.rewritten-block{display:none;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
+.rewritten-block.visible{display:block}
+.rewritten-title{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.rewritten-body{font-size:.87rem;line-height:1.75;color:#333;white-space:pre-wrap;max-height:300px;overflow-y:auto;padding-right:8px}
+
+/* === Veille sidebar === */
+.topic-item{display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 10px;border-radius:7px;transition:background .15s;font-size:.875rem}
+.topic-item:hover{background:var(--bg)}
+.topic-item.active{background:var(--accent-light)}
+.topic-check{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:.7rem}
+.topic-item.active .topic-check{background:var(--accent);border-color:var(--accent);color:#fff}
+.source-tag{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text-secondary);font-family:var(--font-mono)}
+.source-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.count-badge{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:.75rem;color:var(--text-secondary);font-family:var(--font-mono);text-align:center;margin-top:8px}
+
+/* === Config panel === */
+.config-panel{max-width:800px;margin:0 auto;padding:32px 24px}
+.config-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.config-section h3{font-family:var(--font-heading);font-size:1.125rem;margin-bottom:4px}
+.config-section p.desc{font-size:.8125rem;color:var(--text-secondary);margin-bottom:16px}
+.config-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.config-input{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8125rem;background:var(--bg);color:var(--text)}
+.config-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.config-input-name{flex:1;font-family:var(--font-body)}
+.config-input-price{width:80px;font-family:var(--font-mono)}
+.config-input-url{width:100%;font-family:var(--font-mono)}
+.config-status{margin-top:8px;font-size:.75rem;padding:6px 10px;border-radius:4px}
+.config-status.ok{background:var(--green-light);color:var(--green-dark)}
+.config-status.err{background:var(--danger-light);color:var(--danger)}
+.security-note{background:var(--warning-light);border:1px solid var(--warning);border-radius:var(--radius-sm);padding:12px;font-size:.75rem;color:#92400E;margin-top:12px}
+.security-note strong{display:block;margin-bottom:2px}
+
+/* === Progress bar === */
+.progress{height:3px;background:var(--bg);border-radius:3px;overflow:hidden;margin:8px 0;display:none}
+.progress.show{display:block}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--orange));border-radius:3px;transition:width .4s;width:0%}
+
+/* === Spinner === */
+.spin{display:inline-block;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* === Empty state === */
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
 .empty-state svg{color:var(--border);margin-bottom:16px}
 .empty-state h3{font-family:var(--font-heading);color:var(--text);margin-bottom:8px}
 .empty-state p{font-size:.875rem;max-width:400px;margin:0 auto}
 
-/* Loading */
+/* === Loading === */
 .loading-overlay{display:none;position:fixed;inset:0;background:rgba(248,250,252,.8);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px}
 .loading-overlay.active{display:flex}
 .spinner{width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-weight:600;color:var(--text)}
 .loading-sub{font-size:.875rem;color:var(--text-secondary)}
 
-/* Toast */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;box-shadow:var(--shadow-md);z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}
+/* === Toast === */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;box-shadow:var(--shadow-md);z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none;max-width:360px}
 .toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.toast.green{border-left:3px solid var(--green)}
+.toast.red{border-left:3px solid var(--danger)}
+
+/* === Modal === */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);width:100%;max-width:760px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.25);overflow:hidden}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.modal-title{font-family:var(--font-heading);font-size:1.1rem;flex:1}
+.btn-close{background:var(--bg);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:background .15s}
+.btn-close:hover{background:var(--border)}
+.modal-body{padding:24px;overflow-y:auto;flex:1}
+.modal-article-title{font-family:var(--font-heading);font-size:1.5rem;line-height:1.3;margin-bottom:12px}
+.modal-meta{font-size:.78rem;color:var(--text-secondary);margin-bottom:20px;font-family:var(--font-mono)}
+.modal-content{font-size:.9rem;line-height:1.8;color:#2c2c2c;white-space:pre-wrap}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+.mode-toggle{display:flex;align-items:center;gap:8px;font-size:.875rem}
+.mode-toggle label{font-weight:500;color:var(--text-secondary)}
+.mode-switch{position:relative;width:44px;height:24px;display:inline-block}
+.mode-switch input{opacity:0;width:0;height:0}
+.mode-slider{position:absolute;inset:0;background:var(--border);border-radius:12px;transition:.3s;cursor:pointer}
+.mode-slider::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.3s;box-shadow:var(--shadow-sm)}
+.mode-switch input:checked+.mode-slider{background:var(--accent)}
+.mode-switch input:checked+.mode-slider::before{transform:translateX(20px)}
 
 @media(max-width:600px){
   .content{padding:16px}
   .article-header{flex-direction:column;align-items:flex-start}
   .article-actions{align-self:flex-end}
+  .config-panel{padding:16px}
+  .api-field{width:180px}
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
+<!-- ====== HEADER ====== -->
 <header class="app-header">
-  <div class="app-logo">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
-    Blog SEO — SOS Informatique 44
-  </div>
-  <div class="mode-toggle">
-    <label for="modeSwitch">Mode</label>
-    <span style="font-size:.8125rem;color:var(--text-secondary)">Demo</span>
-    <label class="mode-switch">
-      <input type="checkbox" id="modeSwitch">
-      <span class="mode-slider"></span>
-    </label>
-    <span style="font-size:.8125rem;color:var(--text-secondary)">Pro</span>
+  <div class="header-inner">
+    <div class="app-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+      SOS Informatique 44 <span class="logo-badge">BLOG</span>
+    </div>
+    <div class="header-right">
+      <input class="api-field" type="password" id="apiKey" placeholder="Cle API Claude (sk-ant-...)">
+      <button class="btn-hdr" onclick="saveApiKey()">Enregistrer</button>
+      <span class="api-status" id="apiStatus"></span>
+    </div>
   </div>
 </header>
 
-<div class="main-layout">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div>
-      <h3>Statistiques</h3>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-blue">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+<!-- ====== TABS NAV ====== -->
+<nav class="tabs-nav">
+  <button class="tab-btn active" data-tab="blog" onclick="switchTab('blog',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+    Blog SEO
+  </button>
+  <button class="tab-btn" data-tab="veille" onclick="switchTab('veille',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    Veille IA
+  </button>
+  <button class="tab-btn" data-tab="atelier" onclick="switchTab('atelier',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    Atelier &amp; Photos
+  </button>
+  <button class="tab-btn" data-tab="config" onclick="switchTab('config',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    Configuration
+  </button>
+</nav>
+
+<!-- ============================================================ -->
+<!-- TAB 1: BLOG SEO -->
+<!-- ============================================================ -->
+<div class="tab-panel active" id="panel-blog">
+  <div class="main-layout">
+    <aside class="sidebar" id="sidebarBlog">
+      <div>
+        <h3>Statistiques</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statTotal">0</div>
+              <div class="stat-label">Articles total</div>
+            </div>
           </div>
-          <div>
-            <div class="stat-value" id="statTotal">0</div>
-            <div class="stat-label">Articles total</div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div>
+              <div class="stat-value" id="statLastMonth">&mdash;</div>
+              <div class="stat-label">Dernier mois</div>
+            </div>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-green">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      </div>
+      <div>
+        <h3>Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div class="mode-toggle" style="margin-bottom:4px">
+            <span style="font-size:.8125rem;color:var(--text-secondary)">Demo</span>
+            <label class="mode-switch">
+              <input type="checkbox" id="modeSwitch">
+              <span class="mode-slider"></span>
+            </label>
+            <span style="font-size:.8125rem;color:var(--text-secondary)">Pro (API)</span>
           </div>
-          <div>
-            <div class="stat-value" id="statLastMonth">—</div>
-            <div class="stat-label">Dernier mois généré</div>
-          </div>
+          <button class="btn btn-accent" onclick="generateArticles()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Generer 5 articles du mois
+          </button>
+          <button class="btn btn-green" onclick="downloadSitemap()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Telecharger sitemap.xml
+          </button>
+          <button class="btn btn-outline" onclick="exportBlogHTML()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Exporter HTML (tous)
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="purgeAll()" style="margin-top:8px">Purger tous les articles</button>
         </div>
       </div>
-    </div>
-
-    <div>
-      <h3>Actions</h3>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-        <button class="btn btn-accent" onclick="generateArticles()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          Générer 5 articles du mois
-        </button>
-        <button class="btn btn-green" onclick="downloadSitemap()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Télécharger sitemap.xml
-        </button>
-        <button class="btn btn-outline" onclick="exportHTML()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Exporter HTML (tous)
-        </button>
-        <button class="btn btn-danger btn-sm" onclick="purgeAll()" style="margin-top:8px">Purger tous les articles</button>
+    </aside>
+    <main class="content" id="contentBlog">
+      <div class="content-header">
+        <h2>Articles du blog</h2>
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-filter="all">Tous</button>
+          <button class="filter-btn" data-filter="pc">PC Windows</button>
+          <button class="filter-btn" data-filter="mac">Apple</button>
+          <button class="filter-btn" data-filter="phone">iPhone/iPad</button>
+          <button class="filter-btn" data-filter="security">Securite</button>
+          <button class="filter-btn" data-filter="data">Donnees</button>
+          <button class="filter-btn" data-filter="qualire">QualiRepare</button>
+          <button class="filter-btn" data-filter="micro">Micro-soudure</button>
+          <button class="filter-btn" data-filter="trends">Tendances</button>
+        </div>
       </div>
-    </div>
-
-    <!-- Proxy config (Pro mode) -->
-    <div id="proxyConfig" class="proxy-config" style="display:none">
-      <h3>Configuration Proxy (Mode Pro)</h3>
-      <label for="proxyUrl">URL du proxy</label>
-      <input type="url" id="proxyUrl" placeholder="https://votre-serveur.com/api/claude" value="">
-      <button class="btn btn-outline btn-sm" onclick="testProxy()" style="margin-top:8px;width:auto">Tester la connexion</button>
-      <div id="proxyStatus" class="proxy-status"></div>
-      <div class="security-note">
-        <strong>Sécurité API</strong>
-        Une clé API Claude ne doit jamais être exposée dans le front-end. Le mode Pro envoie les requêtes à votre endpoint proxy qui gère la clé côté serveur.
-      </div>
-    </div>
-  </aside>
-
-  <!-- Content -->
-  <main class="content" id="content">
-    <div class="content-header">
-      <h2>Articles du blog</h2>
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all">Tous</button>
-        <button class="filter-btn" data-filter="pc">PC Windows</button>
-        <button class="filter-btn" data-filter="mac">Apple</button>
-        <button class="filter-btn" data-filter="phone">iPhone/iPad</button>
-        <button class="filter-btn" data-filter="security">Sécurité</button>
-        <button class="filter-btn" data-filter="data">Données</button>
-        <button class="filter-btn" data-filter="qualire">QualiRépare</button>
-        <button class="filter-btn" data-filter="micro">Micro-soudure</button>
-        <button class="filter-btn" data-filter="trends">Tendances</button>
-      </div>
-    </div>
-    <div id="articlesContainer"></div>
-  </main>
+      <div id="articlesContainer"></div>
+    </main>
+  </div>
 </div>
 
-<!-- Sidebar toggle (mobile) -->
+<!-- ============================================================ -->
+<!-- TAB 2: VEILLE IA -->
+<!-- ============================================================ -->
+<div class="tab-panel" id="panel-veille">
+  <div class="main-layout">
+    <aside class="sidebar" id="sidebarVeille">
+      <div>
+        <h3>Sujets a surveiller</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+          <div class="topic-item active" data-topic="ia" onclick="toggleTopic(this)">
+            <div class="topic-check">&#10003;</div>
+            <span>Intelligence artificielle</span>
+          </div>
+          <div class="topic-item active" data-topic="securite" onclick="toggleTopic(this)">
+            <div class="topic-check">&#10003;</div>
+            <span>Securite informatique</span>
+          </div>
+          <div class="topic-item active" data-topic="smartphones" onclick="toggleTopic(this)">
+            <div class="topic-check">&#10003;</div>
+            <span>Smartphones &amp; Tech</span>
+          </div>
+          <div class="topic-item" data-topic="reparation" onclick="toggleTopic(this)">
+            <div class="topic-check">&#10003;</div>
+            <span>Reparation &amp; DIY</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Sources RSS actives</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+          <div class="source-tag"><div class="source-dot"></div>Le Monde Informatique</div>
+          <div class="source-tag"><div class="source-dot"></div>ZDNet France</div>
+          <div class="source-tag"><div class="source-dot"></div>01net</div>
+          <div class="source-tag"><div class="source-dot"></div>The Hacker News</div>
+          <div class="source-tag"><div class="source-dot"></div>TechCrunch</div>
+          <div class="source-tag"><div class="source-dot"></div>Frandroid</div>
+          <div class="source-tag"><div class="source-dot"></div>Journal du Geek</div>
+        </div>
+      </div>
+      <div>
+        <div class="progress" id="fetchProgress">
+          <div class="progress-fill" id="fetchFill"></div>
+        </div>
+        <button class="btn btn-dark" id="btnFetch" onclick="fetchVeilleArticles()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span id="fetchLabel">Chercher des articles</span>
+        </button>
+        <button class="btn btn-green" onclick="loadDemoVeille()" style="margin-top:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Test Demo (2 articles)
+        </button>
+        <div class="count-badge" id="countBadge">0 articles trouves</div>
+      </div>
+    </aside>
+    <main class="content" id="contentVeille">
+      <div class="content-header">
+        <h2 id="veilleHeading">Veille technologique</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterVeille('all',this)">Tous</button>
+          <button class="filter-btn" onclick="filterVeille('done',this)">Reecrits</button>
+          <button class="filter-btn" onclick="filterVeille('pending',this)">En attente</button>
+        </div>
+      </div>
+      <div id="veilleGrid">
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <h3>Veille technologique automatique</h3>
+          <p>La Veille IA scanne les flux RSS des plus grands sites tech (ZDNet, 01net, Frandroid...), recupere les articles du jour, puis les <strong>reecrit avec Claude</strong> en version SEO locale optimisee pour SOS Informatique 44.<br><br>Les articles reecrits contiennent vos mots-cles locaux (La Chapelle-sur-Erdre, Nantes, Loire-Atlantique), les balises H1/H2/H3, et un appel a l'action vers votre site.<br><br>Selectionnez vos sujets a gauche puis cliquez sur <strong>Chercher des articles</strong>.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 3: ATELIER & PHOTOS -->
+<!-- ============================================================ -->
+<div class="tab-panel" id="panel-atelier">
+  <div class="config-panel">
+
+    <!-- Galerie Atelier - 5 slots -->
+    <div class="config-section">
+      <h3>Photos de l'atelier (5 emplacements)</h3>
+      <p class="desc">Configurez les 5 photos affichees dans "En direct de l'atelier" sur le site. Cliquez sur un emplacement pour ajouter/remplacer la photo. Images redimensionnees automatiquement a 300x220px.</p>
+
+      <div id="atelierSlots" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:16px 0"></div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn btn-green btn-sm" onclick="saveAtelierGallery()" style="width:auto">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Enregistrer la galerie
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="clearAtelierGallery()" style="width:auto">Tout reinitialiser</button>
+      </div>
+      <div id="atelierMsg" class="config-status" style="display:none"></div>
+    </div>
+
+    <!-- Outil redimensionnement photos articles -->
+    <div class="config-section">
+      <h3>Redimensionner une image (articles blog)</h3>
+      <p class="desc">Outil pour redimensionner et compresser vos photos avant de les utiliser dans les articles du blog. Resultat en JPEG optimise.</p>
+
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Largeur max (px)</label>
+          <input class="config-input config-input-price" type="number" id="resizeWidth" value="800" min="100" max="2000">
+        </div>
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Qualite JPEG</label>
+          <input class="config-input config-input-price" type="number" id="resizeQuality" value="80" min="10" max="100">
+          <span style="font-size:.7rem;color:var(--text-secondary)">%</span>
+        </div>
+      </div>
+
+      <div id="resizeDropZone" style="border:2px dashed var(--border);border-radius:var(--radius-sm);padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;background:var(--bg)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="color:var(--text-secondary);margin-bottom:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p style="font-size:.875rem;color:var(--text-secondary);margin:0">Glissez une image ou cliquez</p>
+        <input type="file" id="resizeFileInput" accept="image/*" style="display:none">
+      </div>
+
+      <div id="resizeResult" style="display:none;text-align:center">
+        <img id="resizePreview" src="" alt="Apercu" style="max-width:100%;max-height:300px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:8px">
+        <div id="resizeInfo" style="font-size:.8125rem;color:var(--text-secondary);margin-bottom:8px"></div>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <button class="btn btn-green btn-sm" onclick="downloadResized()" style="width:auto">Telecharger l'image</button>
+          <button class="btn btn-accent btn-sm" onclick="copyResizedBase64()" style="width:auto">Copier en base64</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 4: CONFIGURATION -->
+<!-- ============================================================ -->
+<div class="tab-panel" id="panel-config">
+  <div class="config-panel">
+
+    <!-- API Key Config -->
+    <div class="config-section">
+      <h3>Cle API Claude (Anthropic)</h3>
+      <p class="desc">Votre cle API est utilisee pour la generation d'articles en mode Pro et la reecriture IA dans la veille. Elle est stockee uniquement dans votre navigateur (sessionStorage).</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input class="config-input config-input-url" type="password" id="configApiKey" placeholder="sk-ant-api03-..." style="flex:1">
+        <button class="btn btn-accent btn-sm" onclick="saveApiKeyFromConfig()" style="width:auto">Enregistrer</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteApiKey()" style="width:auto">Supprimer</button>
+      </div>
+      <div id="configApiStatus" class="config-status" style="display:none"></div>
+      <div class="security-note">
+        <strong>Protection de votre cle API</strong>
+        La cle est stockee de facon protegee (encodee) dans votre navigateur. Elle n'est JAMAIS envoyee ailleurs qu'a l'API Anthropic officielle. Pour une securite maximale, utilisez plutot un proxy HTTPS (section ci-dessous) qui garde la cle cote serveur. Vous pouvez supprimer la cle a tout moment.
+      </div>
+    </div>
+
+    <!-- Model Selector -->
+    <div class="config-section">
+      <h3>Modele IA</h3>
+      <p class="desc">Choisissez le modele Claude pour la generation et la reecriture d'articles. <strong>Haiku</strong> est recommande : 4x moins cher que Sonnet, qualite largement suffisante pour du SEO local.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0">
+        <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;flex:1;min-width:200px;transition:border-color .2s" id="modelLabelHaiku">
+          <input type="radio" name="aiModel" value="claude-haiku-4-5-20251001" id="modelHaiku" onchange="saveModelChoice()">
+          <div>
+            <strong style="color:var(--green-dark)">Haiku 4.5</strong> <span style="font-size:.7rem;background:var(--green-light);color:var(--green-dark);padding:2px 6px;border-radius:4px">RECOMMANDE</span>
+            <div style="font-size:.75rem;color:var(--text-secondary)">~0.003$/article — Rapide et economique</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;flex:1;min-width:200px;transition:border-color .2s" id="modelLabelSonnet">
+          <input type="radio" name="aiModel" value="claude-sonnet-4-6" id="modelSonnet" onchange="saveModelChoice()">
+          <div>
+            <strong>Sonnet 4.6</strong>
+            <div style="font-size:.75rem;color:var(--text-secondary)">~0.012$/article — Qualite superieure</div>
+          </div>
+        </label>
+      </div>
+      <div id="modelStatus" style="font-size:.8rem;color:var(--green-dark);display:none"></div>
+    </div>
+
+    <!-- Proxy Config -->
+    <div class="config-section">
+      <h3>Proxy API (Mode Pro Blog)</h3>
+      <p class="desc">Si vous ne souhaitez pas exposer votre cle API directement, configurez un proxy HTTPS qui gere la cle cote serveur.</p>
+      <input class="config-input config-input-url" type="url" id="configProxyUrl" placeholder="https://votre-serveur.com/api/claude" style="width:100%;margin-bottom:8px">
+      <button class="btn btn-outline btn-sm" onclick="testProxy()" style="width:auto">Tester la connexion</button>
+      <div id="proxyStatus" class="config-status" style="display:none"></div>
+    </div>
+
+    <!-- Contact Config -->
+    <div class="config-section">
+      <h3>WhatsApp &amp; Contact du site</h3>
+      <p class="desc">Modifiez le numero WhatsApp, l'email de contact et le telephone affiches sur le site principal. Les modifications sont appliquees au rechargement du site.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Numero WhatsApp (format international sans +)</label>
+          <input class="config-input config-input-url" type="tel" id="cfgWhatsapp" placeholder="33658458091" style="width:100%">
+          <span style="font-size:.7rem;color:var(--text-secondary)">Ex: 33658458091 pour +33 6 58 45 80 91</span>
+        </div>
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Message WhatsApp pre-rempli</label>
+          <input class="config-input config-input-url" type="text" id="cfgWaMessage" placeholder="Bonjour, je souhaite un devis pour une reparation" style="width:100%">
+        </div>
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Email de contact</label>
+          <input class="config-input config-input-url" type="email" id="cfgEmail" placeholder="contact@sos-informatique44.fr" style="width:100%">
+        </div>
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">Telephone (format 10 chiffres)</label>
+          <input class="config-input config-input-url" type="tel" id="cfgPhone" placeholder="0285523814" style="width:100%">
+        </div>
+        <div>
+          <label style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px">URL Google Sheets (tracking)</label>
+          <input class="config-input config-input-url" type="url" id="cfgTracking" placeholder="https://script.google.com/macros/s/..." style="width:100%">
+          <span style="font-size:.7rem;color:var(--text-secondary)">Doit commencer par https://script.google.com/</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-green btn-sm" onclick="saveContactConfig()" style="width:auto">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Enregistrer les coordonnees
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="testEmail()" style="width:auto">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Tester l'email
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="testWhatsapp()" style="width:auto;color:var(--green);border-color:var(--green)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          Tester WhatsApp
+        </button>
+      </div>
+      <div id="contactConfigStatus" class="config-status" style="display:none"></div>
+    </div>
+
+    <!-- Calculateur Config -->
+    <div class="config-section">
+      <h3>Calculateur du site</h3>
+      <p class="desc">Modifiez les reparations et prix affiches dans le calculateur &laquo; Calculez vos economies &raquo; du site principal.</p>
+      <div id="calcConfigList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px"></div>
+      <button class="btn btn-outline btn-sm" onclick="addCalcRow()" style="width:auto;margin-bottom:12px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Ajouter une reparation
+      </button>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+        <label for="calcBonus" style="font-size:.8125rem;font-weight:600;color:var(--text-secondary);white-space:nowrap">Bonus QualiRepare</label>
+        <input type="number" class="config-input config-input-price" id="calcBonus" min="1" max="499" value="50">
+        <span style="font-size:.8125rem;color:var(--text-secondary)">euros</span>
+      </div>
+      <button class="btn btn-green btn-sm" onclick="saveCalcConfig()" style="width:auto">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        Enregistrer les prix
+      </button>
+      <div id="calcConfigStatus" class="config-status" style="display:none"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== MOBILE SIDEBAR TOGGLE ====== -->
 <button class="sidebar-toggle" id="sidebarToggle" aria-label="Ouvrir le panneau">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
 </button>
 
-<!-- Loading overlay -->
+<!-- ====== LOADING OVERLAY ====== -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
-  <div class="loading-text" id="loadingText">Génération en cours…</div>
-  <div class="loading-sub" id="loadingSub">Article 1 / 5</div>
+  <div class="loading-text" id="loadingText">Generation en cours...</div>
+  <div class="loading-sub" id="loadingSub"></div>
 </div>
 
-<!-- Toast -->
+<!-- ====== MODAL PREVIEW (Veille) ====== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Apercu de l'article</div>
+      <button class="btn-close" onclick="closeModal()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-article-title" id="modalTitle"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-accent btn-sm" onclick="copyVeilleArticle()" style="width:auto">Copier le texte</button>
+      <button class="btn btn-green btn-sm" onclick="exportVeilleHTML()" style="width:auto">Telecharger HTML</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== TOAST ====== -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ===== CONFIG ===== */
-const STORAGE_KEYS = {
+/* ================================================================
+   SHARED CONFIG & HELPERS
+   ================================================================ */
+var STORAGE_KEYS = {
   articles: 'sos44_blog_articles',
   usedTopics: 'sos44_blog_used_topics',
-  settings: 'sos44_blog_settings',
+  settings: 'sos44_blog_settings'
 };
+var WA_LINK = 'https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration';
+var PHONE = '02 85 52 38 14';
+var SITE_URL = 'https://sos-informatique44.fr';
+var API_KEY = '';
 
-const WA_LINK = 'https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration';
-const PHONE = '02 85 52 38 14';
-const SITE_URL = 'https://sos-informatique44.fr';
+function escHTML(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-/* ===== TOPICS (30) ===== */
-const ALL_TOPICS = [
-  {id:'pc-lenteur',cat:'pc',title:'Pourquoi mon PC Windows est devenu lent ?',slug:'pc-windows-lent-solutions'},
-  {id:'pc-ecranbleu',cat:'pc',title:'Écran bleu sur PC : causes et solutions',slug:'ecran-bleu-pc-causes-solutions'},
-  {id:'pc-ssd',cat:'pc',title:'Upgrade SSD : redonnez vie à votre PC',slug:'upgrade-ssd-pc-portable'},
-  {id:'pc-nettoyage',cat:'pc',title:'Nettoyage interne PC : évitez la surchauffe',slug:'nettoyage-interne-pc-surchauffe'},
-  {id:'mac-surchauffe',cat:'mac',title:'MacBook qui surchauffe : que faire ?',slug:'macbook-surchauffe-solutions'},
-  {id:'mac-lent',cat:'mac',title:'Votre Mac est lent ? Nos solutions',slug:'mac-lent-solutions-optimisation'},
-  {id:'mac-ecran',cat:'mac',title:'Écran MacBook cassé : réparation vs remplacement',slug:'ecran-macbook-casse-reparation'},
-  {id:'mac-imac',cat:'mac',title:'iMac vs MacBook : quel Mac choisir ?',slug:'imac-vs-macbook-comparatif'},
-  {id:'iphone-batterie',cat:'phone',title:'Batterie iPhone qui se décharge vite : solutions',slug:'batterie-iphone-decharge-rapide'},
-  {id:'iphone-ecran',cat:'phone',title:'Écran iPhone cassé : faut-il le réparer ?',slug:'ecran-iphone-casse-reparation'},
-  {id:'iphone-connecteur',cat:'phone',title:'Connecteur de charge iPhone : réparation',slug:'connecteur-charge-iphone-reparation'},
-  {id:'ipad-entretien',cat:'phone',title:'Entretien iPad : conseils de pro',slug:'entretien-ipad-conseils'},
-  {id:'virus-protection',cat:'security',title:'Protéger son PC des virus en 2024',slug:'proteger-pc-virus-malware'},
-  {id:'ransomware',cat:'security',title:'Ransomware : comment réagir ?',slug:'ransomware-reagir-proteger'},
-  {id:'wifi-securite',cat:'security',title:'Sécuriser son réseau Wi-Fi à la maison',slug:'securiser-reseau-wifi-maison'},
-  {id:'phishing',cat:'security',title:'Phishing : reconnaître les arnaques email',slug:'phishing-reconnaitre-arnaques'},
-  {id:'data-recup',cat:'data',title:'Récupération de données : ce qu\'il faut savoir',slug:'recuperation-donnees-disque-dur'},
-  {id:'data-sauvegarde',cat:'data',title:'Sauvegarde de données : les bonnes pratiques',slug:'sauvegarde-donnees-bonnes-pratiques'},
-  {id:'qr-bonus',cat:'qualire',title:'Bonus Réparation 50 € : comment en profiter',slug:'bonus-reparation-50-euros-qualire'},
-  {id:'qr-reparer',cat:'qualire',title:'Réparer plutôt que jeter : un geste durable',slug:'reparer-plutot-que-jeter-ecologie'},
-  {id:'micro-cm',cat:'micro',title:'Micro-soudure : sauver une carte mère',slug:'micro-soudure-carte-mere-reparation'},
-  {id:'micro-puces',cat:'micro',title:'Remplacement de puces : la micro-soudure expliquée',slug:'remplacement-puces-micro-soudure'},
-  {id:'trend-w11',cat:'trends',title:'Windows 11 : faut-il mettre à jour ?',slug:'windows-11-mise-a-jour-compatibilite'},
-  {id:'trend-gamer',cat:'trends',title:'PC Gamer : optimiser ses performances',slug:'pc-gamer-optimiser-performances'},
-  {id:'trend-recond',cat:'trends',title:'Reconditionné vs neuf : que choisir ?',slug:'reconditionne-vs-neuf-comparatif'},
-  {id:'trend-usbc',cat:'trends',title:'USB-C : tout savoir sur le connecteur universel',slug:'usb-c-connecteur-universel-guide'},
-  {id:'pc-ventilateur',cat:'pc',title:'Ventilateur PC bruyant : causes et solutions',slug:'ventilateur-pc-bruyant-solutions'},
-  {id:'mac-batterie',cat:'mac',title:'Batterie MacBook : quand la remplacer ?',slug:'batterie-macbook-remplacement'},
-  {id:'iphone-eau',cat:'phone',title:'iPhone tombé dans l\'eau : les bons réflexes',slug:'iphone-tombe-eau-que-faire'},
-  {id:'data-ssd',cat:'data',title:'SSD en panne : peut-on récupérer les données ?',slug:'ssd-panne-recuperation-donnees'}
-];
-
-const CAT_LABELS = {pc:'PC Windows',mac:'Apple',phone:'iPhone/iPad',security:'Sécurité',data:'Données',qualire:'QualiRépare',micro:'Micro-soudure',trends:'Tendances'};
-const CAT_TAG_CLASS = {pc:'tag-pc',mac:'tag-mac',phone:'tag-phone',security:'tag-security',data:'tag-data',qualire:'tag-qualire',micro:'tag-micro',trends:'tag-trends'};
-
-const CITIES = ['La Chapelle-sur-Erdre','Nantes Nord','Nantes','Carquefou','Sucé-sur-Erdre','Sainte-Luce-sur-Loire','Orvault','Treillières','Grandchamp-des-Fontaines','Petit-Mars'];
-const SERVICE_URLS = [
-  SITE_URL+'/#services',
-  SITE_URL+'/#bonus',
-  SITE_URL+'/#contact',
-  SITE_URL+'/#comparatif',
-  SITE_URL+'/#calculateur'
-];
-
-/* ===== STORAGE ===== */
-function getArticles() {
-  try {
-    var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.articles));
-    if (!Array.isArray(data)) return [];
-    return data.filter(function(a) { return typeof a.id === 'string' && typeof a.title === 'string' && typeof a.content === 'string'; });
-  } catch(e) { return []; }
-}
-function saveArticles(arr) {
-  try { localStorage.setItem(STORAGE_KEYS.articles, JSON.stringify(arr)); }
-  catch(e) { toast('Stockage plein — supprimez des articles.'); }
-}
-function getUsedTopics() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.usedTopics)) || []; } catch(e) { return []; }
-}
-function saveUsedTopics(arr) { localStorage.setItem(STORAGE_KEYS.usedTopics, JSON.stringify(arr)); }
-function getSettings() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.settings)) || {}; } catch(e) { return {}; }
-}
-function saveSettings(obj) { localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(obj)); }
-
-/* ===== UI HELPERS ===== */
-function toast(msg) {
+/* Toast */
+var _toastTimer = null;
+function toast(msg, type) {
   var t = document.getElementById('toast');
   t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, 3000);
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3200);
 }
 
 function showLoading(text, sub) {
-  document.getElementById('loadingText').textContent = text || 'Génération en cours…';
+  document.getElementById('loadingText').textContent = text || 'Generation en cours...';
   document.getElementById('loadingSub').textContent = sub || '';
   document.getElementById('loadingOverlay').classList.add('active');
 }
 function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
 
-/* ===== RENDER ===== */
+/* Storage helpers */
+function getArticles() {
+  try { var d = JSON.parse(localStorage.getItem(STORAGE_KEYS.articles)); if (!Array.isArray(d)) return []; return d.filter(function(a) { return typeof a.id === 'string' && typeof a.title === 'string' && typeof a.content === 'string'; }); } catch(e) { return []; }
+}
+function saveArticles(arr) { try { localStorage.setItem(STORAGE_KEYS.articles, JSON.stringify(arr)); } catch(e) { toast('Stockage plein', 'red'); } }
+function getUsedTopics() { try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.usedTopics)) || []; } catch(e) { return []; } }
+function saveUsedTopics(arr) { localStorage.setItem(STORAGE_KEYS.usedTopics, JSON.stringify(arr)); }
+function getSettings() { try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.settings)) || {}; } catch(e) { return {}; } }
+function saveSettings(obj) { localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(obj)); }
+
+function download(filename, content, type) {
+  var blob = new Blob([content], {type: type + ';charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+/* ================================================================
+   TABS
+   ================================================================ */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+/* ================================================================
+   API KEY
+   ================================================================ */
+/* API Key - obfuscated storage (base64 - not true encryption but prevents casual reading) */
+function _encKey(k) { try { return btoa(unescape(encodeURIComponent(k))); } catch(e) { return ''; } }
+function _decKey(k) { try { return decodeURIComponent(escape(atob(k))); } catch(e) { return ''; } }
+
+function saveApiKey() {
+  var v = document.getElementById('apiKey').value.trim();
+  if (!v) return;
+  if (v.indexOf('sk-ant') !== 0 && v.indexOf('sk-') !== 0) { toast('Format de cle invalide (doit commencer par sk-ant-...)', 'red'); return; }
+  API_KEY = v;
+  try { localStorage.setItem('sos44_ak', _encKey(v)); } catch(e) {}
+  var el = document.getElementById('apiStatus');
+  el.textContent = 'cle ok'; el.className = 'api-status ok';
+  setTimeout(function() { el.className = 'api-status'; }, 3000);
+  document.getElementById('configApiKey').value = v;
+  toast('Cle API enregistree', 'green');
+}
+function saveApiKeyFromConfig() {
+  var v = document.getElementById('configApiKey').value.trim();
+  if (!v) return;
+  if (v.indexOf('sk-ant') !== 0 && v.indexOf('sk-') !== 0) { toast('Format de cle invalide (doit commencer par sk-ant-...)', 'red'); return; }
+  API_KEY = v;
+  try { localStorage.setItem('sos44_ak', _encKey(v)); } catch(e) {}
+  document.getElementById('apiKey').value = v;
+  var st = document.getElementById('configApiStatus');
+  st.style.display = 'block'; st.className = 'config-status ok'; st.textContent = 'Cle API enregistree. Elle est stockee de facon protegee dans votre navigateur.';
+  setTimeout(function() { st.style.display = 'none'; }, 4000);
+  toast('Cle API enregistree', 'green');
+}
+function loadApiKey() {
+  try {
+    /* Migrate from old sessionStorage */
+    var old = sessionStorage.getItem('sos44_api_key');
+    if (old) { localStorage.setItem('sos44_ak', _encKey(old)); sessionStorage.removeItem('sos44_api_key'); }
+    var enc = localStorage.getItem('sos44_ak');
+    if (enc) { var k = _decKey(enc); if (k) { API_KEY = k; document.getElementById('apiKey').value = k; document.getElementById('configApiKey').value = k; } }
+  } catch(e) {}
+}
+function deleteApiKey() {
+  API_KEY = '';
+  try { localStorage.removeItem('sos44_ak'); sessionStorage.removeItem('sos44_api_key'); } catch(e) {}
+  document.getElementById('apiKey').value = '';
+  document.getElementById('configApiKey').value = '';
+  toast('Cle API supprimee', 'green');
+}
+
+function saveModelChoice() {
+  var radios = document.querySelectorAll('input[name="aiModel"]');
+  var val = '';
+  radios.forEach(function(r) { if (r.checked) val = r.value; });
+  if (!val) return;
+  var settings = getSettings(); settings.aiModel = val; saveSettings(settings);
+  var st = document.getElementById('modelStatus');
+  st.style.display = 'block';
+  st.textContent = 'Modele enregistre : ' + (val.indexOf('haiku') !== -1 ? 'Haiku 4.5 (economique)' : 'Sonnet 4.6 (premium)');
+  /* Visual highlight */
+  document.getElementById('modelLabelHaiku').style.borderColor = val.indexOf('haiku') !== -1 ? 'var(--green)' : 'var(--border)';
+  document.getElementById('modelLabelSonnet').style.borderColor = val.indexOf('sonnet') !== -1 ? 'var(--accent)' : 'var(--border)';
+  setTimeout(function(){ st.style.display = 'none'; }, 3000);
+}
+
+function initModelSelector() {
+  var model = getSelectedModel();
+  if (model.indexOf('haiku') !== -1) document.getElementById('modelHaiku').checked = true;
+  else document.getElementById('modelSonnet').checked = true;
+  document.getElementById('modelLabelHaiku').style.borderColor = model.indexOf('haiku') !== -1 ? 'var(--green)' : 'var(--border)';
+  document.getElementById('modelLabelSonnet').style.borderColor = model.indexOf('sonnet') !== -1 ? 'var(--accent)' : 'var(--border)';
+}
+
+/* ================================================================
+   BLOG SEO - Article generation
+   ================================================================ */
+var ALL_TOPICS = [
+  {id:'pc-lenteur',cat:'pc',title:'Pourquoi mon PC Windows est devenu lent ?',slug:'pc-windows-lent-solutions'},
+  {id:'pc-ecranbleu',cat:'pc',title:'Ecran bleu sur PC : causes et solutions',slug:'ecran-bleu-pc-causes-solutions'},
+  {id:'pc-ssd',cat:'pc',title:'Upgrade SSD : redonnez vie a votre PC',slug:'upgrade-ssd-pc-portable'},
+  {id:'pc-nettoyage',cat:'pc',title:'Nettoyage interne PC : evitez la surchauffe',slug:'nettoyage-interne-pc-surchauffe'},
+  {id:'mac-surchauffe',cat:'mac',title:'MacBook qui surchauffe : que faire ?',slug:'macbook-surchauffe-solutions'},
+  {id:'mac-lent',cat:'mac',title:'Votre Mac est lent ? Nos solutions',slug:'mac-lent-solutions-optimisation'},
+  {id:'mac-ecran',cat:'mac',title:'Ecran MacBook casse : reparation vs remplacement',slug:'ecran-macbook-casse-reparation'},
+  {id:'mac-imac',cat:'mac',title:'iMac vs MacBook : quel Mac choisir ?',slug:'imac-vs-macbook-comparatif'},
+  {id:'iphone-batterie',cat:'phone',title:'Batterie iPhone qui se decharge vite : solutions',slug:'batterie-iphone-decharge-rapide'},
+  {id:'iphone-ecran',cat:'phone',title:'Ecran iPhone casse : faut-il le reparer ?',slug:'ecran-iphone-casse-reparation'},
+  {id:'iphone-connecteur',cat:'phone',title:'Connecteur de charge iPhone : reparation',slug:'connecteur-charge-iphone-reparation'},
+  {id:'ipad-entretien',cat:'phone',title:'Entretien iPad : conseils de pro',slug:'entretien-ipad-conseils'},
+  {id:'virus-protection',cat:'security',title:'Proteger son PC des virus',slug:'proteger-pc-virus-malware'},
+  {id:'ransomware',cat:'security',title:'Ransomware : comment reagir ?',slug:'ransomware-reagir-proteger'},
+  {id:'wifi-securite',cat:'security',title:'Securiser son reseau Wi-Fi a la maison',slug:'securiser-reseau-wifi-maison'},
+  {id:'phishing',cat:'security',title:'Phishing : reconnaitre les arnaques email',slug:'phishing-reconnaitre-arnaques'},
+  {id:'data-recup',cat:'data',title:'Recuperation de donnees : ce qu\'il faut savoir',slug:'recuperation-donnees-disque-dur'},
+  {id:'data-sauvegarde',cat:'data',title:'Sauvegarde de donnees : les bonnes pratiques',slug:'sauvegarde-donnees-bonnes-pratiques'},
+  {id:'qr-bonus',cat:'qualire',title:'Bonus Reparation 50 euros : comment en profiter',slug:'bonus-reparation-50-euros-qualire'},
+  {id:'qr-reparer',cat:'qualire',title:'Reparer plutot que jeter : un geste durable',slug:'reparer-plutot-que-jeter-ecologie'},
+  {id:'micro-cm',cat:'micro',title:'Micro-soudure : sauver une carte mere',slug:'micro-soudure-carte-mere-reparation'},
+  {id:'micro-puces',cat:'micro',title:'Remplacement de puces : la micro-soudure expliquee',slug:'remplacement-puces-micro-soudure'},
+  {id:'trend-w11',cat:'trends',title:'Windows 11 : faut-il mettre a jour ?',slug:'windows-11-mise-a-jour-compatibilite'},
+  {id:'trend-gamer',cat:'trends',title:'PC Gamer : optimiser ses performances',slug:'pc-gamer-optimiser-performances'},
+  {id:'trend-recond',cat:'trends',title:'Reconditionne vs neuf : que choisir ?',slug:'reconditionne-vs-neuf-comparatif'},
+  {id:'trend-usbc',cat:'trends',title:'USB-C : tout savoir sur le connecteur universel',slug:'usb-c-connecteur-universel-guide'},
+  {id:'pc-ventilateur',cat:'pc',title:'Ventilateur PC bruyant : causes et solutions',slug:'ventilateur-pc-bruyant-solutions'},
+  {id:'mac-batterie',cat:'mac',title:'Batterie MacBook : quand la remplacer ?',slug:'batterie-macbook-remplacement'},
+  {id:'iphone-eau',cat:'phone',title:'iPhone tombe dans l\'eau : les bons reflexes',slug:'iphone-tombe-eau-que-faire'},
+  {id:'data-ssd',cat:'data',title:'SSD en panne : peut-on recuperer les donnees ?',slug:'ssd-panne-recuperation-donnees'}
+];
+var CAT_LABELS = {pc:'PC Windows',mac:'Apple',phone:'iPhone/iPad',security:'Securite',data:'Donnees',qualire:'QualiRepare',micro:'Micro-soudure',trends:'Tendances'};
+var CAT_TAG_CLASS = {pc:'tag-pc',mac:'tag-mac',phone:'tag-phone',security:'tag-security',data:'tag-data',qualire:'tag-qualire',micro:'tag-micro',trends:'tag-trends'};
+var CITIES = ['La Chapelle-sur-Erdre','Nantes Nord','Nantes','Carquefou','Suce-sur-Erdre','Sainte-Luce-sur-Loire','Orvault','Treillieres','Grandchamp-des-Fontaines','Petit-Mars'];
+var SERVICE_URLS = [SITE_URL+'/#services',SITE_URL+'/#bonus',SITE_URL+'/#contact',SITE_URL+'/#comparatif',SITE_URL+'/#calculateur'];
+
 var currentFilter = 'all';
 
 function renderArticles() {
   var articles = getArticles();
   var container = document.getElementById('articlesContainer');
   var filtered = currentFilter === 'all' ? articles : articles.filter(function(a) { return a.category === currentFilter; });
-
-  // Stats
   document.getElementById('statTotal').textContent = articles.length;
   if (articles.length > 0) {
     var sorted = articles.slice().sort(function(a,b) { return new Date(b.date) - new Date(a.date); });
     var d = new Date(sorted[0].date);
     document.getElementById('statLastMonth').textContent = d.toLocaleDateString('fr-FR', {month:'short',year:'numeric'});
-  } else {
-    document.getElementById('statLastMonth').textContent = '—';
-  }
+  } else { document.getElementById('statLastMonth').textContent = '\u2014'; }
 
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg><h3>Aucun article</h3><p>Cliquez sur "Générer 5 articles du mois" pour créer vos premiers articles SEO optimisés.</p></div>';
+    container.innerHTML = '<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 013.002 3.002L7.368 18.635a2 2 0 01-.855.506l-2.872.838.838-2.872a2 2 0 01.506-.855z"/></svg><h3>Aucun article</h3><p>Cliquez sur "Generer 5 articles du mois" pour creer vos premiers articles SEO.</p></div>';
     return;
   }
-
-  // Group by month
   var groups = {};
-  filtered.forEach(function(a) {
-    var d = new Date(a.date);
-    var key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(a);
-  });
-
+  filtered.forEach(function(a) { var d = new Date(a.date); var key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); if (!groups[key]) groups[key] = []; groups[key].push(a); });
   var sortedKeys = Object.keys(groups).sort().reverse();
   var html = '';
   sortedKeys.forEach(function(key) {
@@ -440,329 +887,925 @@ function renderArticles() {
       var catLabel = CAT_LABELS[a.category] || a.category;
       html += '<div class="article-card" data-id="' + escHTML(a.id) + '">';
       html += '<div class="article-header" onclick="toggleArticle(\'' + escHTML(a.id) + '\')">';
+      if (a.image && a.image.indexOf('data:image/') === 0) {
+        html += '<img src="' + a.image + '" alt="' + escHTML(a.title) + '" class="article-img-thumb" onclick="event.stopPropagation();pickArticlePhoto(\'' + escHTML(a.id) + '\')" title="Changer la photo">';
+      } else {
+        html += '<div class="article-img-placeholder" onclick="event.stopPropagation();pickArticlePhoto(\'' + escHTML(a.id) + '\')" title="Ajouter une photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>';
+      }
       html += '<div class="article-meta"><h4>' + escHTML(a.title) + '</h4>';
       html += '<div class="article-meta-info"><span class="article-date">' + new Date(a.date).toLocaleDateString('fr-FR') + '</span>';
       html += '<span class="article-tag ' + tagClass + '">' + catLabel + '</span></div></div>';
       html += '<div class="article-actions"><button onclick="event.stopPropagation();deleteArticle(\'' + escHTML(a.id) + '\')" title="Supprimer">&#x2715;</button></div>';
       html += '<span class="article-expand"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></span>';
       html += '</div>';
-      html += '<div class="article-body" id="body-' + escHTML(a.id) + '"><div class="article-content">' + DOMPurify.sanitize(a.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div></div>';
+      html += '<div class="article-body" id="body-' + escHTML(a.id) + '">';
+      if (a.image && a.image.indexOf('data:image/') === 0) html += '<img src="' + a.image + '" alt="' + escHTML(a.title) + '" class="article-image" loading="lazy">';
+      html += '<div class="article-content">' + DOMPurify.sanitize(a.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div></div>';
       html += '</div>';
     });
     html += '</div>';
   });
   container.innerHTML = html;
 }
+function toggleArticle(id) { var el = document.getElementById('body-' + id); if (el) el.classList.toggle('open'); }
+function deleteArticle(id) { if (!confirm('Supprimer cet article ?')) return; saveArticles(getArticles().filter(function(a) { return a.id !== id; })); renderArticles(); toast('Article supprime', 'green'); }
+function purgeAll() { if (!confirm('Supprimer TOUS les articles ?')) return; saveArticles([]); saveUsedTopics([]); renderArticles(); toast('Tous les articles supprimes', 'green'); }
 
-function toggleArticle(id) {
-  var el = document.getElementById('body-' + id);
-  if (el) el.classList.toggle('open');
+function pickArticlePhoto(articleId) {
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = function() {
+    if (!input.files[0]) return;
+    resizeImageFile(input.files[0], 800, 450, 0.80).then(function(dataUrl) {
+      var articles = getArticles();
+      var idx = articles.findIndex(function(a) { return a.id === articleId; });
+      if (idx === -1) { toast('Article introuvable', 'red'); return; }
+      articles[idx].image = dataUrl;
+      saveArticles(articles);
+      renderArticles();
+      toast('Photo ajoutee a l\'article', 'green');
+    }).catch(function(e) { toast('Erreur : ' + e.message, 'red'); });
+  };
+  input.click();
 }
-function deleteArticle(id) {
-  if (!confirm('Supprimer cet article ?')) return;
-  var articles = getArticles().filter(function(a) { return a.id !== id; });
-  saveArticles(articles);
-  renderArticles();
-  toast('Article supprimé');
-}
-function purgeAll() {
-  if (!confirm('Supprimer TOUS les articles ? Cette action est irréversible.')) return;
-  saveArticles([]);
-  saveUsedTopics([]);
-  renderArticles();
-  toast('Tous les articles supprimés');
-}
-function escHTML(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-/* ===== FILTER ===== */
 document.getElementById('filterBar').addEventListener('click', function(e) {
-  var btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  currentFilter = btn.dataset.filter;
-  renderArticles();
+  var btn = e.target.closest('.filter-btn'); if (!btn) return;
+  document.querySelectorAll('#filterBar .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active'); currentFilter = btn.dataset.filter; renderArticles();
 });
 
-/* ===== TOPIC SELECTION ===== */
 function pickTopics(count) {
   var used = getUsedTopics();
   var available = ALL_TOPICS.filter(function(t) { return used.indexOf(t.id) === -1; });
-  if (available.length < count) {
-    // Reset used topics (cycle)
-    saveUsedTopics([]);
-    available = ALL_TOPICS.slice();
-  }
-  // Shuffle
-  for (var i = available.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = available[i]; available[i] = available[j]; available[j] = tmp;
-  }
+  if (available.length < count) { saveUsedTopics([]); available = ALL_TOPICS.slice(); }
+  for (var i = available.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = available[i]; available[i] = available[j]; available[j] = tmp; }
   return available.slice(0, count);
 }
 
-/* ===== DEMO ARTICLE GENERATION ===== */
 function generateDemoArticle(topic) {
   var c1 = CITIES[Math.floor(Math.random()*CITIES.length)];
   var c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
   while (c2 === c1) c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
   var serviceUrl = SERVICE_URLS[Math.floor(Math.random()*SERVICE_URLS.length)];
-
   var content = '<h2>' + topic.title + '</h2>';
-  content += '<p>Vous habitez à <strong>' + c1 + '</strong> ou <strong>' + c2 + '</strong> et vous rencontrez un problème informatique ? ';
-  content += 'Chez <strong>SOS Informatique 44</strong>, notre atelier situé à La Chapelle-sur-Erdre, en Loire-Atlantique (44), ';
-  content += 'est spécialisé dans la réparation de PC, Mac, smartphones et tablettes.</p>';
-
-  content += '<h3>Le problème expliqué simplement</h3>';
-  content += '<p>Ce type de panne est fréquent et touche de nombreux appareils. ';
-  content += 'Nos techniciens diagnostiquent gratuitement votre appareil pour identifier la cause exacte du problème. ';
-  content += 'Contrairement au remplacement complet, la réparation au composant permet de réduire les coûts tout en prolongeant la durée de vie de votre matériel.</p>';
-
-  content += '<h3>Notre méthode de réparation</h3>';
-  content += '<p>À notre atelier de La Chapelle-sur-Erdre (à proximité de Nantes Nord), nous procédons étape par étape :</p>';
-  content += '<ul><li>Diagnostic complet gratuit de votre appareil</li>';
-  content += '<li>Devis transparent avant toute intervention</li>';
-  content += '<li>Réparation au composant (micro-soudure si nécessaire)</li>';
-  content += '<li>Tests approfondis après réparation</li>';
-  content += '<li>Garantie 90 jours minimum sur pièces et main d\'œuvre</li></ul>';
-
-  content += '<h3>Pourquoi choisir SOS Informatique 44 ?</h3>';
-  content += '<p>Nous intervenons pour les particuliers et les entreprises de ' + c1 + ', ' + c2 + ' et de toute l\'agglomération nantaise. ';
-  content += 'Notre expertise en micro-soudure nous permet de réparer des cartes mères que d\'autres considèrent comme irréparables. ';
-  content += 'La confidentialité de vos données est garantie à chaque intervention.</p>';
-
-  content += '<p>Consultez <a href="' + serviceUrl + '">nos services de réparation</a> pour en savoir plus.</p>';
-
-  content += '<h3>Profitez du Bonus Réparation QualiRépare</h3>';
-  content += '<p>Grâce au label <strong>QualiRépare</strong>, bénéficiez de <strong>50 € déduits immédiatement</strong> sur votre facture de réparation. ';
-  content += 'Aucune démarche à faire : le bonus est appliqué directement par notre atelier certifié.</p>';
-
-  content += '<p><strong>Contactez-nous dès maintenant :</strong></p>';
-  content += '<ul><li><a href="' + WA_LINK + '" target="_blank" rel="noopener">WhatsApp : 06 58 45 80 91</a></li>';
-  content += '<li>Téléphone : <a href="tel:0285523814">' + PHONE + '</a></li></ul>';
-
+  content += '<p>Vous habitez a <strong>' + c1 + '</strong> ou <strong>' + c2 + '</strong> et vous rencontrez un probleme informatique ? Chez <strong>SOS Informatique 44</strong>, notre atelier situe a La Chapelle-sur-Erdre, en Loire-Atlantique (44), est specialise dans la reparation de PC, Mac, smartphones et tablettes.</p>';
+  content += '<h3>Le probleme explique simplement</h3><p>Ce type de panne est frequent et touche de nombreux appareils. Nos techniciens diagnostiquent gratuitement votre appareil pour identifier la cause exacte.</p>';
+  content += '<h3>Notre methode de reparation</h3><ul><li>Diagnostic complet gratuit</li><li>Devis transparent avant intervention</li><li>Reparation au composant (micro-soudure si necessaire)</li><li>Tests approfondis apres reparation</li><li>Garantie 90 jours minimum</li></ul>';
+  content += '<h3>Pourquoi choisir SOS Informatique 44 ?</h3><p>Nous intervenons pour les particuliers et entreprises de ' + c1 + ', ' + c2 + ' et toute l\'agglomeration nantaise.</p>';
+  content += '<p>Consultez <a href="' + serviceUrl + '">nos services</a> pour en savoir plus.</p>';
+  content += '<h3>Bonus Reparation QualiRepare</h3><p>Grace au label <strong>QualiRepare</strong>, beneficiez de <strong>50 euros deduits immediatement</strong> sur votre facture.</p>';
+  content += '<p><strong>Contactez-nous :</strong></p><ul><li><a href="' + WA_LINK + '" target="_blank" rel="noopener">WhatsApp : 06 58 45 80 91</a></li><li>Telephone : <a href="tel:0285523814">' + PHONE + '</a></li></ul>';
   return content;
 }
 
-/* ===== PRO ARTICLE GENERATION ===== */
 function buildPrompt(topic) {
-  var c1 = CITIES[Math.floor(Math.random()*CITIES.length)];
-  var c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  var c1 = CITIES[Math.floor(Math.random()*CITIES.length)]; var c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
   while (c2 === c1) c2 = CITIES[Math.floor(Math.random()*CITIES.length)];
+  return 'Tu es un expert en redaction SEO locale pour un atelier de reparation informatique.\n\n' +
+    'ENTREPRISE :\n' +
+    '- Nom : SOS Informatique 44\n' +
+    '- Activite : Reparation PC, Mac, iPhone, smartphones, tablettes, micro-soudure, recuperation de donnees\n' +
+    '- Adresse : 27 Rue de la Vriere, 44240 La Chapelle-sur-Erdre (Loire-Atlantique)\n' +
+    '- Label : QualiRepare (Bonus Reparation 50 euros)\n' +
+    '- Tel : 02 85 52 38 14 | WhatsApp : 06 58 45 80 91\n' +
+    '- Site : ' + SITE_URL + '\n\n' +
+    'SUJET : ' + topic.title + '\nSlug URL : ' + topic.slug + '\n\n' +
+    'REGLES SEO OBLIGATOIRES :\n' +
+    '1. Redige 500 a 650 mots\n' +
+    '2. Structure HTML avec balises semantiques :\n' +
+    '   - <h1> : titre principal optimise (mot-cle + "La Chapelle-sur-Erdre" ou "Nantes")\n' +
+    '   - <h2> : 3 a 4 sous-titres avec mots-cles secondaires\n' +
+    '   - <h3> si necessaire pour sous-sections\n' +
+    '   - <p>, <ul><li>, <strong>, <a>\n' +
+    '   - 1 lien interne minimum : <a href="' + SITE_URL + '/#services">nos services</a>\n' +
+    '3. Mots-cles locaux a integrer naturellement :\n' +
+    '   - "reparation informatique La Chapelle-sur-Erdre"\n' +
+    '   - "SOS Informatique 44"\n' +
+    '   - "depannage informatique ' + c1 + '"\n' +
+    '   - "reparation ' + c2 + '"\n' +
+    '4. Cite au moins : ' + c1 + ', ' + c2 + '\n' +
+    '5. Termine par : Bonus Reparation 50 euros QualiRepare + CTA WhatsApp/telephone\n' +
+    '6. Genere aussi une meta description (155 caracteres max)\n\n' +
+    'REPONDS UNIQUEMENT en JSON :\n{"titre":"...","meta":"...","contenu":"<h1>...</h1><p>...</p>..."}';
+}
 
-  return 'Rédige un article de blog SEO en français (500 à 650 mots) pour le site SOS Informatique 44 (réparation informatique à La Chapelle-sur-Erdre, Loire-Atlantique 44).\n\n' +
-    'Sujet : ' + topic.title + '\n' +
-    'Slug URL : ' + topic.slug + '\n\n' +
-    'Règles obligatoires :\n' +
-    '- Mots-clés locaux : La Chapelle-sur-Erdre, Nantes, Loire-Atlantique (44)\n' +
-    '- Cite au moins ces 2 villes : ' + c1 + ', ' + c2 + '\n' +
-    '- Rappelle le Bonus Réparation 50 € grâce au label QualiRépare en fin d\'article\n' +
-    '- CTA final : WhatsApp (06 58 45 80 91) et téléphone (02 85 52 38 14)\n' +
-    '- Inclus au moins 1 lien interne vers : ' + SITE_URL + '/#services\n' +
-    '- Style : clair, utile, concret, professionnel. Pas de promesses exagérées.\n' +
-    '- Format : HTML (h2, h3, p, ul/li, a). Pas de balise html/head/body, juste le contenu article.\n' +
-    '- Commence directement par un <h2> avec le titre de l\'article.';
+function parseProResponse(txt) {
+  var allowedTags = {ALLOWED_TAGS:['h1','h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']};
+  var m = txt.match(/\{[\s\S]*\}/);
+  if (m) {
+    try {
+      var parsed = JSON.parse(m[0]);
+      return { title: parsed.titre || '', meta: parsed.meta || '', content: DOMPurify.sanitize(parsed.contenu || txt, allowedTags) };
+    } catch(e) {}
+  }
+  return { title: '', meta: '', content: DOMPurify.sanitize(txt, allowedTags) };
 }
 
 async function generateProArticle(topic) {
-  var settings = getSettings();
-  var proxyUrl = settings.proxyUrl;
-  if (!proxyUrl) throw new Error('URL du proxy non configurée');
-  /* Validate proxy URL: must be HTTPS */
-  try { var _u = new URL(proxyUrl); if (_u.protocol !== 'https:') throw 0; } catch(e) { throw new Error('Le proxy doit utiliser HTTPS'); }
-
   var prompt = buildPrompt(topic);
-  var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 30000);
-  var resp;
-  try {
-    resp = await fetch(proxyUrl, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 2000,
-        messages: [{role: 'user', content: prompt}]
-      }),
-      signal: controller.signal
-    });
-  } finally { clearTimeout(timeout); }
-  if (!resp.ok) throw new Error('Erreur proxy : ' + resp.status);
-  var data;
-  try { data = await resp.json(); } catch(e) { throw new Error('Réponse proxy invalide (pas JSON)'); }
-  // Extract text from Claude Messages API response + sanitize
-  if (data.content && data.content[0] && typeof data.content[0].text === 'string') {
-    return DOMPurify.sanitize(data.content[0].text, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']});
-  }
-  throw new Error('Réponse invalide du proxy');
+  var data = await callClaudeAPI(prompt);
+  var txt = (data.content||[]).map(function(b){ return b.text||''; }).join('');
+  return parseProResponse(txt);
 }
 
-/* ===== GENERATE ===== */
 async function generateArticles() {
   var isPro = document.getElementById('modeSwitch').checked;
-  var topics = pickTopics(5);
-  if (topics.length === 0) { toast('Aucun sujet disponible'); return; }
-
-  showLoading('Génération en cours…', 'Article 1 / ' + topics.length);
-  var articles = getArticles();
-  var used = getUsedTopics();
-  var now = new Date();
-  var generated = 0;
-
+  var topics = pickTopics(5); if (topics.length === 0) { toast('Aucun sujet disponible', 'red'); return; }
+  showLoading('Generation en cours...', 'Article 1 / ' + topics.length);
+  var articles = getArticles(); var used = getUsedTopics(); var now = new Date(); var generated = 0;
   for (var i = 0; i < topics.length; i++) {
-    document.getElementById('loadingSub').textContent = 'Article ' + (i+1) + ' / ' + topics.length + (isPro ? ' (appel proxy…)' : ' (mode démo)');
-    var topic = topics[i];
-    var content = '';
-
+    document.getElementById('loadingSub').textContent = 'Article ' + (i+1) + ' / ' + topics.length + (isPro ? ' (API)' : ' (demo)');
+    var topic = topics[i]; var content = '';
     try {
+      var artTitle = topic.title, artMeta = '', artContent = '';
       if (isPro) {
-        content = await generateProArticle(topic);
+        var result = await generateProArticle(topic);
+        artContent = result.content;
+        if (result.title) artTitle = result.title;
+        artMeta = result.meta || '';
       } else {
-        // Simulate delay for demo
         await new Promise(function(r) { setTimeout(r, 400); });
-        content = generateDemoArticle(topic);
+        artContent = generateDemoArticle(topic);
       }
-
-      articles.push({
-        id: topic.id + '-' + Date.now() + '-' + i,
-        topicId: topic.id,
-        title: topic.title,
-        slug: topic.slug,
-        category: topic.cat,
-        date: now.toISOString(),
-        content: content
-      });
-      used.push(topic.id);
-      generated++;
-    } catch (err) {
-      console.error('Erreur génération:', err);
-      toast('Erreur : ' + err.message);
-    }
+      articles.push({ id: topic.id + '-' + Date.now() + '-' + i, topicId: topic.id, title: artTitle, slug: topic.slug, category: topic.cat, date: now.toISOString(), content: artContent, meta: artMeta, image: '' });
+      used.push(topic.id); generated++;
+    } catch (err) { toast('Erreur : ' + err.message, 'red'); }
   }
-
-  saveArticles(articles);
-  saveUsedTopics(used);
-  hideLoading();
-  renderArticles();
-  toast(generated + ' article(s) généré(s) avec succès');
+  saveArticles(articles); saveUsedTopics(used); hideLoading(); renderArticles();
+  toast(generated + ' article(s) genere(s)', 'green');
 }
 
-/* ===== SITEMAP ===== */
 function downloadSitemap() {
-  var articles = getArticles();
-  var today = new Date().toISOString().slice(0,10);
-  var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-
-  // Static pages
-  var staticPages = [
-    {loc: SITE_URL + '/', priority: '1.0'},
-    {loc: SITE_URL + '/#services', priority: '0.9'},
-    {loc: SITE_URL + '/#bonus', priority: '0.8'},
-    {loc: SITE_URL + '/#contact', priority: '0.8'},
-    {loc: SITE_URL + '/blog/', priority: '0.8'}
-  ];
-  staticPages.forEach(function(p) {
-    xml += '  <url>\n    <loc>' + p.loc + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>' + p.priority + '</priority>\n  </url>\n';
+  var articles = getArticles(); var today = new Date().toISOString().slice(0,10);
+  var xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  [{loc:SITE_URL+'/',p:'1.0'},{loc:SITE_URL+'/#services',p:'0.9'},{loc:SITE_URL+'/#bonus',p:'0.8'},{loc:SITE_URL+'/#contact',p:'0.8'},{loc:SITE_URL+'/blog/',p:'0.8'}].forEach(function(pg){
+    xml += '  <url><loc>'+pg.loc+'</loc><lastmod>'+today+'</lastmod><changefreq>monthly</changefreq><priority>'+pg.p+'</priority></url>\n';
   });
-
-  // Articles
-  articles.forEach(function(a) {
-    xml += '  <url>\n    <loc>' + SITE_URL + '/blog/' + a.slug + '/</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n';
-  });
-
+  articles.forEach(function(a){ xml += '  <url><loc>'+SITE_URL+'/blog/'+a.slug+'/</loc><lastmod>'+today+'</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n'; });
   xml += '</urlset>';
   download('sitemap.xml', xml, 'application/xml');
-  toast('Sitemap téléchargé');
+  toast('Sitemap telecharge', 'green');
 }
 
-/* ===== EXPORT HTML ===== */
-function exportHTML() {
-  var articles = getArticles();
-  if (articles.length === 0) { toast('Aucun article à exporter'); return; }
-
-  var html = '<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
-  html += '<title>Blog — SOS Informatique 44</title>';
-  html += '<style>body{font-family:Inter,sans-serif;max-width:800px;margin:0 auto;padding:20px;color:#0F172A;background:#F8FAFC;line-height:1.7}';
-  html += 'article{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:28px;margin-bottom:24px}';
-  html += 'h1{font-family:Outfit,sans-serif;font-size:2rem;margin-bottom:24px}';
-  html += 'h2{font-family:Outfit,sans-serif;font-size:1.5rem;color:#0F172A;margin-top:0}';
-  html += 'h3{font-family:Outfit,sans-serif;font-size:1.125rem}';
-  html += 'a{color:#0EA5E9}.meta{font-size:.8125rem;color:#475569;margin-bottom:12px}';
-  html += '</style></head><body>';
-  html += '<h1>Blog — SOS Informatique 44</h1>';
-  articles.forEach(function(a) {
-    html += '<article><div class="meta">' + new Date(a.date).toLocaleDateString('fr-FR') + ' — ' + (CAT_LABELS[a.category]||'') + '</div>';
-    html += a.content;
-    html += '</article>';
-  });
+function exportBlogHTML() {
+  var articles = getArticles(); if (articles.length === 0) { toast('Aucun article', 'red'); return; }
+  var html = '<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Blog - SOS Informatique 44</title>';
+  html += '<style>body{font-family:Inter,sans-serif;max-width:800px;margin:0 auto;padding:20px;color:#0F172A;background:#F8FAFC;line-height:1.7}article{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:28px;margin-bottom:24px}h1{font-size:2rem;margin-bottom:24px}h2{font-size:1.5rem;margin-top:0}a{color:#0EA5E9}.meta{font-size:.8125rem;color:#475569;margin-bottom:12px}</style></head><body>';
+  html += '<h1>Blog - SOS Informatique 44</h1>';
+  articles.forEach(function(a){ html += '<article>' + (a.image ? '<img src="' + a.image + '" alt="" style="width:100%;max-height:300px;object-fit:cover;border-radius:8px;margin-bottom:16px">' : '') + '<div class="meta">' + new Date(a.date).toLocaleDateString('fr-FR') + ' - ' + (CAT_LABELS[a.category]||'') + '</div>' + a.content + '</article>'; });
   html += '</body></html>';
   download('blog-sos-informatique44-export.html', html, 'text/html');
-  toast('Export HTML téléchargé');
+  toast('Export HTML telecharge', 'green');
 }
 
-function download(filename, content, type) {
-  var blob = new Blob([content], {type: type + ';charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+/* ================================================================
+   VEILLE IA - RSS Fetching & Rewriting
+   ================================================================ */
+var veilleArticles = [];
+var currentModalArticle = null;
+
+var RSS_SOURCES = [
+  { name: 'Le Monde Informatique', url: 'https://www.lemondeinformatique.fr/flux-rss/thematique/toutes-les-informations/RSS.xml', topics: ['ia','securite'] },
+  { name: 'ZDNet France', url: 'https://www.zdnet.fr/feeds/rss/', topics: ['ia','securite','smartphones'] },
+  { name: '01net', url: 'https://www.01net.com/rss/', topics: ['ia','smartphones'] },
+  { name: 'The Hacker News', url: 'https://feeds.feedburner.com/TheHackersNews', topics: ['securite'] },
+  { name: 'TechCrunch', url: 'https://techcrunch.com/feed/', topics: ['ia','smartphones'] },
+  { name: 'Frandroid', url: 'https://www.frandroid.com/feed', topics: ['smartphones','reparation'] },
+  { name: 'Journal du Geek', url: 'https://www.journaldugeek.com/feed/', topics: ['ia','smartphones','securite'] }
+];
+var CORS_PROXIES = [
+  { prefix: 'https://api.allorigins.win/raw?url=', encode: true },
+  { prefix: 'https://corsproxy.io/?url=', encode: true },
+  { prefix: 'https://api.codetabs.com/v1/proxy?quest=', encode: false }
+];
+var TOPIC_LABELS = { ia: 'IA', securite: 'Securite', smartphones: 'Smartphones', reparation: 'Reparation' };
+
+function fetchWithCorsProxy(url) {
+  var attempts = CORS_PROXIES.map(function(proxy) {
+    var proxyUrl = proxy.prefix + (proxy.encode ? encodeURIComponent(url) : url);
+    return function() {
+      return fetch(proxyUrl, { signal: AbortSignal.timeout(8000) }).then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      });
+    };
+  });
+  return attempts.reduce(function(chain, attempt) {
+    return chain.catch(function() { return attempt(); });
+  }, attempts.shift()());
 }
 
-/* ===== MODE TOGGLE ===== */
-document.getElementById('modeSwitch').addEventListener('change', function() {
-  var pro = this.checked;
-  document.getElementById('proxyConfig').style.display = pro ? 'block' : 'none';
-  var settings = getSettings();
-  settings.mode = pro ? 'pro' : 'demo';
-  saveSettings(settings);
-  if (pro) {
-    var s = getSettings();
-    if (s.proxyUrl) document.getElementById('proxyUrl').value = s.proxyUrl;
-  }
-});
+function toggleTopic(el) { el.classList.toggle('active'); }
+function getActiveVeilleTopics() { return Array.from(document.querySelectorAll('#panel-veille .topic-item.active')).map(function(el){ return el.getAttribute('data-topic'); }); }
 
-document.getElementById('proxyUrl').addEventListener('change', function() {
-  var settings = getSettings();
-  settings.proxyUrl = this.value;
-  saveSettings(settings);
-});
+function fetchVeilleArticles() {
+  var topics = getActiveVeilleTopics();
+  if (topics.length === 0) { toast('Selectionnez au moins un sujet', 'red'); return; }
+  veilleArticles = [];
+  document.getElementById('veilleGrid').innerHTML = '';
+  document.getElementById('btnFetch').disabled = true;
+  document.getElementById('fetchLabel').textContent = 'Recherche en cours...';
+  document.getElementById('veilleHeading').textContent = 'Recherche en cours...';
+  var prog = document.getElementById('fetchProgress'); prog.classList.add('show');
+  document.getElementById('fetchFill').style.width = '5%';
 
-async function testProxy() {
-  var url = document.getElementById('proxyUrl').value;
-  var statusEl = document.getElementById('proxyStatus');
-  if (!url) { statusEl.className = 'proxy-status err'; statusEl.textContent = 'URL vide'; return; }
-  try { var _u = new URL(url); if (_u.protocol !== 'https:') { statusEl.className = 'proxy-status err'; statusEl.textContent = 'Le proxy doit utiliser HTTPS'; return; } } catch(e) { statusEl.className = 'proxy-status err'; statusEl.textContent = 'URL invalide'; return; }
-  statusEl.className = 'proxy-status'; statusEl.style.display = 'block'; statusEl.textContent = 'Test en cours…'; statusEl.style.background = '#F8FAFC'; statusEl.style.color = 'var(--text-secondary)';
+  var sources = RSS_SOURCES.filter(function(s){ return s.topics.some(function(t){ return topics.indexOf(t) !== -1; }); });
+  var done = 0;
+  var promises = sources.map(function(source) {
+    return fetchWithCorsProxy(source.url).then(function(xml){
+      veilleArticles = veilleArticles.concat(parseRSS(xml, source.name, topics));
+      done++; document.getElementById('fetchFill').style.width = Math.round((done/sources.length)*90) + '%';
+    }).catch(function(e){ console.warn('RSS failed:', source.name, e.message); done++; document.getElementById('fetchFill').style.width = Math.round((done/sources.length)*90) + '%'; });
+  });
 
+  Promise.all(promises).then(function(){
+    veilleArticles = veilleArticles.filter(function(a,i,arr){ return arr.findIndex(function(b){ return b.title === a.title; }) === i; }).sort(function(a,b){ return new Date(b.date) - new Date(a.date); }).slice(0,30);
+    document.getElementById('fetchFill').style.width = '100%';
+    setTimeout(function(){ prog.classList.remove('show'); document.getElementById('fetchFill').style.width = '0%'; }, 700);
+    document.getElementById('btnFetch').disabled = false;
+    document.getElementById('fetchLabel').textContent = 'Chercher a nouveau';
+    document.getElementById('countBadge').textContent = veilleArticles.length + ' articles trouves';
+    document.getElementById('veilleHeading').textContent = veilleArticles.length + ' articles trouves';
+    if (veilleArticles.length === 0) {
+      document.getElementById('veilleGrid').innerHTML = '<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><h3>Aucun article trouve</h3><p>Les flux RSS sont peut-etre indisponibles. Reessayez.</p></div>';
+    } else { renderVeilleCards(); toast(veilleArticles.length + ' articles recuperes', 'green'); }
+  });
+}
+
+function parseRSS(xml, sourceName, activeTopics) {
+  var results = [];
   try {
-    var resp = await fetch(url, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:10,messages:[{role:'user',content:'Dis "ok"'}]})});
-    if (resp.ok) {
-      statusEl.className = 'proxy-status ok'; statusEl.textContent = 'Connexion réussie';
-    } else {
-      statusEl.className = 'proxy-status err'; statusEl.textContent = 'Erreur ' + resp.status;
+    var doc = new DOMParser().parseFromString(xml, 'application/xml');
+    var items = doc.querySelectorAll('item'); if (items.length === 0) items = doc.querySelectorAll('entry');
+    items.forEach(function(item){
+      var title = getText(item,'title'); var link = getText(item,'link') || (item.querySelector('link') ? item.querySelector('link').getAttribute('href') : '');
+      var desc = getText(item,'description') || getText(item,'summary') || getText(item,'content');
+      var date = getText(item,'pubDate') || getText(item,'published') || getText(item,'updated') || new Date().toISOString();
+      if (!title || title.length < 5) return;
+      var tmp = document.createElement('div'); tmp.textContent = ''; try { var safeParsed = new DOMParser().parseFromString('<div>' + (desc||'') + '</div>', 'text/html'); tmp.textContent = (safeParsed.body.textContent || '').trim(); } catch(e2) { tmp.textContent = desc || ''; }
+      var cleanDesc = (tmp.textContent || '').trim().slice(0,280) || 'Article de ' + sourceName;
+      results.push({ id:'v_'+Math.random().toString(36).slice(2), title:title.trim(), link:link, summary:cleanDesc, date:date, source:sourceName, topic:matchVeilleTopic(title+' '+cleanDesc, activeTopics), status:'pending', rewrittenTitle:'', rewrittenBody:'' });
+    });
+  } catch(e) {}
+  return results;
+}
+function getText(parent,tag) { var el = parent.querySelector(tag); return el ? (el.textContent||'').trim() : ''; }
+function matchVeilleTopic(text, activeTopics) {
+  var lower = text.toLowerCase();
+  var map = { ia:['ia','intelligence artificielle','ai ','gpt','chatgpt','llm','machine learning','openai','anthropic','gemini','mistral'], securite:['securite','hack','cyber','malware','ransomware','phishing','faille','virus','pirate'], smartphones:['smartphone','iphone','android','samsung','apple','mobile','tablette','5g','pixel','xiaomi'], reparation:['reparation','reparer','panne','batterie','ecran casse','soudure'] };
+  for (var topic in map) { if (activeTopics.indexOf(topic) === -1) continue; if (map[topic].some(function(kw){ return lower.indexOf(kw) !== -1; })) return topic; }
+  return activeTopics[0] || 'ia';
+}
+
+function renderVeilleCards() {
+  var grid = document.getElementById('veilleGrid'); grid.innerHTML = '';
+  veilleArticles.forEach(function(art){ grid.appendChild(makeVeilleCard(art)); });
+}
+
+function makeVeilleCard(art) {
+  var d = document.createElement('div');
+  d.className = 'veille-card' + (art.status === 'done' ? ' rewritten' : '');
+  d.id = 'vcard_' + art.id;
+  d.setAttribute('data-status', art.status);
+  var dateStr = ''; try { dateStr = new Date(art.date).toLocaleDateString('fr-FR'); } catch(e) {}
+  var allowedTags = {ALLOWED_TAGS:['h1','h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']};
+  var rewrittenHtml = art.status === 'done' ?
+    '<div class="rewritten-block visible"><div class="rewritten-title">' + escHTML(art.rewrittenTitle) + '</div>' +
+    (art.rewrittenMeta ? '<div style="font-size:.75rem;color:var(--green-dark);background:var(--green-light);padding:4px 8px;border-radius:4px;margin-bottom:8px"><strong>Meta :</strong> ' + escHTML(art.rewrittenMeta) + '</div>' : '') +
+    '<div class="rewritten-body">' + DOMPurify.sanitize(art.rewrittenBody, allowedTags) + '</div></div>' :
+    '<div class="rewritten-block" id="rw_' + art.id + '"></div>';
+
+  d.innerHTML =
+    '<div class="veille-meta"><span class="source-label">' + escHTML(art.source) + '</span><span class="topic-pill">' + (TOPIC_LABELS[art.topic]||art.topic) + '</span><span class="veille-date">' + dateStr + '</span></div>' +
+    '<div class="veille-title"><a href="' + escHTML(art.link) + '" target="_blank" rel="noopener">' + escHTML(art.title) + '</a></div>' +
+    '<div class="veille-summary">' + escHTML(art.summary) + '</div>' +
+    '<div class="veille-actions" id="vactions_' + art.id + '">' +
+    (art.status === 'done' ?
+      '<button class="btn btn-outline btn-sm" onclick="openModal(\'' + art.id + '\')" style="width:auto">Apercu</button>' +
+      '<button class="btn btn-green btn-sm" onclick="exportVeilleArticle(\'' + art.id + '\')" style="width:auto">Telecharger</button>' +
+      '<button class="btn btn-accent btn-sm" onclick="publishToSite(\'' + art.id + '\')" style="width:auto">Publier sur le site</button>' +
+      '<button class="btn btn-outline btn-sm" onclick="pickVeillePhoto(\'' + art.id + '\')" style="width:auto" id="vphoto_' + art.id + '">' + (art.image ? '&#x2705; Photo' : '&#x1F4F7; Photo') + '</button>' +
+      '<span class="status-pill done">SEO OK</span>' :
+      '<button class="btn btn-accent btn-sm" id="vbtn_' + art.id + '" onclick="rewriteArticle(\'' + art.id + '\')" style="width:auto">Reecrire avec IA</button><span class="status-pill pending">En attente</span>'
+    ) + '</div>' + rewrittenHtml;
+  return d;
+}
+
+function loadDemoVeille() {
+  veilleArticles = [
+    {
+      id: 'demo_' + Date.now() + '_1',
+      title: 'iPhone 16 : Apple corrige un bug critique de la batterie avec iOS 18.3',
+      link: '#',
+      summary: 'Apple vient de deployer une mise a jour corrective iOS 18.3 qui resout un probleme de decharge rapide de la batterie signale par de nombreux utilisateurs d\'iPhone 16 et iPhone 16 Pro depuis la mise a jour precedente.',
+      date: new Date().toISOString(),
+      source: 'Demo - Frandroid',
+      topic: 'smartphones',
+      status: 'done',
+      rewrittenTitle: 'Probleme de batterie iPhone 16 a La Chapelle-sur-Erdre : diagnostic et reparation chez SOS Informatique 44',
+      rewrittenMeta: 'Votre iPhone 16 se decharge trop vite ? SOS Informatique 44 a La Chapelle-sur-Erdre diagnostique et repare tous les problemes de batterie iPhone. Devis gratuit.',
+      rewrittenBody: '<h1>Probleme de batterie iPhone 16 a La Chapelle-sur-Erdre : diagnostic et reparation</h1>' +
+        '<p>Votre <strong>iPhone 16</strong> se decharge anormalement vite ? Depuis la mise a jour iOS 18.3, de nombreux utilisateurs de <strong>La Chapelle-sur-Erdre</strong>, <strong>Nantes</strong> et ses environs rencontrent ce probleme. Chez <strong>SOS Informatique 44</strong>, nous avons deja traite plusieurs cas similaires cette semaine.</p>' +
+        '<h2>Pourquoi mon iPhone 16 se decharge si vite ?</h2>' +
+        '<p>Le bug identifie par Apple touche principalement les iPhone 16 et iPhone 16 Pro. Un processus en arriere-plan consomme anormalement la batterie. La mise a jour iOS 18.3 corrige partiellement le probleme, mais certains appareils necessitent une intervention plus poussee.</p>' +
+        '<h3>Les symptomes courants</h3>' +
+        '<ul><li>Perte de 30% a 50% de batterie en quelques heures</li><li>Telephone qui chauffe sans utilisation</li><li>Charge lente ou qui stagne</li><li>Redemarrages aleatoires</li></ul>' +
+        '<h2>Notre diagnostic gratuit a La Chapelle-sur-Erdre</h2>' +
+        '<p>Notre atelier situe au <strong>27 Rue de la Vriere, 44240 La Chapelle-sur-Erdre</strong> propose un <strong>diagnostic complet gratuit</strong> de votre iPhone. Nous verifions l\'etat de sante de la batterie, les processus en arriere-plan et l\'integrite du systeme.</p>' +
+        '<p>Que vous veniez de <strong>Carquefou</strong>, <strong>Orvault</strong>, <strong>Suce-sur-Erdre</strong> ou de toute l\'agglomeration nantaise, nous intervenons rapidement.</p>' +
+        '<h2>Remplacement de batterie iPhone : nos tarifs</h2>' +
+        '<p>Si la batterie est defectueuse, nous proposons le <strong>remplacement de batterie iPhone</strong> avec des pieces certifiees. Grace au label <strong>QualiRepare</strong>, beneficiez du <strong>Bonus Reparation de 50 euros</strong> deduits directement de votre facture !</p>' +
+        '<p>Consultez <a href="https://sos-informatique44.fr/#services">nos services de reparation iPhone</a> pour en savoir plus.</p>' +
+        '<h2>Contactez SOS Informatique 44</h2>' +
+        '<ul><li>Telephone : <a href="tel:0285523814">02 85 52 38 14</a></li><li>WhatsApp : <a href="https://wa.me/33658458091" target="_blank" rel="noopener">06 58 45 80 91</a></li></ul>',
+      image: ''
+    },
+    {
+      id: 'demo_' + Date.now() + '_2',
+      title: 'Alerte cybersecurite : une nouvelle vague de phishing cible les PME francaises',
+      link: '#',
+      summary: 'Les chercheurs en securite ont identifie une campagne de phishing massive visant les petites et moyennes entreprises francaises. Les emails frauduleux imitent des factures de fournisseurs connus.',
+      date: new Date().toISOString(),
+      source: 'Demo - The Hacker News',
+      topic: 'securite',
+      status: 'pending',
+      rewrittenTitle: '',
+      rewrittenMeta: '',
+      rewrittenBody: '',
+      image: ''
     }
-  } catch(e) {
-    statusEl.className = 'proxy-status err'; statusEl.textContent = 'Échec : ' + e.message;
+  ];
+  renderVeilleCards();
+  document.getElementById('countBadge').textContent = '2 articles demo';
+  document.getElementById('veilleHeading').textContent = '2 articles demo — 1 reecrit, 1 a reecrire';
+  toast('Article 1 : deja reecrit (pret a publier) | Article 2 : cliquez "Reecrire avec IA" pour tester', 'green');
+}
+
+function buildSeoPrompt(art) {
+  var cities = ['La Chapelle-sur-Erdre','Nantes','Nantes Nord','Carquefou','Orvault','Suce-sur-Erdre','Sainte-Luce-sur-Loire','Treillieres'];
+  var c1 = cities[Math.floor(Math.random()*cities.length)];
+  var c2 = cities[Math.floor(Math.random()*cities.length)];
+  while (c2 === c1) c2 = cities[Math.floor(Math.random()*cities.length)];
+
+  return 'Tu es un expert en redaction SEO locale pour un atelier de reparation informatique.\n\n' +
+    'ENTREPRISE :\n' +
+    '- Nom : SOS Informatique 44\n' +
+    '- Activite : Reparation PC, Mac, iPhone, smartphones, tablettes, micro-soudure, recuperation de donnees\n' +
+    '- Adresse : 27 Rue de la Vriere, 44240 La Chapelle-sur-Erdre (Loire-Atlantique)\n' +
+    '- Zone : Nantes Nord, Carquefou, Orvault, Suce-sur-Erdre, agglomeration nantaise\n' +
+    '- Label : QualiRepare (Bonus Reparation 50 euros)\n' +
+    '- Tel : 02 85 52 38 14 | WhatsApp : 06 58 45 80 91\n' +
+    '- Site : https://sos-informatique44.fr\n\n' +
+    'ARTICLE SOURCE A REECRIRE :\n' +
+    'Titre : ' + art.title + '\n' +
+    'Resume : ' + art.summary + '\n' +
+    'Source : ' + art.source + '\n' +
+    'Sujet : ' + (TOPIC_LABELS[art.topic]||art.topic) + '\n\n' +
+    'REGLES SEO OBLIGATOIRES :\n' +
+    '1. Reecris ENTIEREMENT (pas de copie) en 500-700 mots\n' +
+    '2. Structure HTML avec balises semantiques :\n' +
+    '   - <h1> : titre principal optimise SEO (mot-cle + localisation)\n' +
+    '   - <h2> : 3 a 4 sous-titres avec mots-cles secondaires\n' +
+    '   - <h3> si necessaire pour sous-sections\n' +
+    '   - <p> pour les paragraphes\n' +
+    '   - <ul><li> pour les listes\n' +
+    '   - <strong> pour les mots-cles importants\n' +
+    '   - <a href="https://sos-informatique44.fr/#services">nos services</a> (1 lien interne minimum)\n' +
+    '3. Mots-cles locaux a integrer naturellement :\n' +
+    '   - "reparation informatique La Chapelle-sur-Erdre"\n' +
+    '   - "SOS Informatique 44"\n' +
+    '   - "reparation [sujet] Nantes" ou "depannage informatique Loire-Atlantique"\n' +
+    '   - Cite : ' + c1 + ' et ' + c2 + '\n' +
+    '4. Paragraphe final : CTA avec bonus QualiRepare 50 euros + WhatsApp 06 58 45 80 91 + lien site\n' +
+    '5. Meta description de 155 caracteres max\n' +
+    '6. Ton : professionnel, accessible, expert mais pas jargonneux\n\n' +
+    'REPONDS UNIQUEMENT en JSON valide :\n' +
+    '{"titre":"Titre H1 optimise SEO","meta":"Meta description 155 car max","contenu":"<h1>...</h1><h2>...</h2><p>...</p>..."}\n' +
+    'Le champ "contenu" doit etre du HTML valide, PAS du texte brut.';
+}
+
+function getSelectedModel() {
+  var settings = getSettings();
+  return settings.aiModel || 'claude-haiku-4-5-20251001';
+}
+
+function callClaudeAPI(prompt) {
+  var settings = getSettings();
+  var model = getSelectedModel();
+  /* Priority: proxy > direct API key */
+  if (settings.proxyUrl) {
+    try { var _u = new URL(settings.proxyUrl); if (_u.protocol !== 'https:') throw 0; } catch(e) { return Promise.reject(new Error('Proxy doit etre HTTPS')); }
+    return fetch(settings.proxyUrl, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:model,max_tokens:2000,messages:[{role:'user',content:prompt}]})
+    }).then(function(r){ if(!r.ok) throw new Error('Proxy erreur '+r.status); return r.json(); });
+  }
+  if (!API_KEY) return Promise.reject(new Error('Configurez votre cle API ou proxy dans Configuration'));
+  return fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:model,max_tokens:2000,messages:[{role:'user',content:prompt}]})
+  }).then(function(r){ if(!r.ok) throw new Error('API erreur '+r.status); return r.json(); });
+}
+
+function rewriteArticle(id) {
+  if (!API_KEY && !getSettings().proxyUrl) { toast('Configurez votre cle API ou proxy dans Configuration', 'red'); return; }
+  var art = veilleArticles.find(function(a){ return a.id === id; }); if (!art) return;
+  var btn = document.getElementById('vbtn_' + id);
+  var actionsDiv = document.getElementById('vactions_' + id);
+  btn.disabled = true; btn.innerHTML = '<span class="spin">&#9203;</span> Reecriture SEO...';
+  actionsDiv.querySelector('.status-pill').className = 'status-pill writing';
+  actionsDiv.querySelector('.status-pill').textContent = 'Reecriture SEO...';
+
+  var prompt = buildSeoPrompt(art);
+
+  callClaudeAPI(prompt)
+  .then(function(data){
+    var txt = (data.content||[]).map(function(b){ return b.text||''; }).join('');
+    var m = txt.match(/\{[\s\S]*\}/); if (!m) throw new Error('Reponse IA invalide');
+    var parsed = JSON.parse(m[0]);
+    art.status = 'done';
+    art.rewrittenTitle = parsed.titre || art.title;
+    art.rewrittenMeta = parsed.meta || '';
+    art.rewrittenBody = parsed.contenu || txt;
+
+    var card = document.getElementById('vcard_' + id); card.classList.add('rewritten'); card.setAttribute('data-status','done');
+    actionsDiv.innerHTML =
+      '<button class="btn btn-outline btn-sm" onclick="openModal(\'' + id + '\')" style="width:auto">Apercu</button>' +
+      '<button class="btn btn-green btn-sm" onclick="exportVeilleArticle(\'' + id + '\')" style="width:auto">Telecharger HTML</button>' +
+      '<button class="btn btn-accent btn-sm" onclick="publishToSite(\'' + id + '\')" style="width:auto">Publier sur le site</button>' +
+      '<button class="btn btn-outline btn-sm" onclick="pickVeillePhoto(\'' + id + '\')" style="width:auto" id="vphoto_' + id + '">' + (art.image ? '&#x2705; Photo' : '&#x1F4F7; Photo') + '</button>' +
+      '<span class="status-pill done">SEO OK</span>';
+    var rwDiv = document.getElementById('rw_' + id);
+    if (rwDiv) {
+      rwDiv.className = 'rewritten-block visible';
+      rwDiv.innerHTML = '<div class="rewritten-title">' + escHTML(art.rewrittenTitle) + '</div>' +
+        (art.rewrittenMeta ? '<div style="font-size:.75rem;color:var(--green-dark);background:var(--green-light);padding:4px 8px;border-radius:4px;margin-bottom:8px"><strong>Meta :</strong> ' + escHTML(art.rewrittenMeta) + '</div>' : '') +
+        '<div class="rewritten-body">' + DOMPurify.sanitize(art.rewrittenBody, {ALLOWED_TAGS:['h1','h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div>';
+    }
+    toast('Article reecrit en SEO local !', 'green');
+  })
+  .catch(function(e){
+    btn.disabled = false; btn.innerHTML = 'Reecrire avec IA';
+    actionsDiv.querySelector('.status-pill').className = 'status-pill pending';
+    actionsDiv.querySelector('.status-pill').textContent = 'En attente';
+    toast('Erreur : ' + e.message, 'red');
+  });
+}
+
+/* Publish rewritten article to the blog (localStorage) so it appears on the site */
+function publishToSite(id) {
+  var art = veilleArticles.find(function(a){ return a.id === id; });
+  if (!art || art.status !== 'done') return;
+  var articles = getArticles();
+  /* Check if already published */
+  if (articles.some(function(a){ return a.title === art.rewrittenTitle; })) { toast('Article deja publie sur le site', 'red'); return; }
+  var newArt = {
+    id: 'veille-' + Date.now(),
+    topicId: art.topic,
+    title: art.rewrittenTitle,
+    slug: art.rewrittenTitle.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60),
+    category: art.topic === 'ia' ? 'trends' : art.topic === 'securite' ? 'security' : art.topic === 'smartphones' ? 'phone' : 'trends',
+    date: new Date().toISOString(),
+    content: art.rewrittenBody,
+    meta: art.rewrittenMeta || ''
+  };
+  if (art.image) newArt.image = art.image;
+  articles.push(newArt);
+  saveArticles(articles);
+  renderArticles();
+  toast('Article publie sur le site ! Rechargez index.html pour voir.', 'green');
+}
+
+function pickVeillePhoto(id) {
+  var art = veilleArticles.find(function(a){ return a.id === id; }); if (!art) return;
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = function() {
+    if (!input.files[0]) return;
+    resizeImageFile(input.files[0], 800, 450, 0.80).then(function(dataUrl) {
+      art.image = dataUrl;
+      var btn = document.getElementById('vphoto_' + id);
+      if (btn) { btn.innerHTML = '&#x2705; Photo'; }
+      toast('Photo ajoutee — elle sera incluse a la publication', 'green');
+    }).catch(function(e) { toast('Erreur : ' + e.message, 'red'); });
+  };
+  input.click();
+}
+
+function filterVeille(type, btn) {
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.veille-card').forEach(function(card){
+    if (type === 'all') card.style.display = '';
+    else if (type === 'done') card.style.display = card.getAttribute('data-status') === 'done' ? '' : 'none';
+    else card.style.display = card.getAttribute('data-status') !== 'done' ? '' : 'none';
+  });
+}
+
+/* Modal */
+function openModal(id) {
+  var art = veilleArticles.find(function(a){ return a.id === id; }); if (!art || art.status !== 'done') return;
+  currentModalArticle = art;
+  document.getElementById('modalTitle').textContent = art.rewrittenTitle;
+  document.getElementById('modalMeta').textContent = art.source + ' - ' + (TOPIC_LABELS[art.topic]||art.topic) + ' - ' + (function(){ try{ return new Date(art.date).toLocaleDateString('fr-FR'); }catch(e){return '';} })();
+  document.getElementById('modalContent').textContent = art.rewrittenBody;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) { if (e && e.target !== document.getElementById('modalOverlay')) return; document.getElementById('modalOverlay').classList.remove('open'); currentModalArticle = null; }
+function copyVeilleArticle() {
+  if (!currentModalArticle) return;
+  navigator.clipboard.writeText(currentModalArticle.rewrittenTitle + '\n\n' + currentModalArticle.rewrittenBody).then(function(){ toast('Texte copie', 'green'); }).catch(function(){ toast('Erreur de copie', 'red'); });
+}
+function exportVeilleHTML() { if (currentModalArticle) exportVeilleArticle(currentModalArticle.id); }
+function exportVeilleArticle(id) {
+  var art = veilleArticles.find(function(a){ return a.id === id; }); if (!art || art.status !== 'done') return;
+  var dateStr = ''; try { dateStr = new Date(art.date).toLocaleDateString('fr-FR'); } catch(e) {}
+  var html = '<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escHTML(art.rewrittenTitle) + '</title><style>body{font-family:Inter,sans-serif;max-width:760px;margin:40px auto;padding:0 24px;color:#1a1a1a;line-height:1.7}h1{font-size:2rem;margin-bottom:12px}.meta{color:#888;font-family:monospace;font-size:.8rem;margin-bottom:32px}p{margin-bottom:1.2em}</style></head><body>';
+  html += '<h1>' + escHTML(art.rewrittenTitle) + '</h1><div class="meta">' + dateStr + ' - ' + escHTML(art.source) + '</div>';
+  art.rewrittenBody.split('\n\n').forEach(function(p){ html += '<p>' + escHTML(p.trim()) + '</p>'; });
+  html += '</body></html>';
+  download('article_' + art.id + '.html', html, 'text/html');
+  toast('HTML telecharge', 'green');
+}
+
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('open'); });
+
+/* ================================================================
+   CONFIGURATION - Calculator prices
+   ================================================================ */
+var CALC_DEFAULT_PRICES = [
+  {name:'Ecran iPhone',price:150},{name:'Connecteur de charge',price:90},
+  {name:'Ecran MacBook',price:350},{name:'Batterie MacBook',price:180},
+  {name:'Remplacement SSD (PC)',price:120},{name:'Charniere PC portable',price:130},
+  {name:'Nettoyage interne',price:80},{name:'Recuperation de donnees',price:150}
+];
+
+/* ================================================================
+   CONFIGURATION - Contact / WhatsApp / Email
+   ================================================================ */
+function loadContactConfig() {
+  try {
+    var wa = localStorage.getItem('sos44_wa') || '33658458091';
+    var waMsg = localStorage.getItem('sos44_wa_message') || 'Bonjour, je souhaite un devis pour une reparation';
+    var email = localStorage.getItem('sos44_email') || 'contact@sos-informatique44.fr';
+    var phone = localStorage.getItem('sos44_phone') || '0285523814';
+    var tracking = localStorage.getItem('sos44_tracking_url') || '';
+    document.getElementById('cfgWhatsapp').value = wa;
+    document.getElementById('cfgWaMessage').value = waMsg;
+    document.getElementById('cfgEmail').value = email;
+    document.getElementById('cfgPhone').value = phone;
+    document.getElementById('cfgTracking').value = tracking;
+  } catch(e) {}
+}
+
+function saveContactConfig() {
+  var wa = document.getElementById('cfgWhatsapp').value.trim();
+  var waMsg = document.getElementById('cfgWaMessage').value.trim();
+  var email = document.getElementById('cfgEmail').value.trim();
+  var phone = document.getElementById('cfgPhone').value.trim();
+  var tracking = document.getElementById('cfgTracking').value.trim();
+  var status = document.getElementById('contactConfigStatus');
+  var errors = [];
+
+  /* Validation */
+  if (wa && !/^\d{10,15}$/.test(wa)) errors.push('Numero WhatsApp invalide (chiffres uniquement, 10-15)');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Email invalide');
+  if (phone && !/^\d{10}$/.test(phone)) errors.push('Telephone invalide (10 chiffres)');
+  if (tracking && tracking.indexOf('https://script.google.com/') !== 0) errors.push('URL tracking doit commencer par https://script.google.com/');
+
+  if (errors.length > 0) {
+    status.style.display = 'block'; status.className = 'config-status err';
+    status.textContent = errors.join(' | ');
+    return;
+  }
+
+  /* Save to localStorage — read by index.html */
+  if (wa) localStorage.setItem('sos44_wa', wa);
+  if (waMsg) localStorage.setItem('sos44_wa_message', waMsg);
+  if (email) localStorage.setItem('sos44_email', email);
+  if (phone) localStorage.setItem('sos44_phone', phone);
+  if (tracking) localStorage.setItem('sos44_tracking_url', tracking);
+  else localStorage.removeItem('sos44_tracking_url');
+
+  status.style.display = 'block'; status.className = 'config-status ok';
+  status.textContent = 'Coordonnees enregistrees. Rechargez le site principal pour appliquer.';
+  setTimeout(function(){ status.style.display = 'none'; }, 5000);
+  toast('Coordonnees mises a jour', 'green');
+}
+
+function testEmail() {
+  var email = document.getElementById('cfgEmail').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Entrez un email valide d\'abord', 'red'); return; }
+  var subject = encodeURIComponent('[TEST] SOS Informatique 44 - Test email');
+  var body = encodeURIComponent('Ceci est un email de test envoye depuis le panneau de configuration du blog SOS Informatique 44.\n\nSi vous recevez cet email, la configuration est correcte.\n\nDate du test : ' + new Date().toLocaleString('fr-FR'));
+  window.open('mailto:' + email + '?subject=' + subject + '&body=' + body, '_blank');
+  toast('Client email ouvert vers ' + email, 'green');
+}
+
+function testWhatsapp() {
+  var wa = document.getElementById('cfgWhatsapp').value.trim();
+  var waMsg = document.getElementById('cfgWaMessage').value.trim() || 'Test depuis le panneau admin SOS Informatique 44';
+  if (!wa || !/^\d{10,15}$/.test(wa)) { toast('Entrez un numero WhatsApp valide d\'abord', 'red'); return; }
+  window.open('https://wa.me/' + wa + '?text=' + encodeURIComponent('[TEST] ' + waMsg), '_blank');
+  toast('WhatsApp ouvert vers ' + wa, 'green');
+}
+
+function loadCalcConfig() {
+  var prices = CALC_DEFAULT_PRICES;
+  try { var stored = JSON.parse(localStorage.getItem('sos44_calc_prices')); if (Array.isArray(stored) && stored.length > 0 && stored.every(function(i){ return typeof i.name === 'string' && typeof i.price === 'number' && i.price > 0; })) prices = stored; } catch(e) {}
+  var bonus = 50; try { var b = parseInt(localStorage.getItem('sos44_calc_bonus')); if (b > 0 && b < 500) bonus = b; } catch(e) {}
+  var list = document.getElementById('calcConfigList'); list.innerHTML = '';
+  prices.forEach(function(p){ addCalcRowUI(p.name, p.price); });
+  document.getElementById('calcBonus').value = bonus;
+}
+function addCalcRowUI(name, price) {
+  var list = document.getElementById('calcConfigList');
+  var row = document.createElement('div'); row.className = 'config-row';
+  row.innerHTML = '<input type="text" class="config-input config-input-name calc-cfg-name" value="' + escHTML(name||'') + '" placeholder="Nom de la reparation">' +
+    '<input type="number" class="config-input config-input-price calc-cfg-price" value="' + (price||'') + '" placeholder="Prix" min="1">' +
+    '<span style="font-size:.8125rem;color:var(--text-secondary)">euros</span>' +
+    '<button onclick="this.parentElement.remove()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--danger);font-size:.75rem;cursor:pointer" title="Supprimer">&#x2715;</button>';
+  list.appendChild(row);
+}
+function addCalcRow() { addCalcRowUI('',''); }
+function saveCalcConfig() {
+  var names = document.querySelectorAll('.calc-cfg-name');
+  var pricesEls = document.querySelectorAll('.calc-cfg-price');
+  var prices = []; var status = document.getElementById('calcConfigStatus');
+  for (var i = 0; i < names.length; i++) { var n = names[i].value.trim(); var p = parseInt(pricesEls[i].value); if (!n || !p || p <= 0) continue; prices.push({name:n,price:p}); }
+  if (prices.length === 0) { status.style.display = 'block'; status.className = 'config-status err'; status.textContent = 'Ajoutez au moins une reparation valide.'; return; }
+  var bonus = parseInt(document.getElementById('calcBonus').value); if (!bonus || bonus <= 0 || bonus >= 500) bonus = 50;
+  localStorage.setItem('sos44_calc_prices', JSON.stringify(prices));
+  localStorage.setItem('sos44_calc_bonus', bonus.toString());
+  status.style.display = 'block'; status.className = 'config-status ok'; status.textContent = prices.length + ' reparation(s) enregistree(s). Rechargez le site principal pour voir les changements.';
+  setTimeout(function(){ status.style.display = 'none'; }, 5000);
+  toast('Prix du calculateur mis a jour', 'green');
+}
+
+/* Proxy */
+function testProxy() {
+  var url = document.getElementById('configProxyUrl').value;
+  var statusEl = document.getElementById('proxyStatus');
+  if (!url) { statusEl.style.display='block'; statusEl.className='config-status err'; statusEl.textContent='URL vide'; return; }
+  try { var _u = new URL(url); if (_u.protocol !== 'https:') { statusEl.style.display='block'; statusEl.className='config-status err'; statusEl.textContent='Le proxy doit utiliser HTTPS'; return; } } catch(e) { statusEl.style.display='block'; statusEl.className='config-status err'; statusEl.textContent='URL invalide'; return; }
+  statusEl.style.display='block'; statusEl.className='config-status'; statusEl.textContent='Test en cours...'; statusEl.style.background='var(--bg)'; statusEl.style.color='var(--text-secondary)';
+  var settings = getSettings(); settings.proxyUrl = url; saveSettings(settings);
+  fetch(url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:getSelectedModel(),max_tokens:10,messages:[{role:'user',content:'Dis "ok"'}]})})
+    .then(function(resp){ if (resp.ok) { statusEl.className='config-status ok'; statusEl.textContent='Connexion reussie'; } else { statusEl.className='config-status err'; statusEl.textContent='Erreur ' + resp.status; } })
+    .catch(function(e){ statusEl.className='config-status err'; statusEl.textContent='Echec : ' + e.message; });
+}
+
+/* ================================================================
+   MOBILE SIDEBAR
+   ================================================================ */
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+  var active = document.querySelector('.tab-panel.active');
+  var sb = active.querySelector('.sidebar');
+  if (sb) sb.classList.toggle('open');
+});
+
+/* ================================================================
+   MODE TOGGLE (Blog Pro)
+   ================================================================ */
+document.getElementById('modeSwitch').addEventListener('change', function() {
+  var settings = getSettings(); settings.mode = this.checked ? 'pro' : 'demo'; saveSettings(settings);
+});
+
+/* Config proxy URL sync */
+document.getElementById('configProxyUrl').addEventListener('change', function() {
+  var settings = getSettings(); settings.proxyUrl = this.value; saveSettings(settings);
+});
+
+/* ================================================================
+   ATELIER GALLERY — 5 fixed slots
+   ================================================================ */
+var GALLERY_DEFAULTS = [
+  { id: 'slot-1', caption: 'Poste de micro-soudure', url: '' },
+  { id: 'slot-2', caption: 'Diagnostic carte mere MacBook', url: '' },
+  { id: 'slot-3', caption: 'Remplacement ecran iPhone', url: '' },
+  { id: 'slot-4', caption: 'Recuperation de donnees HDD', url: '' },
+  { id: 'slot-5', caption: 'Accueil — 27 rue de la Vriere', url: '' }
+];
+
+function getGallery() {
+  try {
+    var g = JSON.parse(localStorage.getItem('sos44_gallery'));
+    if (Array.isArray(g) && g.length === 5) return g;
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(GALLERY_DEFAULTS));
+}
+function saveGalleryData(arr) {
+  try { localStorage.setItem('sos44_gallery', JSON.stringify(arr)); }
+  catch(e) { toast('Stockage plein - reduisez la qualite des photos', 'red'); }
+}
+
+/* Resize image to 300x220 JPEG */
+function resizeImageFile(file, maxW, maxH, quality) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = maxW; canvas.height = maxH;
+        var ctx = canvas.getContext('2d');
+        var srcR = img.width / img.height, dstR = maxW / maxH;
+        var sx, sy, sw, sh;
+        if (srcR > dstR) { sh = img.height; sw = sh * dstR; sx = (img.width - sw) / 2; sy = 0; }
+        else { sw = img.width; sh = sw / dstR; sx = 0; sy = (img.height - sh) / 2; }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, maxW, maxH);
+        resolve(canvas.toDataURL('image/jpeg', quality || 0.82));
+      };
+      img.onerror = function() { reject(new Error('Image illisible')); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { reject(new Error('Erreur lecture')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderAtelierSlots() {
+  var gallery = getGallery();
+  var container = document.getElementById('atelierSlots');
+  container.innerHTML = '';
+
+  gallery.forEach(function(slot, idx) {
+    var el = document.createElement('div');
+    el.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg)';
+
+    var hasPhoto = slot.url && slot.url.length > 10;
+
+    el.innerHTML =
+      /* Photo area */
+      '<div id="slotImg' + idx + '" style="width:100%;height:140px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:' + (hasPhoto ? 'none' : 'var(--accent-light)') + '" onclick="pickSlotPhoto(' + idx + ')">' +
+        (hasPhoto
+          ? '<img src="' + slot.url + '" alt="" style="width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:rgba(0,0,0,.3);opacity:0;transition:opacity .2s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:600" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">Changer la photo</div>'
+          : '<div style="text-align:center;color:var(--accent)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><div style="font-size:.75rem;margin-top:4px">Cliquez pour ajouter</div></div>'
+        ) +
+      '</div>' +
+      /* Caption */
+      '<div style="padding:8px 10px">' +
+        '<label style="font-size:.7rem;color:var(--text-secondary);font-weight:600;display:block;margin-bottom:2px">Photo ' + (idx + 1) + ' — Legende</label>' +
+        '<input class="config-input slot-caption" data-slot="' + idx + '" type="text" value="' + escHTML(slot.caption) + '" placeholder="Legende de la photo" style="width:100%;font-size:.8rem;padding:6px 8px">' +
+      '</div>' +
+      /* Remove btn */
+      (hasPhoto ? '<div style="padding:0 10px 8px"><button class="btn btn-outline btn-sm" onclick="removeSlotPhoto(' + idx + ')" style="width:100%;font-size:.7rem;color:var(--danger);border-color:var(--danger)">Supprimer la photo</button></div>' : '');
+
+    container.appendChild(el);
+  });
+
+  /* Hidden file input */
+  if (!document.getElementById('slotFileInput')) {
+    var fi = document.createElement('input');
+    fi.type = 'file'; fi.id = 'slotFileInput'; fi.accept = 'image/*'; fi.style.display = 'none';
+    fi.addEventListener('change', function() { if (fi.files[0]) handleSlotFile(fi.files[0]); });
+    document.body.appendChild(fi);
   }
 }
 
-/* ===== MOBILE SIDEBAR ===== */
-document.getElementById('sidebarToggle').addEventListener('click', function() {
-  document.getElementById('sidebar').classList.toggle('open');
-});
+var _currentSlotIdx = -1;
 
-/* ===== INIT ===== */
+function pickSlotPhoto(idx) {
+  _currentSlotIdx = idx;
+  document.getElementById('slotFileInput').click();
+}
+
+function handleSlotFile(file) {
+  if (!file.type.startsWith('image/')) { toast('Fichier non image', 'red'); return; }
+  if (file.size > 5242880) { toast('Image trop lourde (max 5 Mo)', 'red'); return; }
+  var idx = _currentSlotIdx;
+  if (idx < 0) return;
+
+  resizeImageFile(file, 300, 220, 0.82).then(function(dataUrl) {
+    var gallery = getGallery();
+    gallery[idx].url = dataUrl;
+    saveGalleryData(gallery);
+    renderAtelierSlots();
+    toast('Photo ' + (idx + 1) + ' ajoutee', 'green');
+  }).catch(function(err) { toast('Erreur : ' + err.message, 'red'); });
+}
+
+function removeSlotPhoto(idx) {
+  var gallery = getGallery();
+  gallery[idx].url = '';
+  saveGalleryData(gallery);
+  renderAtelierSlots();
+  toast('Photo ' + (idx + 1) + ' supprimee', 'green');
+}
+
+function saveAtelierGallery() {
+  var gallery = getGallery();
+  var captions = document.querySelectorAll('.slot-caption');
+  captions.forEach(function(input) {
+    var i = parseInt(input.dataset.slot);
+    gallery[i].caption = input.value.trim() || GALLERY_DEFAULTS[i].caption;
+  });
+  saveGalleryData(gallery);
+  renderAtelierSlots();
+  showAtelierMsg('Galerie enregistree ! Rechargez le site principal pour voir les changements.', 'ok');
+  toast('Galerie atelier mise a jour', 'green');
+}
+
+function clearAtelierGallery() {
+  if (!confirm('Reinitialiser toutes les photos et legendes ?')) return;
+  saveGalleryData(JSON.parse(JSON.stringify(GALLERY_DEFAULTS)));
+  renderAtelierSlots();
+  toast('Galerie reinitialisee', 'green');
+}
+
+function showAtelierMsg(msg, type) {
+  var el = document.getElementById('atelierMsg');
+  el.style.display = 'block';
+  el.className = 'config-status' + (type === 'ok' ? ' ok' : type === 'err' ? ' err' : '');
+  el.textContent = msg;
+  if (type) setTimeout(function() { el.style.display = 'none'; }, 5000);
+}
+
+/* ================================================================
+   IMAGE RESIZER TOOL (for blog articles)
+   ================================================================ */
+var _resizedDataUrl = '';
+
 (function() {
+  var dz = document.getElementById('resizeDropZone');
+  var fi = document.getElementById('resizeFileInput');
+  dz.addEventListener('click', function() { fi.click(); });
+  dz.addEventListener('dragover', function(e) { e.preventDefault(); dz.style.borderColor = 'var(--accent)'; dz.style.background = 'var(--accent-light)'; });
+  dz.addEventListener('dragleave', function() { dz.style.borderColor = ''; dz.style.background = ''; });
+  dz.addEventListener('drop', function(e) { e.preventDefault(); dz.style.borderColor = ''; dz.style.background = ''; if (e.dataTransfer.files[0]) processResizeFile(e.dataTransfer.files[0]); });
+  fi.addEventListener('change', function() { if (fi.files[0]) processResizeFile(fi.files[0]); });
+})();
+
+function processResizeFile(file) {
+  if (!file.type.startsWith('image/')) { toast('Fichier non image', 'red'); return; }
+  var maxW = parseInt(document.getElementById('resizeWidth').value) || 800;
+  var quality = (parseInt(document.getElementById('resizeQuality').value) || 80) / 100;
+  var originalSize = file.size;
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var ratio = Math.min(maxW / img.width, 1);
+      canvas.width = Math.round(img.width * ratio);
+      canvas.height = Math.round(img.height * ratio);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      _resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
+
+      document.getElementById('resizePreview').src = _resizedDataUrl;
+      document.getElementById('resizeResult').style.display = 'block';
+
+      var newSize = Math.round(_resizedDataUrl.length * 0.75);
+      var reduction = Math.round((1 - newSize / originalSize) * 100);
+      document.getElementById('resizeInfo').textContent =
+        img.width + 'x' + img.height + ' -> ' + canvas.width + 'x' + canvas.height +
+        ' | ' + formatSize(originalSize) + ' -> ' + formatSize(newSize) +
+        (reduction > 0 ? ' (-' + reduction + '%)' : '');
+      toast('Image redimensionnee', 'green');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' o';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' Ko';
+  return (bytes / 1048576).toFixed(1) + ' Mo';
+}
+
+function downloadResized() {
+  if (!_resizedDataUrl) return;
+  var a = document.createElement('a');
+  a.href = _resizedDataUrl;
+  a.download = 'image-redim-' + Date.now() + '.jpg';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast('Image telechargee', 'green');
+}
+
+function copyResizedBase64() {
+  if (!_resizedDataUrl) return;
+  navigator.clipboard.writeText(_resizedDataUrl).then(function() {
+    toast('Base64 copie dans le presse-papier', 'green');
+  }).catch(function() { toast('Erreur copie', 'red'); });
+}
+
+/* ================================================================
+   INIT
+   ================================================================ */
+(function() {
+  loadApiKey();
+  initModelSelector();
   var settings = getSettings();
-  if (settings.mode === 'pro') {
-    document.getElementById('modeSwitch').checked = true;
-    document.getElementById('proxyConfig').style.display = 'block';
-    if (settings.proxyUrl) document.getElementById('proxyUrl').value = settings.proxyUrl;
-  }
+  if (settings.mode === 'pro') document.getElementById('modeSwitch').checked = true;
+  if (settings.proxyUrl) document.getElementById('configProxyUrl').value = settings.proxyUrl;
   renderArticles();
+  loadCalcConfig();
+  loadContactConfig();
+  renderAtelierSlots();
 })();
 </script>
 </body>
