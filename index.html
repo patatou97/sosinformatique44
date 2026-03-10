@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -2209,7 +2209,7 @@ function _antiBot(formName){
   return false;
 }
 
-/* Contact form — save to CRM + Google Sheets + mailto */
+/* Contact form — save to CRM + Google Sheets + FormSubmit */
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();var f=this;
   if(f.querySelector('[name="address2"]').value){return}
@@ -2221,8 +2221,13 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   var msg=f.querySelector('#fmsg').value;
   trackContact({id:Date.now().toString(),name:name,email:email,phone:phone,device:device,source:'Formulaire',status:'Nouveau',message:msg,date:new Date().toISOString()});
   trackEvent('formulaire','Formulaire envoyé par '+name);
-  var body='Nom : '+name+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\n\nMessage :\n'+msg;
-  window.location.href='mailto:'+SOS44_EMAIL+'?subject='+encodeURIComponent('Demande de devis — '+(device||'Réparation'))+'&body='+encodeURIComponent(body);
+  var btn=f.querySelector('button[type="submit"]');btn.disabled=true;btn.textContent='Envoi en cours...';
+  fetch('https://formsubmit.co/ajax/reparationexpress44@hotmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Demande de devis — '+(device||'Réparation'),name:name,email:email,telephone:phone,appareil:device,message:msg,_template:'table'})}).then(function(r){return r.json()}).then(function(){
+    f.innerHTML='<div style="text-align:center;padding:30px"><div style="font-size:2.5rem;margin-bottom:12px">&#9989;</div><h3 style="color:#10B981;font-family:Outfit,sans-serif;margin-bottom:8px">Message envoyé !</h3><p style="color:#475569;font-size:.875rem">Nous vous répondrons sous 24h ouvrées.</p></div>';
+  }).catch(function(){
+    btn.disabled=false;btn.textContent='Envoyer la demande';
+    alert('Erreur d\'envoi. Veuillez réessayer ou nous contacter par téléphone.');
+  });
 });
 
 /* Scroll reveal */
@@ -2556,14 +2561,14 @@ function dvSubmit(){
   trackContact({id:Date.now().toString(),name:fullName,email:email,phone:phone,device:device,source:source||'Devis détaillé',status:'Nouveau',message:msg,date:new Date().toISOString()});
   trackEvent('devis','Devis détaillé par '+fullName);
 
-  /* Send mailto */
-  var body='Nom : '+fullName+'\nEmail : '+email+'\nTéléphone : '+phone+'\nAppareil : '+device+'\nProblème : '+defaut+(adresse?'\nAdresse : '+adresse:'')+(source?'\nSource : '+source:'');
-  window.location.href='mailto:'+SOS44_EMAIL+'?subject='+encodeURIComponent('Demande de devis détaillé — '+device)+'&body='+encodeURIComponent(body);
-
-  /* Show success */
+  /* Send via FormSubmit */
   var ticketNum='SOS-'+Date.now().toString().slice(-6);
   var safeEmail=email.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  document.getElementById('dvPanel3').innerHTML='<div class="dv-success"><div class="dv-success-icon">&#127881;</div><h3>Merci de votre confiance !</h3><p style="color:var(--text-secondary);font-size:.875rem;max-width:380px;margin:10px auto;line-height:1.6">Toute l\u2019équipe de <strong style="color:var(--blue)">SOS Informatique 44</strong> vous remercie. Nous reviendrons vers vous sous <strong>24h ouvrées</strong>.</p><div class="dv-ticket">'+ticketNum+'</div><p style="color:var(--text-muted);font-size:.8125rem;margin-top:10px">Confirmation envoyée à <strong>'+safeEmail+'</strong></p></div>';
+  fetch('https://formsubmit.co/ajax/reparationexpress44@hotmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Devis détaillé — '+device+' ['+ticketNum+']',nom:fullName,email:email,telephone:phone,appareil:device,probleme:defaut,adresse:adresse||'Non renseignée',source:source||'Non renseignée',_template:'table'})}).then(function(r){return r.json()}).then(function(){
+    document.getElementById('dvPanel3').innerHTML='<div class="dv-success"><div class="dv-success-icon">&#127881;</div><h3>Merci de votre confiance !</h3><p style="color:var(--text-secondary);font-size:.875rem;max-width:380px;margin:10px auto;line-height:1.6">Toute l\u2019équipe de <strong style="color:var(--blue)">SOS Informatique 44</strong> vous remercie. Nous reviendrons vers vous sous <strong>24h ouvrées</strong>.</p><div class="dv-ticket">'+ticketNum+'</div><p style="color:var(--text-muted);font-size:.8125rem;margin-top:10px">Confirmation envoyée à <strong>'+safeEmail+'</strong></p></div>';
+  }).catch(function(){
+    alert('Erreur d\'envoi. Veuillez réessayer ou nous contacter par téléphone.');
+  });
 }
 
 /* ===== POPUP CAPTURE (1 fois par session, après 8s, après décision RGPD) ===== */
@@ -2584,17 +2589,24 @@ function dvSubmit(){
         if(_antiBot('popup')){d.remove();return}
         var pref=this.querySelector('[name="contactPref"]:checked');
         var prefVal=pref?pref.value:'whatsapp';
+        var popupName=this.name.value;
+        var popupEmail=this.email.value;
         var popupPhone=this.phone.value.trim();
+        var popupDevice=this.device.value;
         var popupMsg=(this.message.value||'').trim();
-        trackContact({id:Date.now().toString(),name:this.name.value,email:this.email.value,phone:popupPhone,device:this.device.value,source:'Popup',status:'Nouveau',message:(popupMsg?popupMsg+' | ':'')+'Contact souhaite : '+prefVal,date:new Date().toISOString()});
-        trackEvent('formulaire','Popup rempli par '+this.name.value+' ('+prefVal+')');
+        trackContact({id:Date.now().toString(),name:popupName,email:popupEmail,phone:popupPhone,device:popupDevice,source:'Popup',status:'Nouveau',message:(popupMsg?popupMsg+' | ':'')+'Contact souhaite : '+prefVal,date:new Date().toISOString()});
+        trackEvent('formulaire','Popup rempli par '+popupName+' ('+prefVal+')');
+        /* Envoyer via FormSubmit dans tous les cas */
+        fetch('https://formsubmit.co/ajax/reparationexpress44@hotmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Nouveau contact — '+popupName+' ('+prefVal+')',nom:popupName,email:popupEmail,telephone:popupPhone,appareil:popupDevice,message:popupMsg||'Non renseigné',contact_prefere:prefVal,_template:'table'})}).catch(function(){});
         /* Redirect based on preference */
         d.remove();
         if(prefVal==='whatsapp'){
-          var waMsg=encodeURIComponent('Bonjour, je suis '+this.name.value+'. '+(popupMsg||'J\'ai besoin d\'aide pour mon '+this.device.value)+'. Merci !');
+          var waMsg=encodeURIComponent('Bonjour, je suis '+popupName+'. '+(popupMsg||'J\'ai besoin d\'aide pour mon '+popupDevice)+'. Merci !');
           window.open('https://wa.me/'+SOS44_WA+'?text='+waMsg,'_blank');
         } else if(prefVal==='telephone'){
           window.location.href='tel:'+SOS44_PHONE;
+        } else {
+          alert('Merci '+popupName+' ! Nous vous répondrons par email sous 24h.');
         }
       };
     });
