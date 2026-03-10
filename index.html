@@ -2224,6 +2224,7 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   var msg=f.querySelector('#fmsg').value;
   trackContact({id:Date.now().toString(),name:name,email:email,phone:phone,device:device,source:'Formulaire',status:'Nouveau',message:msg,date:new Date().toISOString()});
   trackEvent('formulaire','Formulaire envoyé par '+name);
+  _sheetSend({date:new Date().toLocaleString('fr-FR'),nom:name,email:email,telephone:phone,appareil:device,message:msg,type:'Devis rapide',contact_prefere:''});
   var btn=f.querySelector('button[type="submit"]');btn.disabled=true;btn.textContent='Envoi en cours...';
   fetch('https://formsubmit.co/ajax/reparationexpress44@hotmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Demande de devis — '+(device||'Réparation'),name:name,email:email,telephone:phone,appareil:device,message:msg,_template:'table'})}).then(function(r){return r.json()}).then(function(){
     f.innerHTML='<div style="text-align:center;padding:30px"><div style="font-size:2.5rem;margin-bottom:12px">&#9989;</div><h3 style="color:#10B981;font-family:Outfit,sans-serif;margin-bottom:8px">Message envoyé !</h3><p style="color:#475569;font-size:.875rem">Nous vous répondrons sous 24h ouvrées.</p></div>';
@@ -2265,9 +2266,11 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
 })();
 
 /* ===== TRACKING — Google Sheets ===== */
-var TRACKING_URL=(function(){try{var u=localStorage.getItem('sos44_tracking_url')||'';return(u.indexOf('https://script.google.com/')===0)?u:''}catch(e){return''}})();
+var SHEETS_URL='https://script.google.com/macros/s/AKfycbzikE8ynVALmwoUjh-CS2d2NW8geoexoflY3vQGOR__jQm8-GAn_v-8ou0h1YniBlSy/exec';
 
-function _trackSend(payload){if(!SOS44_CONSENT.hasConsented())return;if(TRACKING_URL){fetch(TRACKING_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}}
+function _sheetSend(data){try{fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){})}catch(e){}}
+
+function _trackSend(payload){if(!SOS44_CONSENT.hasConsented())return;_sheetSend(payload);}
 
 function _crmSaveEvent(type,detail){
   try{
@@ -2301,8 +2304,8 @@ document.addEventListener('click',function(e){
   var a=e.target.closest('a');
   if(!a) return;
   var h=a.href||'';
-  if(h.indexOf('wa.me')!==-1) trackEvent('whatsapp','Clic WhatsApp');
-  else if(h.indexOf('tel:')===0) trackEvent('telephone','Clic Téléphone : '+h.replace('tel:',''));
+  if(h.indexOf('wa.me')!==-1){trackEvent('whatsapp','Clic WhatsApp');_sheetSend({date:new Date().toLocaleString('fr-FR'),nom:'',email:'',telephone:'',appareil:'',message:'',type:'Clic WhatsApp',contact_prefere:''});}
+  else if(h.indexOf('tel:')===0){trackEvent('telephone','Clic Téléphone');_sheetSend({date:new Date().toLocaleString('fr-FR'),nom:'',email:'',telephone:h.replace('tel:',''),appareil:'',message:'',type:'Clic Telephone',contact_prefere:''});}
 });
 
 /* Page view tracking */
@@ -2563,6 +2566,7 @@ function dvSubmit(){
   /* Track contact + event */
   trackContact({id:Date.now().toString(),name:fullName,email:email,phone:phone,device:device,source:source||'Devis détaillé',status:'Nouveau',message:msg,date:new Date().toISOString()});
   trackEvent('devis','Devis détaillé par '+fullName);
+  _sheetSend({date:new Date().toLocaleString('fr-FR'),nom:fullName,email:email,telephone:phone,appareil:device,message:defaut,type:'Devis détaillé',contact_prefere:''});
 
   /* Send via FormSubmit */
   var ticketNum='SOS-'+Date.now().toString().slice(-6);
@@ -2599,6 +2603,7 @@ function dvSubmit(){
         var popupMsg=(this.message.value||'').trim();
         trackContact({id:Date.now().toString(),name:popupName,email:popupEmail,phone:popupPhone,device:popupDevice,source:'Popup',status:'Nouveau',message:(popupMsg?popupMsg+' | ':'')+'Contact souhaite : '+prefVal,date:new Date().toISOString()});
         trackEvent('formulaire','Popup rempli par '+popupName+' ('+prefVal+')');
+        _sheetSend({date:new Date().toLocaleString('fr-FR'),nom:popupName,email:popupEmail,telephone:popupPhone,appareil:popupDevice,message:popupMsg||'',type:'Popup',contact_prefere:prefVal});
         /* Envoyer via FormSubmit dans tous les cas */
         fetch('https://formsubmit.co/ajax/reparationexpress44@hotmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Nouveau contact — '+popupName+' ('+prefVal+')',nom:popupName,email:popupEmail,telephone:popupPhone,appareil:popupDevice,message:popupMsg||'Non renseigné',contact_prefere:prefVal,_template:'table'})}).catch(function(){});
         /* Redirect based on preference */
