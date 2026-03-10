@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide mise en ligne — SOS Informatique 44</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;color:#1e293b;background:#fff;line-height:1.7;padding:40px 20px}
+.page{max-width:800px;margin:0 auto}
+h1{font-size:2rem;font-weight:800;color:#0EA5E9;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+h1 .emoji{font-size:2.5rem}
+.subtitle{font-size:1.1rem;color:#64748b;margin-bottom:40px;border-bottom:3px solid #0EA5E9;padding-bottom:16px}
+
+.etape{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:28px 32px;margin-bottom:28px;page-break-inside:avoid}
+.etape-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.etape-num{background:#0EA5E9;color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;flex-shrink:0}
+.etape-title{font-size:1.25rem;font-weight:700;color:#0f172a}
+.etape-time{font-size:.8rem;color:#64748b;background:#e2e8f0;padding:3px 10px;border-radius:20px;margin-left:auto;white-space:nowrap}
+
+.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.step-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:#E0F2FE}
+.step-text{font-size:.95rem;flex:1}
+.step-text strong{color:#0f172a}
+
+.action{background:#0EA5E9;color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;font-size:.85rem;display:inline-block;margin:2px 0}
+.action-green{background:#10B981}
+.action-red{background:#EF4444}
+.action-orange{background:#F97316}
+
+.code{background:#1e293b;color:#10B981;padding:10px 16px;border-radius:8px;font-family:'Courier New',monospace;font-size:.9rem;margin:8px 0;display:block;word-break:break-all}
+
+.warning{background:#FEF3C7;border:2px solid #F59E0B;border-radius:12px;padding:16px 20px;margin:16px 0;display:flex;gap:12px;align-items:flex-start}
+.warning-icon{font-size:1.5rem;flex-shrink:0}
+.warning-text{font-size:.875rem;color:#92400E}
+
+.success{background:#D1FAE5;border:2px solid #10B981;border-radius:12px;padding:16px 20px;margin:16px 0;display:flex;gap:12px;align-items:flex-start}
+.success-icon{font-size:1.5rem;flex-shrink:0}
+.success-text{font-size:.875rem;color:#065F46}
+
+.table-dns{width:100%;border-collapse:collapse;margin:12px 0;font-size:.875rem}
+.table-dns th{background:#0EA5E9;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+.table-dns td{padding:10px 14px;border-bottom:1px solid #e2e8f0}
+.table-dns tr:nth-child(even){background:#f1f5f9}
+.table-dns .val{font-family:'Courier New',monospace;font-weight:600;color:#0f172a}
+
+.recap{background:#0f172a;color:#fff;border-radius:16px;padding:28px 32px;margin-top:32px}
+.recap h2{color:#0EA5E9;font-size:1.3rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.recap-step{display:flex;gap:12px;align-items:center;margin-bottom:10px;font-size:.95rem}
+.recap-num{background:#0EA5E9;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+
+.footer-guide{text-align:center;margin-top:40px;padding-top:20px;border-top:2px solid #e2e8f0;color:#94a3b8;font-size:.8rem}
+
+@media print{
+  body{padding:20px}
+  .etape{border:1px solid #ccc;box-shadow:none}
+  .page{max-width:100%}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1><span class="emoji">&#x1F680;</span> Guide de mise en ligne</h1>
+<div class="subtitle">SOS Informatique 44 — Comment mettre votre site en ligne sur GitHub Pages + IONOS</div>
+
+<!-- ====== ETAPE 0 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">0</div>
+    <div class="etape-title">Rendre le depot public</div>
+    <div class="etape-time">&#x23F1; 2 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F310;</div>
+    <div class="step-text">Ouvrez votre navigateur et allez sur :<br><span class="code">https://github.com/patatou97/sosinformatique44</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2699;</div>
+    <div class="step-text">En haut, cliquez sur l'onglet <span class="action">Settings</span> (l'engrenage)</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F447;</div>
+    <div class="step-text">Descendez <strong>tout en bas</strong> de la page jusqu'a la zone rouge <strong>"Danger Zone"</strong></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F504;</div>
+    <div class="step-text">Cliquez sur <span class="action action-red">Change repository visibility</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F513;</div>
+    <div class="step-text">Selectionnez <strong>Public</strong></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2328;</div>
+    <div class="step-text">GitHub vous demande de taper le nom pour confirmer. Tapez :<br><span class="code">patatou97/sosinformatique44</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2705;</div>
+    <div class="step-text">Cliquez sur <span class="action action-red">I understand, change repository visibility</span></div>
+  </div>
+
+  <div class="success">
+    <div class="success-icon">&#x2705;</div>
+    <div class="success-text"><strong>Pas de souci de securite !</strong> Le code d'un site web est toujours visible par les navigateurs. Votre cle API n'est PAS dans le code, elle est dans votre navigateur uniquement.</div>
+  </div>
+</div>
+
+<!-- ====== ETAPE 1 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">1</div>
+    <div class="etape-title">Activer GitHub Pages</div>
+    <div class="etape-time">&#x23F1; 5 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2699;</div>
+    <div class="step-text">Vous etes toujours dans <strong>Settings</strong>. Dans le menu a gauche, cliquez sur <span class="action">Pages</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4E6;</div>
+    <div class="step-text">Sous <strong>"Build and deployment"</strong>, dans <strong>Source</strong> :<br>Selectionnez <span class="action">Deploy from a branch</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F333;</div>
+    <div class="step-text">Sous <strong>Branch</strong> :<br>
+      &#x2022; Cliquez sur le menu qui dit "None"<br>
+      &#x2022; Selectionnez <span class="action">main</span><br>
+      &#x2022; Laissez le dossier sur <strong>/ (root)</strong></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4BE;</div>
+    <div class="step-text">Cliquez sur <span class="action action-green">Save</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x23F3;</div>
+    <div class="step-text"><strong>Attendez 2-3 minutes.</strong> Rechargez la page (touche F5).</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F389;</div>
+    <div class="step-text">Un message vert apparait :<br><span class="code">&#x2714; Your site is live at https://patatou97.github.io/sosinformatique44/</span><br>Cliquez dessus pour verifier que votre site s'affiche !</div>
+  </div>
+
+  <div class="success">
+    <div class="success-icon">&#x1F3C6;</div>
+    <div class="success-text"><strong>Bravo !</strong> Votre site est deja en ligne a cette adresse. Mais on veut utiliser votre vrai nom de domaine. Passez a l'etape 2.</div>
+  </div>
+</div>
+
+<!-- ====== ETAPE 2 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">2</div>
+    <div class="etape-title">Dire a GitHub d'utiliser votre domaine</div>
+    <div class="etape-time">&#x23F1; 2 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4DD;</div>
+    <div class="step-text">Toujours dans <strong>Settings > Pages</strong>, descendez jusqu'a <strong>"Custom domain"</strong></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2328;</div>
+    <div class="step-text">Dans le champ, tapez :<br><span class="code">sos-informatique44.fr</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4BE;</div>
+    <div class="step-text">Cliquez <span class="action action-green">Save</span></div>
+  </div>
+
+  <div class="warning">
+    <div class="warning-icon">&#x26A0;</div>
+    <div class="warning-text"><strong>Un message rouge va apparaitre</strong> du style "DNS check unsuccessful". C'est NORMAL ! On n'a pas encore configure IONOS. Laissez cette page ouverte et passez a l'etape 3.</div>
+  </div>
+</div>
+
+<!-- ====== ETAPE 3 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">3</div>
+    <div class="etape-title">Configurer IONOS (le DNS)</div>
+    <div class="etape-time">&#x23F1; 10 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F310;</div>
+    <div class="step-text">Dans un <strong>nouvel onglet</strong>, allez sur :<br><span class="code">https://my.ionos.fr</span><br>Connectez-vous avec vos identifiants IONOS</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4C1;</div>
+    <div class="step-text">Cliquez sur <span class="action">Domaines & SSL</span> dans le menu</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F50D;</div>
+    <div class="step-text">Cliquez sur <strong>sos-informatique44.fr</strong></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F527;</div>
+    <div class="step-text">Cliquez sur <span class="action">DNS</span> (ou "Gerer les enregistrements DNS")</div>
+  </div>
+
+  <div class="warning">
+    <div class="warning-icon">&#x26A0;</div>
+    <div class="warning-text"><strong>ATTENTION :</strong> Vous allez voir une liste d'enregistrements existants. Ne touchez PAS aux lignes MX (email) ou TXT. On modifie UNIQUEMENT les lignes A et CNAME.</div>
+  </div>
+
+  <h3 style="margin:20px 0 12px;color:#EF4444;font-size:1rem">&#x274C; D'abord : Supprimer l'ancien enregistrement A</h3>
+
+  <div class="step">
+    <div class="step-icon">&#x1F5D1;</div>
+    <div class="step-text">Si vous voyez une ligne avec :<br>
+      &#x2022; Type : <strong>A</strong><br>
+      &#x2022; Nom : <strong>@</strong><br>
+      &#x2022; Valeur : une IP d'IONOS (genre 217.xx.xx.xx)<br><br>
+      <span class="action action-red">Supprimez-la</span> (icone poubelle a droite)</div>
+  </div>
+
+  <h3 style="margin:20px 0 12px;color:#10B981;font-size:1rem">&#x2795; Ensuite : Ajouter les 4 enregistrements A de GitHub</h3>
+
+  <div class="step">
+    <div class="step-icon">&#x2795;</div>
+    <div class="step-text">Cliquez <span class="action action-green">Ajouter un enregistrement</span> et creez ces <strong>4 lignes</strong> une par une :</div>
+  </div>
+
+  <table class="table-dns">
+    <tr><th>Type</th><th>Nom / Host</th><th>Valeur / Pointe vers</th></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.108.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.109.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.110.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.111.153</td></tr>
+  </table>
+
+  <div class="step">
+    <div class="step-icon">&#x1F501;</div>
+    <div class="step-text">Pour chaque ligne :<br>
+      &#x2022; Type = <strong>A</strong><br>
+      &#x2022; Nom = <strong>@</strong> (ou laissez vide)<br>
+      &#x2022; Valeur = l'adresse IP du tableau<br>
+      &#x2022; TTL = <strong>1 heure</strong> (ou par defaut)<br>
+      &#x2022; Cliquez <span class="action action-green">Enregistrer</span><br><br>
+      <strong>Repetez 4 fois</strong>, une ligne pour chaque IP.</div>
+  </div>
+
+  <h3 style="margin:20px 0 12px;color:#0EA5E9;font-size:1rem">&#x1F517; Enfin : Ajouter le CNAME pour www</h3>
+
+  <div class="step">
+    <div class="step-icon">&#x1F517;</div>
+    <div class="step-text">Cherchez la ligne CNAME avec Nom <strong>www</strong>.<br>
+      Si elle existe : <span class="action action-orange">Modifiez-la</span><br>
+      Si elle n'existe pas : <span class="action action-green">Ajoutez-la</span></div>
+  </div>
+
+  <table class="table-dns">
+    <tr><th>Type</th><th>Nom / Host</th><th>Valeur / Pointe vers</th></tr>
+    <tr><td>CNAME</td><td>www</td><td class="val">patatou97.github.io</td></tr>
+  </table>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4BE;</div>
+    <div class="step-text">Cliquez <span class="action action-green">Enregistrer</span></div>
+  </div>
+
+  <h3 style="margin:20px 0 12px;color:#0f172a;font-size:1rem">&#x1F4CB; Votre DNS doit ressembler a ca :</h3>
+
+  <table class="table-dns">
+    <tr><th>Type</th><th>Nom</th><th>Valeur</th></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.108.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.109.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.110.153</td></tr>
+    <tr><td>A</td><td>@</td><td class="val">185.199.111.153</td></tr>
+    <tr><td>CNAME</td><td>www</td><td class="val">patatou97.github.io</td></tr>
+    <tr><td style="color:#94a3b8">MX, TXT, etc.</td><td style="color:#94a3b8">...</td><td style="color:#94a3b8">NE PAS TOUCHER</td></tr>
+  </table>
+</div>
+
+<!-- ====== ETAPE 4 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">4</div>
+    <div class="etape-title">Attendre la propagation</div>
+    <div class="etape-time">&#x23F1; 10-30 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2615;</div>
+    <div class="step-text"><strong>Prenez un cafe !</strong> Le DNS met 10 a 30 minutes a se propager sur Internet. Parfois jusqu'a 1 heure.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F50D;</div>
+    <div class="step-text">Pour verifier, ouvrez un <strong>nouvel onglet</strong> et tapez :<br><span class="code">sos-informatique44.fr</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2705;</div>
+    <div class="step-text">Si vous voyez votre site : <strong>c'est bon, passez a l'etape 5 !</strong><br>Si ca ne marche pas : attendez encore 10 minutes et reessayez.</div>
+  </div>
+</div>
+
+<!-- ====== ETAPE 5 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">5</div>
+    <div class="etape-title">Activer HTTPS (le cadenas vert)</div>
+    <div class="etape-time">&#x23F1; 1 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F519;</div>
+    <div class="step-text">Retournez sur GitHub : <span class="action">Settings</span> > <span class="action">Pages</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F7E2;</div>
+    <div class="step-text">Le message rouge a disparu. A la place : un message <strong>vert</strong>.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x2611;</div>
+    <div class="step-text">Cochez la case <span class="action action-green">&#x2611; Enforce HTTPS</span></div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x23F3;</div>
+    <div class="step-text">Attendez <strong>5-10 minutes</strong>. GitHub genere un certificat SSL gratuit.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F512;</div>
+    <div class="step-text">Verifiez : allez sur <span class="code">https://sos-informatique44.fr</span>Vous devez voir un <strong>cadenas</strong> dans la barre d'adresse.</div>
+  </div>
+</div>
+
+<!-- ====== ETAPE 6 ====== -->
+<div class="etape">
+  <div class="etape-header">
+    <div class="etape-num">6</div>
+    <div class="etape-title">Verifier que tout marche</div>
+    <div class="etape-time">&#x23F1; 2 min</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F3E0;</div>
+    <div class="step-text">Ouvrez : <span class="code">https://sos-informatique44.fr</span>
+      &#x27A1; Vous devez voir votre site principal</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4F0;</div>
+    <div class="step-text">Ouvrez : <span class="code">https://sos-informatique44.fr/blog.html</span>
+      &#x27A1; Vous devez voir la page blog publique</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F527;</div>
+    <div class="step-text">Ouvrez : <span class="code">https://sos-informatique44.fr/blog-sos-informatique44.html</span>
+      &#x27A1; Vous devez voir le blog admin (CRM, Veille IA, etc.)<br>
+      <strong>Cette adresse c'est VOTRE outil, ne la donnez a personne.</strong></div>
+  </div>
+
+  <div class="success">
+    <div class="success-icon">&#x1F389;</div>
+    <div class="success-text"><strong>FELICITATIONS ! Votre site est en ligne !</strong><br>Les clients peuvent maintenant vous trouver sur sos-informatique44.fr</div>
+  </div>
+</div>
+
+<!-- ====== RECAP ====== -->
+<div class="recap">
+  <h2>&#x1F4CB; Resume en 7 etapes</h2>
+  <div class="recap-step"><div class="recap-num">0</div> GitHub Settings > Danger Zone > Passer en <strong>Public</strong></div>
+  <div class="recap-step"><div class="recap-num">1</div> GitHub Settings > Pages > Branch <strong>main</strong> > Save</div>
+  <div class="recap-step"><div class="recap-num">2</div> GitHub Pages > Custom domain > <strong>sos-informatique44.fr</strong> > Save</div>
+  <div class="recap-step"><div class="recap-num">3</div> IONOS DNS > <strong>4 enregistrements A</strong> + <strong>1 CNAME www</strong></div>
+  <div class="recap-step"><div class="recap-num">4</div> <strong>Attendre</strong> 10-30 minutes</div>
+  <div class="recap-step"><div class="recap-num">5</div> GitHub Pages > Cocher <strong>Enforce HTTPS</strong></div>
+  <div class="recap-step"><div class="recap-num">6</div> <strong>Tester</strong> sos-informatique44.fr &#x2714;</div>
+</div>
+
+<!-- ====== BONUS ====== -->
+<div class="etape" style="margin-top:28px;border-color:#0EA5E9;background:#F0F9FF">
+  <div class="etape-header">
+    <div class="etape-num" style="background:#F97316">&#x2B50;</div>
+    <div class="etape-title">Bonus : Mettre a jour le site au quotidien</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4DD;</div>
+    <div class="step-text">Quand on modifie ensemble les fichiers et qu'on fait <strong>git push</strong>, le site est automatiquement mis a jour en 1-2 minutes sur GitHub Pages.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F6AB;</div>
+    <div class="step-text"><strong>Vous n'avez RIEN a faire</strong> sur IONOS a chaque fois. La configuration DNS c'est une seule fois, c'est fait.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-icon">&#x1F4F1;</div>
+    <div class="step-text">Pour gerer vos articles et le CRM, allez simplement sur :<br><span class="code">https://sos-informatique44.fr/blog-sos-informatique44.html</span></div>
+  </div>
+</div>
+
+<div class="footer-guide">
+  Guide cree pour SOS Informatique 44 — Mars 2026<br>
+  En cas de probleme, contactez votre developpeur.
+</div>
+
+</div>
+</body>
+</html>
