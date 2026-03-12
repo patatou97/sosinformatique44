@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redirection – SOS Informatique 44</title>
+<script>
+(function(){
+  var map = {
+    '/reparation-de-pc': '/#services',
+    '/reparation': '/#services',
+    '/contact': '/#contact',
+    '/qualirepare': '/#bonus',
+    '/quali-repare': '/#bonus',
+    '/recuperation-des-donnees': '/#services',
+    '/comment-ca-marche': '/#pourquoi',
+    '/faq': '/#faq',
+    '/avis': '/#avis',
+    '/blog': '/blog.html'
+  };
+  var path = window.location.pathname.replace(/\/+$/, '').toLowerCase();
+  var dest = map[path];
+  if (dest) {
+    window.location.replace(dest);
+  } else {
+    window.location.replace('/?p=' + encodeURIComponent(path));
+  }
+})();
+</script>
+</head>
+<body>
+<p>Redirection en cours...</p>
+</body>
+</html>
