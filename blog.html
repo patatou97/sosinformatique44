@@ -6,7 +6,7 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C39YPQWZ0T');</script>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Blog - SOS Informatique 44 | Réparation informatique La Chapelle-sur-Erdre</title>
 <meta name="description" content="Blog SOS Informatique 44 : conseils, astuces et actualités sur la réparation PC, Mac, iPhone, sécurité informatique, récupération de données et micro-soudure à La Chapelle-sur-Erdre.">
 <meta name="robots" content="index,follow">
@@ -684,91 +684,74 @@ function blogToggle(btn){
     micro:'bg-gradient-micro', trends:'bg-gradient-trends'
   };
 
-  /* Parse articles from localStorage */
-  var articles = [];
-  try {
-    var raw = JSON.parse(localStorage.getItem('sos44_blog_articles'));
-    if (Array.isArray(raw)) {
-      articles = raw.filter(function(a){
-        return typeof a.title === 'string' && typeof a.content === 'string' && a.title.length > 3;
-      });
-    }
-  } catch(e) {
-    console.warn('Blog load error:', e);
-  }
+  /* CRM API URL (local test → change before deploy) */
+  var CRM_URL = 'https://crm.sos-informatique44.fr';
 
-  /* Sort by date descending */
-  articles.sort(function(a, b){
-    return new Date(b.date || 0) - new Date(a.date || 0);
-  });
-
-  /* Show empty state if no articles */
-  if (articles.length === 0) {
-    emptyEl.style.display = 'block';
-    countEl.style.display = 'none';
-    filterBar.style.display = 'none';
-    return;
-  }
-
-  /* Build all cards */
   var allCards = [];
-  articles.forEach(function(art){
-    var cat = art.category || 'pc';
+  var currentFilter = 'all';
+
+  function buildCard(art) {
+    var cat = 'trends';
     var icon = catIcons[cat] || '#i-desktop';
-    var label = catLabels[cat] || cat;
+    var label = catLabels[cat] || 'Tech';
     var gradient = catGradients[cat] || 'bg-gradient-blog';
     var dateStr = '';
     try {
-      dateStr = new Date(art.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+      dateStr = new Date(art.published_at || art.date).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
     } catch(e){}
 
-    /* Extract excerpt: first 150 chars of text content */
-    var tmp = document.createElement('div');
-    tmp.innerHTML = art.content || '';
-    var excerpt = (tmp.textContent || '').trim().slice(0, 150);
-    if (excerpt.length >= 148) excerpt += '\u2026';
+    var excerpt = art.excerpt || '';
+    if (!excerpt) {
+      var tmp = document.createElement('div');
+      tmp.textContent = art.content || '';
+      excerpt = (tmp.textContent || '').replace(/<[^>]+>/g, '').trim().slice(0, 150);
+      if (excerpt.length >= 148) excerpt += '\u2026';
+    }
 
-    /* Validate image source */
-    var hasImg = art.image && art.image.length > 10 && art.image.indexOf('data:image/') === 0;
-
+    var hasImg = art.image_url && art.image_url.length > 10 && /^(https?:|\/api\/)/.test(art.image_url);
     var card = document.createElement('article');
     card.className = 'blog-card reveal';
     card.setAttribute('data-category', cat);
 
-    var safeTitle = (art.title || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-    var safeExcerpt = excerpt.replace(/</g, '&lt;');
+    var imgDiv = document.createElement('div');
+    imgDiv.className = 'blog-card-img' + (hasImg ? '' : ' ' + gradient);
+    if (hasImg) {
+      imgDiv.style.padding = '0';
+      var img = document.createElement('img');
+      img.src = art.image_url; img.alt = art.title || '';
+      img.referrerPolicy = 'no-referrer'; img.crossOrigin = 'anonymous';
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+      imgDiv.appendChild(img);
+    } else {
+      imgDiv.innerHTML = '<svg width="48" height="48"><use href="' + icon + '"/></svg>';
+    }
 
-    /* Sanitize content with DOMPurify */
-    var sanitized = '';
+    var bodyDiv = document.createElement('div'); bodyDiv.className = 'blog-card-body';
+    var tagEl = document.createElement('span'); tagEl.className = 'blog-card-tag'; tagEl.textContent = label;
+    var h3 = document.createElement('h3'); h3.className = 'blog-card-title'; h3.textContent = art.title || '';
+    var pExcerpt = document.createElement('p'); pExcerpt.className = 'blog-card-excerpt'; pExcerpt.textContent = excerpt;
+    var footerDiv = document.createElement('div'); footerDiv.className = 'blog-card-footer';
+    var dateSpan = document.createElement('span'); dateSpan.className = 'blog-card-date'; dateSpan.textContent = dateStr;
+    var readBtn = document.createElement('button'); readBtn.className = 'blog-card-toggle'; readBtn.setAttribute('onclick', 'blogToggle(this)');
+    readBtn.innerHTML = 'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>';
+    footerDiv.appendChild(dateSpan); footerDiv.appendChild(readBtn);
+    bodyDiv.appendChild(tagEl); bodyDiv.appendChild(h3); bodyDiv.appendChild(pExcerpt); bodyDiv.appendChild(footerDiv);
+
+    var fullDiv = document.createElement('div'); fullDiv.className = 'blog-card-full';
     if (typeof DOMPurify !== 'undefined') {
-      sanitized = DOMPurify.sanitize(art.content, {
+      fullDiv.innerHTML = DOMPurify.sanitize(art.content, {
         ALLOWED_TAGS: ['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],
         ALLOWED_ATTR: ['href','target','rel']
       });
     } else {
-      sanitized = (art.content || '').replace(/</g, '&lt;');
+      fullDiv.textContent = art.content || '';
     }
 
-    card.innerHTML =
-      (hasImg
-        ? '<div class="blog-card-img" style="padding:0"><img src="' + art.image + '" alt="' + safeTitle + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block"></div>'
-        : '<div class="blog-card-img ' + gradient + '"><svg width="48" height="48"><use href="' + icon + '"/></svg></div>') +
-      '<div class="blog-card-body">' +
-        '<span class="blog-card-tag">' + label + '</span>' +
-        '<h3 class="blog-card-title">' + safeTitle + '</h3>' +
-        '<p class="blog-card-excerpt">' + safeExcerpt + '</p>' +
-        '<div class="blog-card-footer">' +
-          '<span class="blog-card-date">' + dateStr + '</span>' +
-          '<button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>' +
-        '</div>' +
-      '</div>' +
-      '<div class="blog-card-full">' + sanitized + '</div>';
+    card.appendChild(imgDiv); card.appendChild(bodyDiv); card.appendChild(fullDiv);
 
-    allCards.push({el: card, cat: cat});
-  });
-
-  /* Current filter */
-  var currentFilter = 'all';
+    return {el: card, cat: cat};
+  }
 
   function renderCards(){
     grid.innerHTML = '';
@@ -777,7 +760,6 @@ function blogToggle(btn){
       if (currentFilter === 'all' || item.cat === currentFilter) {
         grid.appendChild(item.el);
         count++;
-        /* Observe for reveal animation */
         if (_revealObserver) _revealObserver.observe(item.el);
         else item.el.classList.add('visible');
       }
@@ -792,8 +774,25 @@ function blogToggle(btn){
     }
   }
 
-  /* Initial render */
-  renderCards();
+  /* Fetch articles from CRM */
+  fetch(CRM_URL + '/api/blog/public/articles')
+  .then(function(r){ return r.json(); })
+  .then(function(articles){
+    if (!Array.isArray(articles) || articles.length === 0) {
+      emptyEl.style.display = 'block';
+      countEl.style.display = 'none';
+      filterBar.style.display = 'none';
+      return;
+    }
+    articles.forEach(function(art){ allCards.push(buildCard(art)); });
+    renderCards();
+  })
+  .catch(function(e){
+    console.warn('Blog CRM load error:', e);
+    emptyEl.style.display = 'block';
+    countEl.style.display = 'none';
+    filterBar.style.display = 'none';
+  });
 
   /* Filter button clicks */
   var filterBtns = filterBar.querySelectorAll('.filter-btn');
@@ -803,7 +802,6 @@ function blogToggle(btn){
       btn.classList.add('active');
       currentFilter = btn.getAttribute('data-filter');
       renderCards();
-      /* Scroll to grid top smoothly */
       grid.scrollIntoView({behavior:'smooth', block:'start'});
     });
   });

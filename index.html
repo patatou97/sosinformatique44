@@ -6,7 +6,7 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C39YPQWZ0T');</script>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -1079,33 +1079,6 @@ ul{list-style:none}
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous" defer></script>
 </head>
 <body>
-<script>
-(function(){
-  var params = new URLSearchParams(window.location.search);
-  var p = params.get('p');
-  if (p) {
-    var map = {
-      '/reparation-de-pc': 'services',
-      '/reparation': 'services',
-      '/contact': 'contact',
-      '/qualirepare': 'bonus',
-      '/quali-repare': 'bonus',
-      '/recuperation-des-donnees': 'services',
-      '/comment-ca-marche': 'pourquoi',
-      '/faq': 'faq',
-      '/avis': 'avis'
-    };
-    var section = map[p.toLowerCase()];
-    history.replaceState(null, '', '/');
-    if (section) {
-      window.addEventListener('DOMContentLoaded', function(){
-        var el = document.getElementById(section);
-        if (el) el.scrollIntoView({behavior: 'smooth'});
-      });
-    }
-  }
-})();
-</script>
 <!-- RGPD Cookie Consent Banner -->
 <div class="rgpd-banner" id="rgpdBanner">
   <div class="rgpd-inner">
@@ -1138,20 +1111,26 @@ ul{list-style:none}
   Bonus Réparation : <span>-50 €</span> immédiat grâce au label QualiRépare
 </div>
 
+<!-- Top tracking bar -->
+<div id="topTrackingBar" style="background:linear-gradient(135deg,#059669,#10B981);text-align:center;padding:10px 16px;position:relative;z-index:1001">
+  <a href="#suivi" style="color:#fff;text-decoration:none;font-weight:700;font-size:.9375rem;display:inline-flex;align-items:center;gap:8px">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Suivre ma réparation
+    <span style="background:rgba(255,255,255,.2);padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600">Cliquez ici</span>
+  </a>
+</div>
+
 <!-- Navigation -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
   <div class="nav-inner">
-    <a href="#" class="nav-logo" id="siteLogo" aria-label="SOS Informatique 44 — Accueil">
-      <div class="nav-logo-icon" id="siteLogoIcon">
-        <svg width="22" height="22" style="stroke:#fff"><use href="#i-desktop"/></svg>
-      </div>
-      <span id="siteLogoText">SOS Informatique 44</span>
+    <a href="#" class="nav-logo" id="siteLogo" aria-label="SOS Informatique 44 — Accueil" style="display:flex;align-items:center;gap:0;text-decoration:none">
+      <img src="logo-sos.png" alt="SOS Informatique 44" style="height:92px;width:auto" id="siteLogoIcon">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.nextElementSibling.classList.contains('open'))">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
     <div class="nav-links">
-      <a href="#services">Services</a>
+      <a href="#suivi" style="color:#10B981;font-weight:700">Suivi réparation</a>
       <a href="blog.html">Blog</a>
       <a href="#creation-web">Création web</a>
       <a href="#pourquoi">Pourquoi nous</a>
@@ -1273,6 +1252,32 @@ ul{list-style:none}
     Avis Google &middot; 4.8/5 &middot; 62 avis
   </div>
 </div>
+
+<!-- Suivi réparation -->
+<section class="section section-gradient" id="suivi" style="padding:60px 0">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:32px">
+      <div class="section-tag reveal">📍 Suivi</div>
+      <h2 class="section-title reveal">Suivre votre réparation</h2>
+      <p class="section-subtitle reveal">Entrez votre numéro de suivi et votre téléphone pour voir l'état de votre réparation en temps réel.</p>
+    </div>
+    <div style="max-width:480px;margin:0 auto">
+      <form id="trackingForm" onsubmit="return handleTracking(event)" style="background:var(--bg-alt);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+        <div style="margin-bottom:16px">
+          <label for="trackNum" style="display:block;font-size:.875rem;font-weight:600;margin-bottom:6px;color:var(--text)">Numéro de suivi</label>
+          <input type="text" id="trackNum" placeholder="Ex: 001-DUPONT" required style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-xs);font-size:1rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div style="margin-bottom:20px">
+          <label for="trackPhone" style="display:block;font-size:.875rem;font-weight:600;margin-bottom:6px;color:var(--text)">Téléphone (utilisé lors du dépôt)</label>
+          <input type="tel" id="trackPhone" placeholder="06 12 34 56 78" required style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-xs);font-size:1rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <button type="submit" id="trackBtn" style="width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-xs);font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s" onmouseover="this.style.background='var(--blue-hover)'" onmouseout="this.style.background='var(--blue)'">Suivre ma réparation</button>
+      </form>
+      <div id="trackingResult" style="display:none;margin-top:20px;background:var(--bg-alt);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-md);border:1px solid var(--border)"></div>
+      <div id="trackingError" style="display:none;margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--radius-xs);padding:12px 16px;color:#DC2626;font-size:.875rem;text-align:center"></div>
+    </div>
+  </div>
+</section>
 
 <!-- Bonus QualiRépare -->
 <section class="section section-white" id="bonus">
@@ -2371,77 +2376,169 @@ function blogToggle(btn){
     :'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
 }
 
-/* ===== BLOG — Load dynamic articles from localStorage ===== */
+/* ===== CRM API URL (local test → change to VPS URL before deploy) ===== */
+var SOS44_CRM_URL = 'https://crm.sos-informatique44.fr';
+
+/* ===== TRACKING — Suivi réparation ===== */
+var _trackStatusLabels = {
+  received:'Reçu — En attente de diagnostic',
+  diagnosing:'Diagnostic en cours',
+  waiting_parts:'En attente de pièces',
+  quote_sent:'Devis envoyé — En attente de réponse',
+  quote_accepted:'Devis accepté',
+  quote_rejected:'Devis refusé',
+  repairing:'Réparation en cours',
+  ready:'Prêt — À récupérer',
+  delivered:'Rendu au client'
+};
+var _trackStatusColors = {
+  received:'#6B7280',diagnosing:'#F59E0B',waiting_parts:'#F97316',
+  quote_sent:'#8B5CF6',quote_accepted:'#059669',quote_rejected:'#DC2626',repairing:'#3B82F6',ready:'#10B981',delivered:'#6B7280'
+};
+
+function handleTracking(e) {
+  e.preventDefault();
+  var num = document.getElementById('trackNum').value.trim();
+  var phone = document.getElementById('trackPhone').value.trim();
+  var btn = document.getElementById('trackBtn');
+  var resultEl = document.getElementById('trackingResult');
+  var errorEl = document.getElementById('trackingError');
+  resultEl.style.display='none'; errorEl.style.display='none';
+  btn.textContent='Recherche en cours…'; btn.disabled=true;
+
+  fetch(SOS44_CRM_URL + '/api/tracking', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({tracking_number:num, phone:phone})
+  })
+  .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, data:d}; }); })
+  .then(function(res){
+    btn.textContent='Suivre ma réparation'; btn.disabled=false;
+    if (!res.ok) { errorEl.textContent = res.data.error || 'Réparation non trouvée'; errorEl.style.display='block'; return; }
+    var r = res.data;
+    var status = r.status || 'received';
+    var allowedColors = {'received':'#6B7280','diagnosing':'#3B82F6','waiting_parts':'#F59E0B','quote_sent':'#8B5CF6','quote_accepted':'#059669','quote_rejected':'#DC2626','repairing':'#3B82F6','ready':'#10B981','delivered':'#059669'};
+    var color = allowedColors[status] || '#6B7280';
+    var label = _trackStatusLabels[status] || status;
+    var dateStr = ''; try { dateStr = new Date(r.updated_at || r.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
+    resultEl.textContent = '';
+    var wrap = document.createElement('div'); wrap.style.textAlign='center';
+    var badge = document.createElement('div'); badge.style.cssText='display:inline-block;padding:6px 16px;border-radius:50px;font-size:.8125rem;font-weight:700;color:#fff;background:'+color; badge.textContent=label;
+    var h3 = document.createElement('h3'); h3.style.cssText='margin:16px 0 8px;font-size:1.125rem;font-weight:700;color:var(--text)'; h3.textContent=(r.device_type||'') + (r.device_brand ? ' — '+r.device_brand : '');
+    var desc = document.createElement('p'); desc.style.cssText='font-size:.875rem;color:var(--text-secondary);margin:0'; desc.textContent=r.fault_description||'';
+    wrap.appendChild(badge); wrap.appendChild(h3); wrap.appendChild(desc);
+    var costValue = r.estimated_cost || r.final_cost;
+    if (costValue) { var cost=document.createElement('p'); cost.style.cssText='margin-top:12px;font-size:.9375rem;font-weight:600;color:var(--blue)'; cost.textContent='Estimation : '+costValue+' €'; wrap.appendChild(cost); }
+    if (status === 'quote_sent') {
+      var quoteBox = document.createElement('div'); quoteBox.style.cssText='margin-top:16px;padding:16px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px';
+      var quoteTitle = document.createElement('p'); quoteTitle.style.cssText='font-size:.875rem;color:#3730A3;margin:0 0 8px;font-weight:600'; quoteTitle.textContent='Souhaitez-vous accepter ce devis ?';
+      var quoteAmount = document.createElement('p'); quoteAmount.style.cssText='font-size:1.5rem;font-weight:700;color:#4338CA;margin:0 0 12px'; quoteAmount.textContent=r.estimated_cost+' €';
+      var btnWrap = document.createElement('div'); btnWrap.style.cssText='display:flex;gap:10px;justify-content:center';
+      var acceptBtn = document.createElement('button'); acceptBtn.style.cssText='flex:1;padding:10px 16px;background:#059669;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:.875rem;cursor:pointer'; acceptBtn.textContent='✓ Accepter'; acceptBtn.onclick=function(){ respondQuote(true, r.tracking_number); };
+      var refuseBtn = document.createElement('button'); refuseBtn.style.cssText='flex:1;padding:10px 16px;background:#DC2626;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:.875rem;cursor:pointer'; refuseBtn.textContent='✗ Refuser'; refuseBtn.onclick=function(){ respondQuote(false, r.tracking_number); };
+      btnWrap.appendChild(acceptBtn); btnWrap.appendChild(refuseBtn);
+      quoteBox.appendChild(quoteTitle); quoteBox.appendChild(quoteAmount); quoteBox.appendChild(btnWrap);
+      wrap.appendChild(quoteBox);
+    }
+    if (status === 'quote_accepted') { var accMsg=document.createElement('p'); accMsg.style.cssText='margin-top:12px;padding:10px;background:#D1FAE5;border-radius:8px;color:#065F46;font-weight:600;font-size:.875rem'; accMsg.textContent='✓ Devis accepté — Réparation en cours de planification'; wrap.appendChild(accMsg); }
+    if (status === 'quote_rejected') { var rejMsg=document.createElement('p'); rejMsg.style.cssText='margin-top:12px;padding:10px;background:#FEE2E2;border-radius:8px;color:#991B1B;font-weight:600;font-size:.875rem'; rejMsg.textContent='✗ Devis refusé — Contactez-nous pour récupérer votre appareil'; wrap.appendChild(rejMsg); }
+    if (dateStr) { var dt=document.createElement('p'); dt.style.cssText='margin-top:8px;font-size:.8125rem;color:var(--text-muted)'; dt.textContent='Dernière mise à jour : '+dateStr; wrap.appendChild(dt); }
+    resultEl.appendChild(wrap);
+    resultEl.style.display='block';
+  })
+  .catch(function(){
+    btn.textContent='Suivre ma réparation'; btn.disabled=false;
+    errorEl.textContent='Impossible de contacter le serveur. Réessayez plus tard.'; errorEl.style.display='block';
+  });
+  return false;
+}
+
+function respondQuote(accepted, trackingNumber) {
+  var phone = document.getElementById('trackPhone').value.trim();
+  var resultEl = document.getElementById('trackingResult');
+  var errorEl = document.getElementById('trackingError');
+  errorEl.style.display='none';
+  fetch(SOS44_CRM_URL + '/api/tracking/respond-quote', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({tracking_number: trackingNumber, phone: phone, accepted: accepted})
+  })
+  .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, data:d}; }); })
+  .then(function(res){
+    if (!res.ok) { errorEl.textContent = res.data.error || 'Erreur'; errorEl.style.display='block'; return; }
+    handleTracking({preventDefault:function(){}});
+  })
+  .catch(function(){
+    errorEl.textContent='Impossible de contacter le serveur.'; errorEl.style.display='block';
+  });
+}
+
+/* ===== BLOG — Load articles from CRM API ===== */
 (function(){
-  try {
-    var raw = JSON.parse(localStorage.getItem('sos44_blog_articles'));
-    if (!Array.isArray(raw) || raw.length === 0) return;
-    var valid = raw.filter(function(a){ return typeof a.title === 'string' && typeof a.content === 'string' && a.title.length > 3; });
-    if (valid.length === 0) return;
+  var grid = document.getElementById('blogGrid');
+  if (!grid) return;
 
-    /* Sort by date desc, take newest 6 */
-    valid.sort(function(a,b){ return new Date(b.date||0) - new Date(a.date||0); });
-    var toShow = valid.slice(0, 6);
-
-    var catIcons = {
-      pc:'#i-desktop', mac:'#i-desktop', phone:'#i-mobile',
-      security:'#i-shield', data:'#i-desktop', qualire:'#i-shield',
-      micro:'#i-desktop', trends:'#i-desktop'
-    };
-    var catLabels = {
-      pc:'PC Windows', mac:'Apple', phone:'iPhone/iPad',
-      security:'Sécurité', data:'Données', qualire:'QualiRépare',
-      micro:'Micro-soudure', trends:'Tendances'
-    };
-
-    var grid = document.getElementById('blogGrid');
-    if (!grid) return;
-
-    /* Insert dynamic articles before the static ones */
+  fetch(SOS44_CRM_URL + '/api/blog/public/articles')
+  .then(function(r){ return r.json(); })
+  .then(function(articles){
+    if (!Array.isArray(articles) || articles.length === 0) return;
+    var toShow = articles.slice(0, 6);
     var firstStatic = grid.querySelector('.blog-card');
 
     toShow.forEach(function(art) {
-      var cat = art.category || 'pc';
-      var icon = catIcons[cat] || '#i-desktop';
-      var label = catLabels[cat] || cat;
       var dateStr = '';
-      try { dateStr = new Date(art.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
+      try { dateStr = new Date(art.published_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){}
 
-      /* Extract first 120 chars of text from content as excerpt */
-      var tmp = document.createElement('div');
-      tmp.innerHTML = art.content || '';
-      var excerpt = (tmp.textContent || '').trim().slice(0, 150);
-      if (excerpt.length >= 148) excerpt += '…';
+      var excerpt = art.excerpt || '';
+      if (!excerpt) {
+        var tmp = document.createElement('div');
+        tmp.textContent = art.content || '';
+        excerpt = (tmp.textContent || '').replace(/<[^>]+>/g, '').trim().slice(0, 150);
+        if (excerpt.length >= 148) excerpt += '\u2026';
+      }
 
       var card = document.createElement('article');
       card.className = 'blog-card reveal';
-      card.setAttribute('data-id', art.id || '');
-      card.setAttribute('data-cat', label);
-      var hasImg = art.image && art.image.length > 10 && art.image.indexOf('data:image/') === 0;
-      var safeTitle = (art.title||'').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-      card.innerHTML =
-        (hasImg
-          ? '<div class="blog-card-img" style="padding:0"><img src="' + art.image + '" alt="' + safeTitle + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block"></div>'
-          : '<div class="blog-card-img bg-gradient-blog"><svg width="48" height="48"><use href="' + icon + '"/></svg></div>') +
-        '<div class="blog-card-body">' +
-          '<span class="blog-card-tag">' + label + '</span>' +
-          '<h3 class="blog-card-title">' + (art.title||'').replace(/</g,'&lt;') + '</h3>' +
-          '<p class="blog-card-excerpt">' + excerpt.replace(/</g,'&lt;') + '</p>' +
-          '<div class="blog-card-footer">' +
-            '<span class="blog-card-date">' + dateStr + '</span>' +
-            '<button class="blog-card-toggle" onclick="blogToggle(this)">Lire <svg width="14" height="14"><use href="#i-chevron"/></svg></button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="blog-card-full">' + DOMPurify.sanitize(art.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']}) + '</div>';
+      card.setAttribute('data-id', 'crm-' + art.id);
+      card.setAttribute('data-cat', 'Tech');
+
+      var hasImg = art.image_url && art.image_url.length > 10 && /^(https?:|\/api\/)/.test(art.image_url);
+      var imgDiv = document.createElement('div');
+      imgDiv.className = 'blog-card-img' + (hasImg ? '' : ' bg-gradient-blog');
+      if (hasImg) {
+        imgDiv.style.padding = '0';
+        var img = document.createElement('img');
+        img.src = art.image_url; img.alt = art.title || '';
+        img.referrerPolicy = 'no-referrer'; img.crossOrigin = 'anonymous';
+        img.loading = 'lazy'; img.decoding = 'async';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+        imgDiv.appendChild(img);
+      } else {
+        imgDiv.innerHTML = '<svg width="48" height="48"><use href="#i-desktop"/></svg>';
+      }
+
+      var bodyDiv = document.createElement('div'); bodyDiv.className = 'blog-card-body';
+      var tag = document.createElement('span'); tag.className = 'blog-card-tag'; tag.textContent = 'Tech';
+      var h3 = document.createElement('h3'); h3.className = 'blog-card-title'; h3.textContent = art.title || '';
+      var pExcerpt = document.createElement('p'); pExcerpt.className = 'blog-card-excerpt'; pExcerpt.textContent = excerpt;
+      var footerDiv = document.createElement('div'); footerDiv.className = 'blog-card-footer';
+      var dateSpan = document.createElement('span'); dateSpan.className = 'blog-card-date'; dateSpan.textContent = dateStr;
+      var readBtn = document.createElement('button'); readBtn.className = 'blog-card-toggle'; readBtn.setAttribute('onclick', 'blogToggle(this)');
+      readBtn.innerHTML = 'Lire <svg width="14" height="14"><use href="#i-chevron"/></svg>';
+      footerDiv.appendChild(dateSpan); footerDiv.appendChild(readBtn);
+      bodyDiv.appendChild(tag); bodyDiv.appendChild(h3); bodyDiv.appendChild(pExcerpt); bodyDiv.appendChild(footerDiv);
+
+      var fullDiv = document.createElement('div'); fullDiv.className = 'blog-card-full';
+      fullDiv.innerHTML = DOMPurify.sanitize(art.content, {ALLOWED_TAGS:['h2','h3','h4','p','ul','ol','li','a','strong','em','br','span'],ALLOWED_ATTR:['href','target','rel']});
+
+      card.appendChild(imgDiv); card.appendChild(bodyDiv); card.appendChild(fullDiv);
 
       if (firstStatic) grid.insertBefore(card, firstStatic);
       else grid.appendChild(card);
 
-      /* Observe for scroll reveal */
       if (window._revealObserver) window._revealObserver.observe(card);
       else card.classList.add('visible');
     });
-  } catch(e) { console.warn('Blog dynamic load error:', e); }
+  })
+  .catch(function(e){ console.warn('Blog CRM load error:', e); });
 })();
 
 /* ===== GALLERY — Load photos from localStorage (5 slots) ===== */
