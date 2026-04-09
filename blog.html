@@ -111,7 +111,7 @@ ul{list-style:none}
   padding:0 24px;
   max-width:1200px;
   margin:0 auto;
-  height:72px;
+  height:80px;
 }
 .nav-logo{
   font-family:var(--font-heading);
@@ -131,45 +131,31 @@ ul{list-style:none}
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 12px var(--blue-glow);
 }
-.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links{display:flex;align-items:center;gap:32px;flex:1;justify-content:center}
 .nav-links a{
-  color:var(--text-secondary);
-  font-size:.8125rem;
-  font-weight:500;
+  color:var(--text);
+  font-size:1rem;
+  font-weight:600;
   transition:color var(--transition);
   position:relative;
   white-space:nowrap;
+  padding:6px 0;
 }
 .nav-links a:hover{color:var(--blue);text-decoration:none}
 .nav-links a::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  content:'';position:absolute;bottom:0;left:0;right:0;
   height:2px;background:var(--blue);
   transform:scaleX(0);transition:transform var(--transition);
   border-radius:1px;
 }
 .nav-links a:hover::after{transform:scaleX(1)}
-.nav-cta{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--whatsapp);color:#fff !important;
-  padding:7px 16px;border-radius:50px;font-size:.8125rem;
-  font-weight:700;font-size:.875rem;
-  box-shadow:0 4px 16px rgba(37,211,102,.3);
-  transition:all var(--transition);
-  border:none;
-}
-.nav-cta:hover{
-  background:var(--whatsapp-dark);
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(37,211,102,.4);
-  text-decoration:none;
-}
 .nav-toggle{
   display:none;background:none;border:none;
   padding:8px;color:var(--text);
 }
 @media(max-width:960px){
   .nav-links{
-    display:none;position:absolute;top:72px;left:0;right:0;
+    display:none;position:absolute;top:80px;left:0;right:0;
     background:var(--bg-alt);
     flex-direction:column;padding:20px 24px;gap:16px;
     border-top:1px solid var(--border);
@@ -486,16 +472,12 @@ ul{list-style:none}
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
     <div class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="index.html#services">Services</a>
+      <a href="index.html#suivi" style="color:#10B981;font-weight:700">Suivi réparation</a>
       <a href="blog.html" style="color:var(--blue);font-weight:700">Blog</a>
-      <a href="index.html#creation-web">Création web</a>
       <a href="index.html#pourquoi">Pourquoi nous</a>
+      <a href="index.html#avis">Avis</a>
+      <a href="index.html#faq">FAQ</a>
       <a href="index.html#contact">Contact</a>
-      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="nav-cta" target="_blank" rel="noopener noreferrer" data-wa>
-        <svg width="13" height="13"><use href="#i-wa"/></svg>
-        Devis WhatsApp
-      </a>
     </div>
   </div>
 </nav>
@@ -691,7 +673,7 @@ function blogToggle(btn){
   var currentFilter = 'all';
 
   function buildCard(art) {
-    var cat = 'trends';
+    var cat = art.category || 'trends';
     var icon = catIcons[cat] || '#i-desktop';
     var label = catLabels[cat] || 'Tech';
     var gradient = catGradients[cat] || 'bg-gradient-blog';
