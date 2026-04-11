@@ -5,12 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!-- Preconnect : etablit la connexion TLS au CRM en avance pour accelerer le fetch blog -->
 <link rel="preconnect" href="https://crm.sos-informatique44.fr" crossorigin>
-<!-- Google Analytics -->
+<!-- Google Analytics 4 : conditionne au consentement RGPD (CNIL) -->
 <script>
-/* GTM defere : charge apres 5s ou premiere interaction utilisateur */
+/* GA4 ne se charge QUE si l'utilisateur a accepte la banniere RGPD.
+   La fonction SOS44_loadGA4 est aussi appelee depuis le handler accept(). */
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());gtag('config','G-C39YPQWZ0T');
-(function(){var loaded=false;function load(){if(loaded)return;loaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T';document.head.appendChild(s)}['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){window.addEventListener(e,load,{once:true,passive:true})});setTimeout(load,5000)})();
+function SOS44_loadGA4(){
+  if(window.SOS44_GA4_LOADED)return;window.SOS44_GA4_LOADED=true;
+  gtag('js',new Date());gtag('config','G-C39YPQWZ0T',{anonymize_ip:true});
+  var s=document.createElement('script');s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T';
+  document.head.appendChild(s);
+}
+(function(){
+  try{
+    if(localStorage.getItem('sos44_consent')==='accepted'){
+      /* Chargement differe de 3s apres page load pour ne pas bloquer le LCP */
+      if(document.readyState==='complete')setTimeout(SOS44_loadGA4,3000);
+      else window.addEventListener('load',function(){setTimeout(SOS44_loadGA4,3000)});
+    }
+  }catch(e){}
+})();
 </script>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
@@ -960,7 +975,7 @@ ul{list-style:none}
 <div class="rgpd-banner" id="rgpdBanner">
   <div class="rgpd-inner">
     <div class="rgpd-text">
-      <p>Ce site utilise le stockage local (localStorage) pour son fonctionnement et charge des polices depuis Google Fonts. Vos donn&eacute;es de formulaire sont transmises via Google Sheets. En acceptant, vous consentez &agrave; ces traitements. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></p>
+      <p>Ce site utilise le stockage local (localStorage), charge des polices depuis Google Fonts et mesure son audience via <strong>Google Analytics 4</strong> (IP anonymis&eacute;e). Vos donn&eacute;es de formulaire sont transmises via Google Sheets. En acceptant, vous consentez &agrave; ces traitements. Si vous refusez, aucun de ces services n'est charg&eacute;. <a href="#" onclick="openLegal('privacy');return false">Politique de confidentialit&eacute;</a></p>
     </div>
     <div class="rgpd-buttons">
       <button class="rgpd-btn rgpd-btn-accept" onclick="acceptRGPD()">Accepter</button>
@@ -1739,6 +1754,7 @@ ul{list-style:none}
         <p><a href="#contact">Contact</a></p>
         <p><a href="#" onclick="openLegal('mentionsLegales');return false">Mentions l&eacute;gales</a></p>
         <p><a href="#" onclick="openLegal('privacy');return false">Confidentialit&eacute;</a></p>
+        <p><a href="#" onclick="openLegal('cgv');return false">CGV</a></p>
       </div>
       <div>
         <h3>Zones d'intervention</h3>
@@ -1779,6 +1795,8 @@ var SOS44_CONSENT=(function(){
       l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.googleapis.com';h.appendChild(l);
       l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.gstatic.com';l.crossOrigin='anonymous';h.appendChild(l);
       l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap';h.appendChild(l);
+      /* Chargement GA4 apres acceptation */
+      if(typeof SOS44_loadGA4==='function')SOS44_loadGA4();
     },
     refuse:function(){
       consent='refused';localStorage.setItem(KEY,'refused');hideBanner();
@@ -2235,7 +2253,10 @@ function faqToggle(btn){
     <strong>Responsable de la publication :</strong> Patrick PIED</p>
 
     <h3>H&eacute;bergement web</h3>
-    <p><strong>IONOS by 1&amp;1</strong></p>
+    <p><strong>IONOS Cloud</strong> (IONOS SE)<br>
+    Elgendorfer Str. 57, 56410 Montabaur, Allemagne<br>
+    Serveur d&eacute;di&eacute; administr&eacute; par SOS INFORMATIQUE 44 (Caddy sous Ubuntu 24.04 LTS).<br>
+    Site : <a href="https://www.ionos.fr" target="_blank" rel="noopener noreferrer">www.ionos.fr</a></p>
 
     <h3>Conception du site internet</h3>
     <p><strong>SOS INFORMATIQUE 44</strong></p>
@@ -2266,7 +2287,7 @@ function faqToggle(btn){
   <div class="legal-content">
     <button class="legal-close" onclick="closeLegal('privacy')" aria-label="Fermer">&times;</button>
     <h2>Politique de confidentialit&eacute;</h2>
-    <p><em>Derni&egrave;re mise &agrave; jour : 4 mars 2026</em></p>
+    <p><em>Derni&egrave;re mise &agrave; jour : 11 avril 2026</em></p>
 
     <h3>1. Responsable du traitement</h3>
     <p>SOS INFORMATIQUE 44, 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.<br>
@@ -2297,7 +2318,8 @@ function faqToggle(btn){
     <h3>5. Destinataires des donn&eacute;es</h3>
     <ul>
       <li><strong>SOS Informatique 44</strong> &mdash; traitement interne de votre demande</li>
-      <li><strong>Google Sheets / Google Apps Script</strong> &mdash; stockage s&eacute;curis&eacute; des demandes (serveurs Google, conformit&eacute; RGPD via clauses contractuelles types)</li>
+      <li><strong>CRM interne</strong> (crm.sos-informatique44.fr) &mdash; gestion du suivi de votre r&eacute;paration, h&eacute;berg&eacute; sur serveur IONOS Cloud (Allemagne, UE)</li>
+      <li><strong>Google Sheets / Google Apps Script</strong> &mdash; stockage s&eacute;curis&eacute; des demandes de contact (serveurs Google, conformit&eacute; RGPD via clauses contractuelles types)</li>
     </ul>
 
     <h3>6. Dur&eacute;e de conservation</h3>
@@ -2315,23 +2337,89 @@ function faqToggle(btn){
     </ul>
     <p>Pour exercer ces droits, contactez-nous &agrave; : <strong>contact@sos-informatique44.fr</strong></p>
 
-    <h3>8. Cookies et stockage local</h3>
-    <p>Ce site n'utilise <strong>aucun cookie</strong> de suivi. Nous utilisons le <strong>localStorage</strong> du navigateur uniquement pour :</p>
+    <h3>8. Cookies, stockage local et mesure d'audience</h3>
+    <p>Nous utilisons le <strong>localStorage</strong> du navigateur uniquement pour :</p>
     <ul>
       <li>Sauvegarder votre pr&eacute;f&eacute;rence de consentement RGPD</li>
       <li>Stocker les param&egrave;tres de configuration de l'atelier (coordonn&eacute;es, tarifs)</li>
     </ul>
-    <p>Le chargement de <strong>Google Fonts</strong> peut entra&icirc;ner un transfert d'adresse IP vers les serveurs de Google. Si vous refusez le consentement, les polices Google ne seront pas charg&eacute;es.</p>
+    <p><strong>Mesure d'audience &mdash; Google Analytics 4</strong> (identifiant&nbsp;<code>G-C39YPQWZ0T</code>) : ce site utilise GA4 pour mesurer la fr&eacute;quentation. Conform&eacute;ment aux recommandations de la CNIL, GA4 est configur&eacute; avec <strong>anonymisation d'IP</strong> et <strong>ne se d&eacute;clenche qu'apr&egrave;s votre consentement explicite</strong> via la banni&egrave;re. Aucun cookie de tra&ccedil;age n'est d&eacute;pos&eacute; tant que vous n'avez pas cliqu&eacute; sur &laquo;&nbsp;Accepter&nbsp;&raquo;. Si vous refusez, GA4 n'est jamais charg&eacute;.</p>
+    <p>Le chargement de <strong>Google Fonts</strong> peut entra&icirc;ner un transfert d'adresse IP vers les serveurs de Google. Si vous refusez le consentement, les polices Google ne sont pas charg&eacute;es.</p>
 
     <h3>9. Services tiers</h3>
     <ul>
-      <li><strong>Google Fonts</strong> (fonts.googleapis.com) &mdash; chargement de polices. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Politique Google</a></li>
+      <li><strong>Google Analytics 4</strong> (googletagmanager.com, google-analytics.com) &mdash; mesure d'audience anonymis&eacute;e, charg&eacute; uniquement apr&egrave;s consentement. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Politique Google</a></li>
+      <li><strong>Google Fonts</strong> (fonts.googleapis.com) &mdash; chargement de polices apr&egrave;s consentement. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Politique Google</a></li>
       <li><strong>Google Apps Script</strong> (script.google.com) &mdash; r&eacute;ception des formulaires</li>
-      <li><strong>GitHub Pages</strong> (github.com) &mdash; h&eacute;bergement du site</li>
+      <li><strong>CRM SOS Informatique 44</strong> (crm.sos-informatique44.fr) &mdash; affichage du blog et suivi de r&eacute;paration, h&eacute;berg&eacute; sur IONOS Cloud (Allemagne, UE)</li>
+      <li><strong>IONOS Cloud</strong> &mdash; h&eacute;bergement du site et du CRM (serveur d&eacute;di&eacute; dans l'Union Europ&eacute;enne)</li>
     </ul>
 
     <h3>10. R&eacute;clamation</h3>
     <p>Vous pouvez introduire une r&eacute;clamation aupr&egrave;s de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libert&eacute;s) : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a></p>
+  </div>
+</div>
+
+<!-- Conditions G&eacute;n&eacute;rales de Vente Overlay -->
+<div class="legal-overlay" id="cgv">
+  <div class="legal-content">
+    <button class="legal-close" onclick="closeLegal('cgv')" aria-label="Fermer">&times;</button>
+    <h2>Conditions G&eacute;n&eacute;rales de Vente</h2>
+    <p><em>Derni&egrave;re mise &agrave; jour : 11 avril 2026</em></p>
+
+    <h3>Article 1 &mdash; Objet</h3>
+    <p>Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales de Vente (CGV) r&eacute;gissent les prestations de diagnostic et de r&eacute;paration d'appareils informatiques et mobiles (ordinateurs PC, Mac, smartphones, tablettes) fournies par <strong>SOS INFORMATIQUE 44</strong> &mdash; entreprise individuelle, SIRET 81919530600017 &mdash; &agrave; toute personne physique ou morale (&laquo;&nbsp;le Client&nbsp;&raquo;) d&eacute;posant un appareil &agrave; l'atelier situ&eacute; 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.</p>
+
+    <h3>Article 2 &mdash; Prise en charge et d&eacute;p&ocirc;t</h3>
+    <p>Le d&eacute;p&ocirc;t d'un appareil donne lieu &agrave; la remise d'un <strong>bon de d&eacute;p&ocirc;t</strong> ou d'un num&eacute;ro de suivi (format <em>NNN-NOM</em>). Ce num&eacute;ro permet au Client de suivre l'avancement de sa r&eacute;paration sur le site ou sur le CRM <a href="https://crm.sos-informatique44.fr" target="_blank" rel="noopener noreferrer">crm.sos-informatique44.fr</a>. Le Client d&eacute;clare &ecirc;tre le propri&eacute;taire l&eacute;gitime de l'appareil ou disposer d'un mandat pour le faire r&eacute;parer.</p>
+
+    <h3>Article 3 &mdash; Diagnostic</h3>
+    <p>Un diagnostic pr&eacute;alable est r&eacute;alis&eacute; pour &eacute;tablir la nature de la panne et chiffrer l'intervention. Le diagnostic est <strong>gratuit</strong> sauf intervention lourde (micro-soudure, analyse carte m&egrave;re, r&eacute;cup&eacute;ration de donn&eacute;es) qui peut faire l'objet d'un forfait annonc&eacute; &agrave; l'avance et accept&eacute; par le Client avant toute manipulation.</p>
+
+    <h3>Article 4 &mdash; Devis et acceptation</h3>
+    <p>Un <strong>devis estim&eacute;</strong> est syst&eacute;matiquement transmis au Client (par WhatsApp, SMS, email ou via le lien de suivi) avant toute r&eacute;paration payante. Aucune intervention payante n'est engag&eacute;e sans accord explicite du Client. Le Client dispose d'un lien personnel pour <strong>accepter ou refuser</strong> le devis.</p>
+    <p>En cas de <strong>refus du devis</strong>, des <strong>frais de diagnostic forfaitaires</strong> de <strong>25&nbsp;&euro;&nbsp;TTC</strong> peuvent &ecirc;tre factur&eacute;s pour couvrir le temps pass&eacute;, sauf si aucun d&eacute;montage n'a &eacute;t&eacute; n&eacute;cessaire. Ce point est rappel&eacute; au Client lors du d&eacute;p&ocirc;t.</p>
+
+    <h3>Article 5 &mdash; D&eacute;lais</h3>
+    <p>Les d&eacute;lais communiqu&eacute;s au Client sont donn&eacute;s <strong>&agrave; titre indicatif</strong> et d&eacute;pendent notamment de la disponibilit&eacute; des pi&egrave;ces d&eacute;tach&eacute;es. Un retard n'ouvre pas droit &agrave; annulation ni &agrave; indemnit&eacute;s. SOS Informatique 44 s'engage &agrave; tenir le Client inform&eacute; en cas de retard significatif.</p>
+
+    <h3>Article 6 &mdash; Tarifs et paiement</h3>
+    <p>Les prix sont exprim&eacute;s en euros <strong>TTC</strong>. Le r&egrave;glement est exigible &agrave; la restitution de l'appareil, par esp&egrave;ces, ch&egrave;que ou virement bancaire. Aucun &eacute;chelonnement n'est accept&eacute; sauf accord &eacute;crit pr&eacute;alable.</p>
+
+    <h3>Article 7 &mdash; Pi&egrave;ces remplac&eacute;es</h3>
+    <p>Les pi&egrave;ces d&eacute;fectueuses remplac&eacute;es sont <strong>conserv&eacute;es par SOS Informatique 44</strong> et recycl&eacute;es via les fili&egrave;res agr&eacute;&eacute;es (DEEE), sauf demande explicite du Client formul&eacute;e lors du d&eacute;p&ocirc;t de les r&eacute;cup&eacute;rer.</p>
+
+    <h3>Article 8 &mdash; Garantie</h3>
+    <p>Les r&eacute;parations sont couvertes par une <strong>garantie de 3 mois</strong> sur la panne initialement trait&eacute;e et sur la pi&egrave;ce remplac&eacute;e, &agrave; compter de la date de restitution. Cette garantie ne couvre pas :</p>
+    <ul>
+      <li>Les chocs, chutes, oxydations post&eacute;rieurs &agrave; la r&eacute;paration</li>
+      <li>Les pannes d'une autre nature que celle initialement trait&eacute;e</li>
+      <li>L'usure normale des batteries</li>
+      <li>Les d&eacute;g&acirc;ts li&eacute;s &agrave; une mauvaise utilisation</li>
+    </ul>
+    <p>La garantie l&eacute;gale de conformit&eacute; (articles L.217-3 et suivants du Code de la consommation) et la garantie contre les vices cach&eacute;s (articles 1641 et suivants du Code civil) restent applicables dans les conditions pr&eacute;vues par la loi.</p>
+
+    <h3>Article 9 &mdash; Donn&eacute;es personnelles et sauvegarde</h3>
+    <p>Le Client est <strong>seul responsable</strong> de la sauvegarde de ses donn&eacute;es avant le d&eacute;p&ocirc;t de l'appareil. SOS Informatique 44 ne pourra &ecirc;tre tenu responsable en cas de perte de donn&eacute;es survenue durant la r&eacute;paration, m&ecirc;me si toutes les pr&eacute;cautions raisonnables sont prises. En cas d'intervention n&eacute;cessitant l'acc&egrave;s &agrave; l'appareil, le mot de passe &eacute;ventuellement communiqu&eacute; est <strong>chiffr&eacute; en base de donn&eacute;es</strong> (AES-256-GCM) et supprim&eacute; apr&egrave;s restitution.</p>
+    <p>Une prestation de <strong>r&eacute;cup&eacute;ration de donn&eacute;es</strong> peut &ecirc;tre propos&eacute;e s&eacute;par&eacute;ment, sans garantie de r&eacute;sultat, selon l'&eacute;tat du support.</p>
+
+    <h3>Article 10 &mdash; Retrait de l'appareil</h3>
+    <p>L'appareil doit &ecirc;tre retir&eacute; dans un d&eacute;lai maximum de <strong>3 mois</strong> apr&egrave;s la notification de fin de r&eacute;paration. Pass&eacute; ce d&eacute;lai, des frais de gardiennage de <strong>1&nbsp;&euro;/jour</strong> pourront &ecirc;tre appliqu&eacute;s. Au-del&agrave; de <strong>12 mois</strong> sans r&eacute;ponse du Client malgr&eacute; relances par t&eacute;l&eacute;phone et email, l'appareil sera consid&eacute;r&eacute; comme <strong>abandonn&eacute;</strong> et pourra &ecirc;tre recycl&eacute;.</p>
+
+    <h3>Article 11 &mdash; Droit de r&eacute;tractation</h3>
+    <p>Conform&eacute;ment &agrave; l'article L.221-28 du Code de la consommation, le droit de r&eacute;tractation ne s'applique <strong>pas</strong> aux prestations de r&eacute;paration pleinement ex&eacute;cut&eacute;es avant la fin du d&eacute;lai de r&eacute;tractation avec l'accord expr&egrave;s du Client.</p>
+
+    <h3>Article 12 &mdash; Force majeure</h3>
+    <p>SOS Informatique 44 ne saurait &ecirc;tre tenu responsable d'un retard ou d'une inex&eacute;cution due &agrave; un &eacute;v&eacute;nement de force majeure (rupture d'approvisionnement fournisseur, gr&egrave;ve des transporteurs, coupure &eacute;lectrique prolong&eacute;e, etc.).</p>
+
+    <h3>Article 13 &mdash; Responsabilit&eacute;</h3>
+    <p>La responsabilit&eacute; de SOS Informatique 44 est limit&eacute;e &agrave; la valeur de la r&eacute;paration factur&eacute;e. En aucun cas elle ne pourra &ecirc;tre engag&eacute;e pour des dommages indirects (perte d'exploitation, perte de chance, pr&eacute;judice commercial, etc.).</p>
+
+    <h3>Article 14 &mdash; Litiges et m&eacute;diation</h3>
+    <p>En cas de litige, le Client est invit&eacute; &agrave; contacter pr&eacute;alablement SOS Informatique 44 afin de rechercher une solution amiable. &Agrave; d&eacute;faut de r&eacute;solution, le Client consommateur peut recourir gratuitement au <strong>m&eacute;diateur de la consommation</strong> comp&eacute;tent. &Agrave; d&eacute;faut d'accord, les tribunaux du ressort de Nantes sont seuls comp&eacute;tents. Le pr&eacute;sent contrat est soumis au droit fran&ccedil;ais.</p>
+
+    <h3>Article 15 &mdash; Acceptation</h3>
+    <p>Le d&eacute;p&ocirc;t d'un appareil dans l'atelier SOS Informatique 44 vaut <strong>acceptation pleine et enti&egrave;re</strong> des pr&eacute;sentes Conditions G&eacute;n&eacute;rales de Vente.</p>
   </div>
 </div>
 
