@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C39YPQWZ0T');</script>
+<script>
+/* GTM defere : charge apres 5s ou premiere interaction utilisateur */
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());gtag('config','G-C39YPQWZ0T');
+(function(){var loaded=false;function load(){if(loaded)return;loaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T';document.head.appendChild(s)}['scroll','mousemove','touchstart','keydown','click'].forEach(function(e){window.addEventListener(e,load,{once:true,passive:true})});setTimeout(load,5000)})();
+</script>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
@@ -371,7 +375,7 @@ ul{list-style:none}
   box-shadow:var(--shadow-lg);
 }
 .hero-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.hero-card-header h3{font-family:var(--font-heading);font-size:1.125rem;color:var(--text)}
+.hero-card-header h2{font-family:var(--font-heading);font-size:1.125rem;color:var(--text);margin:0}
 .atelier-status{
   display:inline-flex;align-items:center;gap:6px;
   padding:6px 14px;border-radius:50px;
@@ -737,25 +741,25 @@ ul{list-style:none}
 
 /* ===== FOOTER ===== */
 .footer{
-  background:#0F172A;color:rgba(255,255,255,.5);
+  background:#0F172A;color:#CBD5E1;
   padding:56px 0 28px;
 }
 .footer-grid{
   display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
   gap:32px;margin-bottom:40px;
 }
-.footer h4{color:#fff;font-family:var(--font-heading);font-size:.9375rem;margin-bottom:14px}
-.footer p,.footer a{font-size:.8125rem;color:rgba(255,255,255,.45);line-height:1.9}
+.footer h3{color:#fff;font-family:var(--font-heading);font-size:.9375rem;margin-bottom:14px}
+.footer p,.footer a{font-size:.8125rem;color:#CBD5E1;line-height:1.9}
 .footer a:hover{color:var(--blue);text-decoration:none}
 .footer-logo{
   font-family:var(--font-heading);font-size:1.25rem;font-weight:800;
   color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:12px;
 }
 .footer-bottom{
-  border-top:1px solid rgba(255,255,255,.08);
+  border-top:1px solid rgba(255,255,255,.12);
   padding-top:20px;display:flex;
   justify-content:space-between;flex-wrap:wrap;gap:12px;
-  font-size:.75rem;color:rgba(255,255,255,.3);
+  font-size:.75rem;color:#94A3B8;
 }
 @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
@@ -1011,6 +1015,8 @@ ul{list-style:none}
   </div>
 </nav>
 
+<main id="main">
+
 <!-- Hero -->
 <section class="hero" id="accueil">
   <div class="container">
@@ -1047,7 +1053,7 @@ ul{list-style:none}
       <div class="hero-right reveal-right">
         <div class="hero-card">
           <div class="hero-card-header">
-            <h3>Notre atelier</h3>
+            <h2>Notre atelier</h2>
             <div id="atelierStatus" class="atelier-status status-closed">
               <span class="status-dot"></span>
               <span id="atelierLabel">Fermé</span>
@@ -1335,23 +1341,23 @@ ul{list-style:none}
     </div>
     <div class="gallery-scroll reveal">
       <figure class="gallery-item">
-        <img src="poste-micro-soudure.webp" alt="Poste de micro-soudure" loading="lazy" decoding="async" width="1200" height="880">
+        <img src="poste-micro-soudure.webp" alt="Poste de micro-soudure" loading="lazy" decoding="async" width="600" height="440">
         <figcaption>Poste de micro-soudure</figcaption>
       </figure>
       <figure class="gallery-item">
-        <img src="diagnostic-macbook.webp" alt="Diagnostic carte mère MacBook" loading="lazy" decoding="async" width="1200" height="880">
+        <img src="diagnostic-macbook.webp" alt="Diagnostic carte mère MacBook" loading="lazy" decoding="async" width="600" height="440">
         <figcaption>Diagnostic carte mère MacBook</figcaption>
       </figure>
       <figure class="gallery-item">
-        <img src="remplacement-ecran-iphone.webp" alt="Remplacement écran iPhone" loading="lazy" decoding="async" width="1200" height="880">
+        <img src="remplacement-ecran-iphone.webp" alt="Remplacement écran iPhone" loading="lazy" decoding="async" width="600" height="440">
         <figcaption>Remplacement écran iPhone</figcaption>
       </figure>
       <figure class="gallery-item">
-        <img src="recuperation-donnees.webp" alt="Récupération de données HDD" loading="lazy" decoding="async" width="1200" height="880">
+        <img src="recuperation-donnees.webp" alt="Récupération de données HDD" loading="lazy" decoding="async" width="600" height="440">
         <figcaption>Récupération de données HDD</figcaption>
       </figure>
       <figure class="gallery-item">
-        <img src="accueil-atelier.webp" alt="Accueil atelier — 27 rue de la Vrière" loading="lazy" decoding="async" width="1200" height="880">
+        <img src="accueil-atelier.webp" alt="Accueil atelier — 27 rue de la Vrière" loading="lazy" decoding="async" width="600" height="440">
         <figcaption>Accueil — 27 rue de la Vrière</figcaption>
       </figure>
     </div>
@@ -1698,6 +1704,8 @@ ul{list-style:none}
   </div>
 </section>
 
+</main>
+
 <!-- Footer -->
 <footer class="footer">
   <div class="container">
@@ -1711,7 +1719,7 @@ ul{list-style:none}
         <p style="margin-top:8px">27 Rue de la Vrière, 1er étage porte 121<br>44240 La Chapelle-sur-Erdre</p>
       </div>
       <div>
-        <h4>Services</h4>
+        <h3>Services</h3>
         <p><a href="#services">Réparation PC</a></p>
         <p><a href="#services">Réparation Mac</a></p>
         <p><a href="#services">Réparation iPhone</a></p>
@@ -1720,7 +1728,7 @@ ul{list-style:none}
         <p><a href="#services">Suppression virus</a></p>
       </div>
       <div>
-        <h4>Informations</h4>
+        <h3>Informations</h3>
         <p><a href="#bonus">Bonus QualiRépare</a></p>
         <p><a href="#calculateur">Calculer mes économies</a></p>
         <p><a href="#comparatif">Réparer vs Remplacer</a></p>
@@ -1731,7 +1739,7 @@ ul{list-style:none}
         <p><a href="#" onclick="openLegal('privacy');return false">Confidentialit&eacute;</a></p>
       </div>
       <div>
-        <h4>Zones d'intervention</h4>
+        <h3>Zones d'intervention</h3>
         <p>La Chapelle-sur-Erdre</p>
         <p>Nantes Nord &amp; Centre</p>
         <p>Carquefou</p>
