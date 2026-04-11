@@ -666,8 +666,10 @@ function blogToggle(btn){
     micro:'bg-gradient-micro', trends:'bg-gradient-trends'
   };
 
-  /* CRM API URL (local test → change before deploy) */
-  var CRM_URL = 'https://crm.sos-informatique44.fr';
+  /* CRM API URL — auto-detect local vs production */
+  var CRM_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:3002'
+    : 'https://crm.sos-informatique44.fr';
 
   var allCards = [];
   var currentFilter = 'all';
@@ -694,6 +696,10 @@ function blogToggle(btn){
     var card = document.createElement('article');
     card.className = 'blog-card reveal';
     card.setAttribute('data-category', cat);
+    if (art.slug) {
+      card.id = 'article-' + art.slug;
+      card.setAttribute('data-slug', art.slug);
+    }
 
     var imgDiv = document.createElement('div');
     imgDiv.className = 'blog-card-img' + (hasImg ? '' : ' ' + gradient);
@@ -768,6 +774,27 @@ function blogToggle(btn){
     }
     articles.forEach(function(art){ allCards.push(buildCard(art)); });
     renderCards();
+
+    /* Deep-link to a specific article via #slug (from CRM "Voir" button) */
+    var targetSlug = (location.hash || '').replace(/^#/, '');
+    if (targetSlug) {
+      setTimeout(function(){
+        var targetCard = document.getElementById('article-' + targetSlug);
+        if (targetCard) {
+          var full = targetCard.querySelector('.blog-card-full');
+          var btn = targetCard.querySelector('.blog-card-toggle');
+          if (full && !full.classList.contains('open')) {
+            full.classList.add('open');
+            if (btn) {
+              btn.classList.add('opened');
+              btn.innerHTML = 'Fermer <svg width="14" height="14"><use href="#i-chevron"/></svg>';
+            }
+          }
+          targetCard.classList.add('visible');
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
   })
   .catch(function(e){
     console.warn('Blog CRM load error:', e);
