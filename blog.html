@@ -6,7 +6,7 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C39YPQWZ0T');</script>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Blog - SOS Informatique 44 | Réparation informatique La Chapelle-sur-Erdre</title>
 <meta name="description" content="Blog SOS Informatique 44 : conseils, astuces et actualités sur la réparation PC, Mac, iPhone, sécurité informatique, récupération de données et micro-soudure à La Chapelle-sur-Erdre.">
 <meta name="robots" content="index,follow">
@@ -16,10 +16,8 @@
 <meta property="og:description" content="Conseils et actualités sur la réparation informatique : PC, Mac, iPhone, sécurité, données, micro-soudure.">
 <meta property="og:url" content="https://sos-informatique44.fr/blog.html">
 <meta property="og:locale" content="fr_FR">
-<link id="gfPre1" rel="preconnect" data-href="https://fonts.googleapis.com">
-<link id="gfPre2" rel="preconnect" data-href="https://fonts.gstatic.com" crossorigin>
-<link id="gfStyle" rel="preload" as="style" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<script>(function(){if(localStorage.getItem('sos44_consent')==='accepted'){['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}})}})()</script>
+<!-- Google Fonts : chargées dynamiquement uniquement après consentement RGPD -->
+<script>(function(){if(localStorage.getItem('sos44_consent')!=='accepted')return;var h=document.head,l;l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.googleapis.com';h.appendChild(l);l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.gstatic.com';l.crossOrigin='anonymous';h.appendChild(l);l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap';h.appendChild(l)})()</script>
 <style>
 /* ===== VARIABLES — Premium Light ===== */
 :root {
@@ -439,7 +437,7 @@ ul{list-style:none}
   .blog-card:hover,.wa-float:hover,.btn:hover{transform:none!important}
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous" defer></script>
+<script src="js/purify.min.js" defer></script>
 </head>
 <body>
 

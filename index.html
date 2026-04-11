@@ -6,7 +6,7 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-C39YPQWZ0T');</script>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://crm.sos-informatique44.fr; img-src 'self' data: https:; frame-ancestors 'none';">
 <title>Réparation Informatique La Chapelle-sur-Erdre | SOS Informatique 44 – QualiRépare</title>
 <meta name="description" content="Réparation PC, Mac, iPhone, smartphone et tablette à La Chapelle-sur-Erdre (Nantes Nord). Bonus Réparation 50€ QualiRépare. Diagnostic gratuit, garantie 90 jours. Micro-soudure, récupération de données.">
 <meta name="robots" content="index,follow">
@@ -27,11 +27,8 @@
 <meta name="twitter:title" content="SOS Informatique 44 – Réparation La Chapelle-sur-Erdre">
 <meta name="twitter:description" content="Réparation PC, Mac, iPhone à La Chapelle-sur-Erdre. Bonus 50€ QualiRépare. Diagnostic gratuit.">
 <meta name="twitter:image" content="https://sos-informatique44.fr/og-image.jpg">
-<link id="gfPre1" rel="preconnect" data-href="https://fonts.googleapis.com">
-<link id="gfPre2" rel="preconnect" data-href="https://fonts.gstatic.com" crossorigin>
-<link id="gfStyle" rel="preload" as="style" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<!-- noscript Google Fonts removed: loads without RGPD consent -->
-<script>(function(){if(localStorage.getItem('sos44_consent')==='accepted'){['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}})}})()</script>
+<!-- Google Fonts : chargées dynamiquement uniquement après consentement RGPD -->
+<script>(function(){if(localStorage.getItem('sos44_consent')!=='accepted')return;var h=document.head,l;l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.googleapis.com';h.appendChild(l);l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.gstatic.com';l.crossOrigin='anonymous';h.appendChild(l);l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap';h.appendChild(l)})()</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -950,7 +947,7 @@ ul{list-style:none}
 .faq-answer{display:none;padding:0 24px 20px;color:var(--text-secondary);font-size:.9375rem;line-height:1.7}
 .faq-answer.open{display:block}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous"></script>
+<script src="js/purify.min.js" defer></script>
 </head>
 <body>
 <!-- RGPD Cookie Consent Banner -->
@@ -1768,7 +1765,10 @@ var SOS44_CONSENT=(function(){
     isDecided:function(){return consent==='accepted'||consent==='refused'},
     accept:function(){
       consent='accepted';localStorage.setItem(KEY,'accepted');hideBanner();
-      ['gfPre1','gfPre2','gfStyle'].forEach(function(id){var el=document.getElementById(id);if(el&&el.dataset.href){el.href=el.dataset.href}});
+      var h=document.head,l;
+      l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.googleapis.com';h.appendChild(l);
+      l=document.createElement('link');l.rel='preconnect';l.href='https://fonts.gstatic.com';l.crossOrigin='anonymous';h.appendChild(l);
+      l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@700;800&display=swap';h.appendChild(l);
     },
     refuse:function(){
       consent='refused';localStorage.setItem(KEY,'refused');hideBanner();
