@@ -2118,7 +2118,8 @@ function respondQuote(accepted, trackingNumber) {
       if (hasImg) {
         imgDiv.style.padding = '0';
         var img = document.createElement('img');
-        img.src = art.image_url; img.alt = art.title || '';
+        img.src = art.image_url.startsWith('/api/') ? SOS44_CRM_URL + art.image_url : art.image_url;
+        img.alt = art.title || '';
         img.referrerPolicy = 'no-referrer'; img.crossOrigin = 'anonymous';
         img.loading = 'lazy'; img.decoding = 'async';
         img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
