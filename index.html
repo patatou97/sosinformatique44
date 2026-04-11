@@ -2101,6 +2101,8 @@ function respondQuote(accepted, trackingNumber) {
   .then(function(articles){
     if (!Array.isArray(articles) || articles.length === 0) return;
     var toShow = articles.slice(0, 6);
+    /* Supprime les cards statiques de fallback quand le CRM repond OK */
+    Array.prototype.slice.call(grid.querySelectorAll('.blog-card[data-id^="art-"]')).forEach(function(el){ el.remove(); });
     var firstStatic = grid.querySelector('.blog-card');
 
     toShow.forEach(function(art) {
