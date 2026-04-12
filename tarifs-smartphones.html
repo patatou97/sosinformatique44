@@ -6,6 +6,8 @@
 <title>Réparation Téléphone — SOS Informatique 44</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10000;padding:8px 16px;background:#0EA5E9;color:#fff;text-decoration:none;font-weight:600;border-radius:0 0 8px 0}
+.skip-link:focus{position:fixed;left:0;top:0;width:auto;height:auto;overflow:visible;outline:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --g:#0EA5E9;--gd:#0284C7;--gl:#E0F2FE;
@@ -348,6 +350,7 @@ body{
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Aller au contenu</a>
 
 <div class="topbar">
   <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit">
@@ -358,6 +361,7 @@ body{
 </div>
 
 
+<main id="main">
 <div class="hero-premium">
 
     
@@ -1005,6 +1009,7 @@ document.getElementById('fc-wa')?.addEventListener('click', () => sendWA());
     <details class="faq-item"><summary>Comment envoyer ma demande ?</summary><div class="faq-answer">Sélectionnez la marque, le modèle et la réparation, puis envoyez votre demande via WhatsApp avec le récapitulatif affiché à l’écran.</div></details>
   </div>
 </section>
+</main>
 
 </body>
 </html>

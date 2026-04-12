@@ -145,6 +145,8 @@ if('serviceWorker' in navigator){
 </script>
 
 <style>
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10000;padding:8px 16px;background:#0EA5E9;color:#fff;text-decoration:none;font-weight:600;border-radius:0 0 8px 0}
+.skip-link:focus{position:fixed;left:0;top:0;width:auto;height:auto;overflow:visible;outline:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 /* ===== VARIABLES — Premium Light ===== */
 :root {
   --blue: #0EA5E9;
@@ -753,6 +755,8 @@ ul{list-style:none}
 </head>
 <body>
 
+<a href="#main" class="skip-link">Aller au contenu</a>
+
 <!-- Navigation -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
   <div class="nav-inner">
@@ -775,7 +779,7 @@ ul{list-style:none}
   </div>
 </nav>
 
-<main>
+<main id="main">
 
 <!-- Breadcrumb -->
 <div class="container">
