@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Réparation Mac et MacBook à La Chapelle-sur-Erdre | SOS Informatique 44</title>
+<meta name="description" content="Réparation MacBook, iMac, Mac Mini : écran, batterie, clavier, SSD, carte mère. Diagnostic gratuit à La Chapelle-sur-Erdre. Bonus Réparation 50€ QualiRépare.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sos-informatique44.fr/reparation-mac.html">
+<!-- Favicon pack + PWA -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0F172A">
+<meta name="geo.region" content="FR-44">
+<meta name="geo.placename" content="La Chapelle-sur-Erdre">
+<meta name="geo.position" content="47.2960198;-1.5469190">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Réparation Mac et MacBook — SOS Informatique 44">
+<meta property="og:description" content="Réparation MacBook, iMac, Mac Mini à La Chapelle-sur-Erdre. Diagnostic gratuit, devis avant intervention.">
+<meta property="og:url" content="https://sos-informatique44.fr/reparation-mac.html">
+<meta property="og:image" content="https://sos-informatique44.fr/og-image.jpg">
+<meta property="og:locale" content="fr_FR">
+<!-- Schema.org Service -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Réparation Mac et MacBook",
+  "description": "Réparation MacBook, iMac, Mac Mini : écran, batterie, clavier papillon, SSD, carte mère. Diagnostic gratuit à La Chapelle-sur-Erdre.",
+  "url": "https://sos-informatique44.fr/reparation-mac.html",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "SOS Informatique 44",
+    "telephone": "+33285523814",
+    "email": "reparationexpress44@hotmail.com",
+    "url": "https://sos-informatique44.fr",
+    "image": "https://sos-informatique44.fr/logo-sos.webp",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "27 Rue de la Vrière, 1er étage porte 121",
+      "addressLocality": "La Chapelle-sur-Erdre",
+      "postalCode": "44240",
+      "addressCountry": "FR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 47.2960198,
+      "longitude": -1.5469190
+    },
+    "areaServed": [
+      {"@type": "City", "name": "La Chapelle-sur-Erdre"},
+      {"@type": "City", "name": "Nantes"},
+      {"@type": "City", "name": "Carquefou"},
+      {"@type": "City", "name": "Orvault"},
+      {"@type": "City", "name": "Sucé-sur-Erdre"},
+      {"@type": "City", "name": "Treillières"}
+    ]
+  },
+  "serviceType": "Réparation informatique Apple Mac",
+  "areaServed": {
+    "@type": "City",
+    "name": "La Chapelle-sur-Erdre"
+  }
+}
+</script>
+<!-- Schema.org FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Combien coûte le remplacement d'une batterie MacBook ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le remplacement de batterie MacBook commence à partir de 89 €, selon le modèle. Un devis précis vous est remis après diagnostic gratuit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Réparez-vous les MacBook avec clavier papillon ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, nous intervenons sur les claviers papillon des MacBook 2016 à 2019. Selon l'état, nous proposons un remplacement de mécanisme ou un clavier complet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon Mac ne s'allume plus, que faire ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plusieurs causes sont possibles : alimentation défaillante, carte logique, nappe interne. Déposez votre Mac à l'atelier pour un diagnostic gratuit. Ne tentez pas de l'ouvrir vous-même."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel est le délai de réparation d'un Mac ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La plupart des interventions courantes (batterie, SSD, réinstallation macOS) sont réalisées sous 24 à 72 heures. Les réparations de carte mère peuvent prendre plus de temps selon la disponibilité des pièces."
+      }
+    }
+  ]
+}
+</script>
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --blue: #0EA5E9;
+  --blue-hover: #0284C7;
+  --blue-light: #E0F2FE;
+  --blue-glow: rgba(14,165,233,.25);
+  --text: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --bg: #F8FAFC;
+  --bg-alt: #FFFFFF;
+  --border: #E2E8F0;
+  --green: #10B981;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #1EBE5D;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --transition: .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none;transition:color var(--transition)}
+a:hover{color:var(--blue-hover)}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit}
+ul{list-style:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  background:var(--bg-alt);
+  position:sticky;top:0;z-index:1000;
+  border-bottom:1px solid var(--border);
+  transition:box-shadow var(--transition);
+}
+.navbar.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.08);border-bottom-color:transparent}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;max-width:1200px;margin:0 auto;height:80px;
+}
+.nav-logo{
+  font-size:1.3rem;font-weight:800;color:var(--text);
+  display:flex;align-items:center;gap:10px;text-decoration:none;
+}
+.nav-logo:hover{color:var(--text);text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:28px;flex:1;justify-content:center}
+.nav-links a{
+  color:var(--text);font-size:.9375rem;font-weight:600;
+  transition:color var(--transition);position:relative;white-space:nowrap;padding:6px 0;
+}
+.nav-links a:hover{color:var(--blue);text-decoration:none}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--blue);transform:scaleX(0);
+  transition:transform var(--transition);border-radius:1px;
+}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--blue)}
+.nav-toggle{display:none;background:none;border:none;padding:8px;color:var(--text)}
+@media(max-width:960px){
+  .nav-links{
+    display:none;position:absolute;top:80px;left:0;right:0;
+    background:var(--bg-alt);flex-direction:column;padding:20px 24px;gap:16px;
+    border-top:1px solid var(--border);box-shadow:var(--shadow-md);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a::after{display:none}
+  .nav-toggle{display:block}
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb{
+  padding:16px 0;font-size:.8125rem;color:var(--text-muted);
+}
+.breadcrumb a{color:var(--text-secondary);text-decoration:none}
+.breadcrumb a:hover{color:var(--blue)}
+.breadcrumb span{margin:0 6px;color:var(--text-muted)}
+
+/* ===== HERO SERVICE ===== */
+.hero-service{
+  background:linear-gradient(180deg, #EFF6FF 0%, var(--bg) 100%);
+  padding:48px 0 56px;
+}
+.hero-service h1{
+  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;
+  line-height:1.2;margin-bottom:16px;color:var(--text);
+}
+.hero-service h1 em{font-style:normal;color:var(--blue)}
+.hero-service .hero-intro{
+  font-size:1.0625rem;color:var(--text-secondary);
+  max-width:720px;line-height:1.7;margin-bottom:24px;
+}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:24px;font-size:.8125rem;font-weight:600;
+}
+.badge-blue{background:var(--blue-light);color:var(--blue-hover)}
+.badge-green{background:#D1FAE5;color:#059669}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:15px 30px;border-radius:var(--radius-sm);
+  font-weight:700;font-size:.9375rem;border:none;
+  transition:all var(--transition);text-decoration:none;
+}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn:active{transform:translateY(0)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 16px var(--blue-glow)}
+.btn-blue:hover{background:var(--blue-hover);box-shadow:0 8px 24px rgba(14,165,233,.35);color:#fff}
+.btn-whatsapp{background:var(--whatsapp);color:#fff;box-shadow:0 4px 16px rgba(37,211,102,.3)}
+.btn-whatsapp:hover{background:var(--whatsapp-dark);box-shadow:0 8px 24px rgba(37,211,102,.4);color:#fff}
+
+/* ===== SECTIONS ===== */
+.section{padding:56px 0}
+.section-alt{background:var(--bg-alt)}
+.section-title{
+  font-size:clamp(1.25rem,3vw,1.75rem);font-weight:800;
+  margin-bottom:12px;line-height:1.3;
+}
+.section-sub{
+  font-size:1rem;color:var(--text-secondary);
+  max-width:640px;margin-bottom:32px;line-height:1.7;
+}
+
+/* ===== PANNE CARDS ===== */
+.panne-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:20px;
+}
+.panne-card{
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;
+  transition:box-shadow var(--transition),transform var(--transition);
+}
+.panne-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.panne-card h3{
+  font-size:1.0625rem;font-weight:700;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.panne-card h3 .icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--blue-light);color:var(--blue);font-size:1.2rem;flex-shrink:0;
+}
+.panne-card p{font-size:.9rem;color:var(--text-secondary);line-height:1.7}
+
+/* ===== CHECK LIST ===== */
+.check-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;margin-top:8px;
+}
+.check-item{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:18px 20px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.check-item .check-icon{
+  width:28px;height:28px;border-radius:8px;
+  background:#D1FAE5;color:#059669;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.875rem;font-weight:700;flex-shrink:0;margin-top:2px;
+}
+.check-item p{font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+.check-item strong{color:var(--text);font-weight:700}
+
+/* ===== URGENCE ===== */
+.urgence-list{
+  display:flex;flex-direction:column;gap:12px;margin-top:8px;
+}
+.urgence-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:#FEF2F2;border:1px solid #FECACA;
+  border-radius:var(--radius-sm);padding:16px 20px;
+}
+.urgence-item .urgence-icon{
+  width:28px;height:28px;border-radius:8px;
+  background:#FEE2E2;color:#DC2626;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.875rem;font-weight:700;flex-shrink:0;margin-top:2px;
+}
+.urgence-item p{font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+
+/* ===== PRESTATIONS ===== */
+.presta-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
+.presta-card{
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px 24px;
+  transition:box-shadow var(--transition),transform var(--transition);
+}
+.presta-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.presta-card h3{font-size:1rem;font-weight:700;margin-bottom:6px}
+.presta-card .price{
+  display:inline-block;background:var(--blue-light);color:var(--blue-hover);
+  padding:4px 12px;border-radius:20px;font-size:.8125rem;font-weight:700;
+  margin-bottom:10px;
+}
+.presta-card p{font-size:.875rem;color:var(--text-secondary);line-height:1.6}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:800px}
+.faq-item{
+  border-bottom:1px solid var(--border);
+}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 0;cursor:pointer;gap:16px;
+  font-size:1rem;font-weight:700;color:var(--text);
+  background:none;border:none;width:100%;text-align:left;
+}
+.faq-q:hover{color:var(--blue)}
+.faq-q .faq-arrow{
+  width:24px;height:24px;transition:transform var(--transition);flex-shrink:0;
+}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;
+  font-size:.9375rem;color:var(--text-secondary);line-height:1.7;
+}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:20px}
+
+/* ===== CTA SECTION ===== */
+.cta-section{
+  background:linear-gradient(135deg, #0EA5E9, #0369A1);
+  padding:56px 0;text-align:center;color:#fff;
+}
+.cta-section h2{font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:12px}
+.cta-section p{font-size:1.0625rem;opacity:.9;margin-bottom:28px;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
+.cta-section .btn-white{
+  background:#fff;color:var(--blue);font-weight:700;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+}
+.cta-section .btn-white:hover{background:#F0F9FF;color:var(--blue-hover)}
+.cta-section .btn-wa-cta{
+  background:var(--whatsapp);color:#fff;
+  box-shadow:0 4px 16px rgba(37,211,102,.3);
+}
+.cta-section .btn-wa-cta:hover{background:var(--whatsapp-dark)}
+
+/* ===== FOOTER ===== */
+.footer{background:#0F172A;color:#CBD5E1;padding:56px 0 28px}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  gap:32px;margin-bottom:40px;
+}
+.footer h3{color:#fff;font-size:.9375rem;font-weight:700;margin-bottom:14px}
+.footer p,.footer a{font-size:.8125rem;color:#CBD5E1;line-height:1.9}
+.footer a:hover{color:var(--blue);text-decoration:none}
+.footer-logo{
+  font-size:1.25rem;font-weight:800;
+  color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.12);
+  padding-top:20px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:.75rem;color:#94A3B8;
+}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
+
+/* ===== STICKY CTA MOBILE ===== */
+.sticky-cta{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  z-index:9998;background:var(--text);
+  padding:10px 16px;box-shadow:0 -4px 20px rgba(0,0,0,.25);
+}
+.sticky-cta-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  max-width:480px;margin:0 auto;
+}
+.sticky-cta a{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 12px;border-radius:12px;font-weight:700;font-size:.9375rem;
+  text-decoration:none;transition:transform .15s,opacity .15s;
+}
+.sticky-cta a:active{transform:scale(.96);opacity:.9}
+.sticky-cta .cta-phone{background:#0EA5E9;color:#fff}
+.sticky-cta .cta-wa{background:#25D366;color:#fff}
+.sticky-cta a svg{width:20px;height:20px;flex-shrink:0}
+@media(max-width:768px){
+  .sticky-cta{display:block}
+  body{padding-bottom:76px}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .panne-grid,.presta-grid{grid-template-columns:1fr}
+  .check-list{grid-template-columns:1fr}
+  .hero-service{padding:32px 0 40px}
+  .section{padding:40px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="SOS Informatique 44 — Accueil">
+      <img src="logo-sos.webp" alt="SOS Informatique 44" style="height:80px;width:auto" width="348" height="161">
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.nextElementSibling.classList.contains('open'))">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <div class="nav-links">
+      <a href="/">Accueil</a>
+      <a href="blog.html">Blog</a>
+      <a href="reparation-pc.html">Réparation PC</a>
+      <a href="reparation-mac.html" class="active">Réparation Mac</a>
+      <a href="reparation-iphone.html">iPhone/iPad</a>
+      <a href="reparation-android.html">Android</a>
+      <a href="recuperation-donnees.html">Données</a>
+      <a href="micro-soudure.html">Micro-soudure</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- Breadcrumb -->
+<div class="container">
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="/">Accueil</a><span>></span>
+    <a href="/">Services</a><span>></span>
+    Réparation Mac
+  </nav>
+</div>
+
+<!-- Hero -->
+<section class="hero-service">
+  <div class="container">
+    <div class="hero-badges">
+      <span class="badge badge-blue">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Diagnostic gratuit
+      </span>
+      <span class="badge badge-green">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Garantie 90 jours
+      </span>
+    </div>
+    <h1>Réparation Mac et MacBook à <em>La Chapelle-sur-Erdre</em></h1>
+    <p class="hero-intro">
+      Votre MacBook, iMac ou Mac Mini présente un dysfonctionnement ? Chez SOS Informatique 44, nous intervenons sur l'ensemble de la gamme Apple : écran, batterie, clavier, stockage, carte mère. Chaque appareil est diagnostiqué gratuitement et un devis détaillé vous est remis avant toute intervention. Pas de surprise, pas de frais cachés.
+    </p>
+    <div class="hero-cta">
+      <a href="tel:0285523814" class="btn btn-blue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        02 85 52 38 14
+      </a>
+      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9paration%20de%20mon%20Mac" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Pannes fréquentes -->
+<section class="section" id="pannes">
+  <div class="container">
+    <h2 class="section-title">Pannes fréquentes MacBook et iMac</h2>
+    <p class="section-sub">Voici les problèmes que nous rencontrons le plus souvent en atelier. Si vous reconnaissez le vôtre, contactez-nous pour un diagnostic gratuit.</p>
+    <div class="panne-grid">
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </span>
+          Écran fissuré ou lignes à l'écran
+        </h3>
+        <p>Un choc, une pression sur le capot ou une charnière fatiguée peut provoquer des fissures, des lignes colorées ou un affichage partiel. L'écran Retina est fragile : nous le remplaçons par une dalle compatible de qualité.</p>
+      </div>
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="6" width="22" height="12" rx="2"/><path d="M6 12h.01M10 12h.01"/><path d="M23 10v4"/></svg>
+          </span>
+          Batterie qui ne tient plus
+        </h3>
+        <p>Après 500 à 1000 cycles de charge, la batterie perd en autonomie. MacOS affiche "Entretien recommandé" ou "Remplacer bientôt". Nous remplaçons la batterie avec des cellules de qualité, pour retrouver plusieurs heures d'autonomie.</p>
+      </div>
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M6 16h12"/></svg>
+          </span>
+          Clavier papillon défaillant (2016-2019)
+        </h3>
+        <p>Les MacBook Pro et Air de 2016 à 2019 utilisent un mécanisme papillon sensible à la poussière. Touches collantes, lettres doublées, touches muettes : un problème connu qu'Apple a fini par abandonner. Nous intervenons sur ces claviers.</p>
+      </div>
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </span>
+          Mac lent / roue multicolore
+        </h3>
+        <p>Un Mac qui rame au démarrage ou qui affiche la roue multicolore en permanence souffre souvent d'un SSD saturé, d'une RAM insuffisante ou d'un macOS corrompu. Un nettoyage logiciel ou un upgrade matériel résout la plupart des cas.</p>
+      </div>
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18.36 6.64A9 9 0 115.64 18.36"/><circle cx="12" cy="12" r="1"/></svg>
+          </span>
+          Mac qui ne s'allume plus
+        </h3>
+        <p>Aucune réaction au bouton Power, pas de son de démarrage, écran noir : la cause peut être l'alimentation, la carte logique (carte mère), une nappe interne ou un court-circuit. Un diagnostic permet d'identifier le composant en cause.</p>
+      </div>
+      <div class="panne-card">
+        <h3>
+          <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v6M12 18v4M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M18 12h4M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
+          </span>
+          Connecteur de charge USB-C / MagSafe
+        </h3>
+        <p>Le Mac ne charge plus, le voyant MagSafe ne s'allume pas ou la charge est intermittente. Le connecteur de charge peut être endommagé, oxydé ou dessoudé. Nous diagnostiquons et réparons le circuit de charge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ce que vous pouvez vérifier -->
+<section class="section section-alt" id="verifier">
+  <div class="container">
+    <h2 class="section-title">Ce que vous pouvez vérifier vous-même</h2>
+    <p class="section-sub">Avant de vous déplacer, quelques vérifications simples peuvent parfois résoudre le problème ou vous aider à mieux le décrire au technicien.</p>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon">1</div>
+        <div>
+          <p><strong>Réinitialiser le SMC</strong> — Le contrôleur de gestion système (SMC) gère la charge, la ventilation et le démarrage. Sa réinitialisation corrige parfois les problèmes d'alimentation et de ventilateur. La procédure varie selon le modèle (Intel vs Apple Silicon).</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">2</div>
+        <div>
+          <p><strong>Réinitialiser la PRAM/NVRAM</strong> — Cette mémoire stocke les réglages de volume, résolution, disque de démarrage. Maintenez Option+Cmd+P+R au démarrage pendant 20 secondes (sur les Mac Intel).</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">3</div>
+        <div>
+          <p><strong>Vérifier l'espace disque</strong> — Allez dans le menu Pomme > À propos de ce Mac > Stockage. Un disque rempli à plus de 90 % provoque des ralentissements importants. Supprimez les fichiers inutiles ou déplacez-les sur un disque externe.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">4</div>
+        <div>
+          <p><strong>Lancer les diagnostics Apple</strong> — Éteignez le Mac, puis maintenez la touche D au démarrage (Intel) ou le bouton Power (Apple Silicon). Le test intégré détecte les pannes matérielles et fournit un code d'erreur utile pour le technicien.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quand faire appel à un professionnel -->
+<section class="section" id="professionnel">
+  <div class="container">
+    <h2 class="section-title">Quand faire appel à un professionnel ?</h2>
+    <p class="section-sub">Certains signes indiquent qu'une intervention en atelier est nécessaire. N'attendez pas que la situation s'aggrave.</p>
+    <div class="urgence-list">
+      <div class="urgence-item">
+        <div class="urgence-icon">!</div>
+        <p><strong>Votre Mac chauffe anormalement ou le ventilateur tourne en permanence</strong> — Cela peut indiquer un problème de pâte thermique, de capteur défaillant ou un composant en surchauffe. À terme, cela peut endommager la carte mère.</p>
+      </div>
+      <div class="urgence-item">
+        <div class="urgence-icon">!</div>
+        <p><strong>Des artefacts visuels, des bandes ou un écran qui scintille</strong> — La dalle, la nappe d'écran ou le GPU peuvent être en cause. Un diagnostic est indispensable pour distinguer un problème logiciel d'une panne matérielle.</p>
+      </div>
+      <div class="urgence-item">
+        <div class="urgence-icon">!</div>
+        <p><strong>Le Mac s'éteint brutalement ou redémarre en boucle</strong> — Signe d'un dysfonctionnement critique (RAM, SSD, carte logique). Sauvegardez vos données dès que possible et ne continuez pas à l'utiliser sans diagnostic.</p>
+      </div>
+      <div class="urgence-item">
+        <div class="urgence-icon">!</div>
+        <p><strong>Liquide renversé sur le clavier</strong> — Éteignez immédiatement le Mac, ne le branchez pas et ne le séchez pas au sèche-cheveux. Apportez-le rapidement en atelier pour un nettoyage interne avant que la corrosion ne s'installe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Nos prestations Mac -->
+<section class="section section-alt" id="prestations">
+  <div class="container">
+    <h2 class="section-title">Nos prestations Mac</h2>
+    <p class="section-sub">Tous les tarifs incluent la main-d'oeuvre et les pièces. Le diagnostic est toujours gratuit. Devis remis avant intervention.</p>
+    <div class="presta-grid">
+      <div class="presta-card">
+        <h3>Diagnostic complet</h3>
+        <span class="price">Gratuit</span>
+        <p>Examen matériel et logiciel de votre Mac. Identification de la panne, devis détaillé et estimation du délai. Sans engagement.</p>
+      </div>
+      <div class="presta-card">
+        <h3>Remplacement batterie MacBook</h3>
+        <span class="price">À partir de 89 €</span>
+        <p>Batterie neuve compatible, remplacement en atelier. Le tarif varie selon le modèle de MacBook (Air, Pro 13", Pro 15"/16").</p>
+      </div>
+      <div class="presta-card">
+        <h3>Remplacement écran MacBook</h3>
+        <span class="price">Sur devis</span>
+        <p>Dalle Retina, nappe, module complet selon le modèle. Le tarif dépend de la génération et de la disponibilité de la pièce.</p>
+      </div>
+      <div class="presta-card">
+        <h3>Upgrade SSD</h3>
+        <span class="price">À partir de 79 €</span>
+        <p>Remplacement ou ajout de SSD NVMe pour accélérer votre Mac. Transfert de données et réinstallation de macOS inclus sur les modèles compatibles.</p>
+      </div>
+      <div class="presta-card">
+        <h3>Réinstallation macOS</h3>
+        <span class="price">À partir de 49 €</span>
+        <p>Installation propre de macOS, mise à jour, configuration initiale. Sauvegarde préalable de vos données si nécessaire.</p>
+      </div>
+      <div class="presta-card">
+        <h3>Réparation carte mère</h3>
+        <span class="price">Sur devis</span>
+        <p>Diagnostic de la carte logique, micro-soudure de composants CMS, remplacement de puces. Intervention réalisée en atelier avec équipement professionnel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title">Questions fréquentes — Réparation Mac</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Combien coûte le remplacement d'une batterie MacBook ?
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Le remplacement de batterie MacBook commence à partir de 89 €, selon le modèle. Les MacBook Pro 15" et 16" sont plus chers car la batterie est plus grande et le démontage plus complexe. Un devis précis vous est remis après diagnostic gratuit.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Réparez-vous les MacBook avec clavier papillon ?
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Oui, nous intervenons sur les claviers papillon des MacBook 2016 à 2019. Selon l'état et le modèle, nous proposons un remplacement de mécanisme individuel ou un changement de topcase complet. Déposez votre Mac pour un diagnostic gratuit.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Mon Mac ne s'allume plus, que faire ?
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Plusieurs causes sont possibles : alimentation défaillante, carte logique, nappe interne ou bouton Power. Déposez votre Mac à l'atelier au 27 Rue de la Vrière, La Chapelle-sur-Erdre, pour un diagnostic gratuit. Ne tentez pas d'ouvrir le boîtier vous-même : les vis et connecteurs Apple sont spécifiques.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Quel est le délai de réparation d'un Mac ?
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>La plupart des interventions courantes (batterie, SSD, réinstallation macOS) sont réalisées sous 24 à 72 heures. Les réparations de carte mère peuvent nécessiter un délai supplémentaire selon la disponibilité des pièces. Vous êtes informé par SMS ou WhatsApp à chaque étape.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Final -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Un problème avec votre Mac ?</h2>
+    <p>Diagnostic gratuit, devis avant intervention, garantie 90 jours minimum. Atelier à La Chapelle-sur-Erdre, accessible depuis tout le nord de Nantes.</p>
+    <div class="cta-buttons">
+      <a href="tel:0285523814" class="btn btn-white">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        02 85 52 38 14
+      </a>
+      <a href="tel:0658458091" class="btn btn-white">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        06 58 45 80 91
+      </a>
+      <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9paration%20de%20mon%20Mac" class="btn btn-wa-cta" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          SOS Informatique 44
+        </div>
+        <p>Réparation informatique à La Chapelle-sur-Erdre. PC, Mac, iPhone, smartphones, tablettes. Label QualiRépare — Bonus Réparation 50 €.</p>
+        <p style="margin-top:8px">27 Rue de la Vrière, 1er étage porte 121<br>44240 La Chapelle-sur-Erdre</p>
+      </div>
+      <div>
+        <h3>Services</h3>
+        <p><a href="reparation-pc.html">Réparation PC</a></p>
+        <p><a href="reparation-mac.html">Réparation Mac</a></p>
+        <p><a href="reparation-iphone.html">Réparation iPhone</a></p>
+        <p><a href="reparation-android.html">Réparation Android</a></p>
+        <p><a href="recuperation-donnees.html">Récupération de données</a></p>
+        <p><a href="micro-soudure.html">Micro-soudure</a></p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Tél. : <a href="tel:0285523814">02 85 52 38 14</a></p>
+        <p>Mobile : <a href="tel:0658458091">06 58 45 80 91</a></p>
+        <p><a href="https://wa.me/33658458091" target="_blank" rel="noopener noreferrer">WhatsApp</a></p>
+        <p><a href="mailto:reparationexpress44@hotmail.com">Email</a></p>
+        <p style="margin-top:12px"><a href="/">Accueil</a></p>
+        <p><a href="blog.html">Blog</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 SOS Informatique 44 — Tous droits réservés</span>
+      <span>Réparation Mac et MacBook La Chapelle-sur-Erdre (44)</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CTA Sticky Mobile : Appeler + WhatsApp -->
+<div class="sticky-cta" aria-label="Actions rapides">
+  <div class="sticky-cta-inner">
+    <a href="tel:0285523814" class="cta-phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Appeler
+    </a>
+    <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9paration%20de%20mon%20Mac" class="cta-wa" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</div>
+
+<script>
+/* Navbar scroll effect */
+window.addEventListener('scroll',function(){
+  var nav=document.getElementById('navbar');
+  if(nav)nav.classList.toggle('scrolled',window.scrollY>20);
+});
+</script>
+
+</body>
+</html>
