@@ -114,7 +114,43 @@ if('serviceWorker' in navigator){
     {"@type": "City", "name": "Grandchamp-des-Fontaines"},
     {"@type": "City", "name": "Sainte-Luce-sur-Loire"}
   ],
-  "sameAs": "https://www.facebook.com/sosinformatique44/"
+  "sameAs": "https://www.facebook.com/sosinformatique44/",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Services de réparation informatique",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Réparation PC",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation PC Windows","description":"Diagnostic, réparation matérielle et logicielle, changement de composants, suppression de virus, optimisation."}}]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Réparation Mac",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation Mac / MacBook / iMac","description":"Remplacement écran, batterie, clavier, SSD. Diagnostic carte mère, réinstallation macOS."}}]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Réparation iPhone / iPad",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation iPhone et iPad","description":"Changement écran, batterie, connecteur de charge, Face ID, caméra. Toutes générations."}}]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Réparation smartphone Android",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation smartphone Android","description":"Samsung, Xiaomi, Google Pixel, Huawei. Écran, batterie, connecteur, carte mère."}}]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Récupération de données",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données","description":"Disque dur, SSD, clé USB, carte SD. Données supprimées, disque en panne, formatage accidentel."}}]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Micro-soudure",
+        "itemListElement": [{"@type":"Offer","itemOffered":{"@type":"Service","name":"Micro-soudure CMS","description":"Réparation au composant sur carte mère. Connecteur de charge, rétroéclairage, puce audio, alimentation."}}]
+      }
+    ]
+  }
 }
 </script>
 <script type="application/ld+json">
@@ -1034,6 +1070,43 @@ ul{list-style:none}
 .faq-question.opened svg{transform:rotate(180deg)}
 .faq-answer{display:none;padding:0 24px 20px;color:var(--text-secondary);font-size:.9375rem;line-height:1.7}
 .faq-answer.open{display:block}
+
+/* ===== CTA STICKY MOBILE — barre fixe bas d'ecran ===== */
+.sticky-cta{
+  display:none;
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:9998;
+  background:var(--text);
+  padding:10px 16px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.25);
+}
+.sticky-cta-inner{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  max-width:480px;
+  margin:0 auto;
+}
+.sticky-cta a{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 12px;
+  border-radius:12px;
+  font-weight:700;font-size:.9375rem;
+  text-decoration:none;
+  transition:transform .15s,opacity .15s;
+}
+.sticky-cta a:active{transform:scale(.96);opacity:.9}
+.sticky-cta .cta-phone{background:#0EA5E9;color:#fff}
+.sticky-cta .cta-wa{background:#25D366;color:#fff}
+.sticky-cta a svg{width:20px;height:20px;flex-shrink:0}
+/* Padding body mobile pour ne pas cacher le contenu sous la barre */
+@media(max-width:768px){
+  .sticky-cta{display:block}
+  body{padding-bottom:76px}
+  /* Cacher la banniere RGPD derriere le sticky CTA */
+  .rgpd-banner{bottom:76px}
+}
 </style>
 <script src="js/purify.min.js" defer></script>
 </head>
@@ -2325,8 +2398,25 @@ function faqToggle(btn){
   btn.classList.toggle('opened');
 }
 
-
-
+/* ===== GA4 Events — tracking clics tel / WhatsApp / formulaire ===== */
+(function(){
+  function ga4(name,params){if(typeof gtag==='function')gtag('event',name,params||{})}
+  /* Clic telephone */
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+    a.addEventListener('click',function(){ga4('click_phone',{link_url:a.href})});
+  });
+  /* Clic WhatsApp */
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
+    a.addEventListener('click',function(){ga4('click_whatsapp',{link_url:a.href})});
+  });
+  /* Clic email */
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+    a.addEventListener('click',function(){ga4('click_email',{link_url:a.href})});
+  });
+  /* Soumission formulaire contact */
+  var cf=document.getElementById('contactForm');
+  if(cf)cf.addEventListener('submit',function(){ga4('form_submit',{form_id:'contactForm'})});
+})();
 
 
 
@@ -2516,6 +2606,20 @@ function faqToggle(btn){
 
     <h3>Article 15 &mdash; Acceptation</h3>
     <p>Le d&eacute;p&ocirc;t d'un appareil dans l'atelier SOS Informatique 44 vaut <strong>acceptation pleine et enti&egrave;re</strong> des pr&eacute;sentes Conditions G&eacute;n&eacute;rales de Vente.</p>
+  </div>
+</div>
+
+<!-- CTA Sticky Mobile : Appeler + WhatsApp -->
+<div class="sticky-cta" aria-label="Actions rapides">
+  <div class="sticky-cta-inner">
+    <a href="tel:0285523814" class="cta-phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Appeler
+    </a>
+    <a href="https://wa.me/33658458091?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9paration" class="cta-wa" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.61.609l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.39-1.585l-.386-.233-2.64.885.885-2.64-.233-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      WhatsApp
+    </a>
   </div>
 </div>
 
