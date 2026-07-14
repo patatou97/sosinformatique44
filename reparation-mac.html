@@ -424,6 +424,7 @@ ul{list-style:none}
 @media(max-width:768px){
   .sticky-cta{display:block}
   body{padding-bottom:76px}
+  .rgpd-banner{bottom:76px}
 }
 
 /* ===== RESPONSIVE ===== */
@@ -433,11 +434,62 @@ ul{list-style:none}
   .hero-service{padding:32px 0 40px}
   .section{padding:40px 0}
 }
+
+/* ===== RGPD COOKIE BANNER ===== */
+.rgpd-banner{position:fixed;bottom:0;left:0;right:0;z-index:10001;background:var(--bg-alt);border-top:2px solid var(--blue);box-shadow:0 -4px 24px rgba(0,0,0,.12);padding:20px 24px;display:none;animation:rgpdSlideUp .4s ease both}
+@keyframes rgpdSlideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.rgpd-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.rgpd-text{flex:1;min-width:280px}
+.rgpd-text p{font-size:.875rem;color:var(--text-secondary);line-height:1.6;margin:0}
+.rgpd-text a{color:var(--blue);text-decoration:underline}
+.rgpd-buttons{display:flex;gap:10px;flex-shrink:0}
+.rgpd-btn{padding:10px 24px;border-radius:var(--radius-xs);font-family:var(--font-body);font-size:.875rem;font-weight:700;border:none;cursor:pointer;transition:all var(--transition)}
+.rgpd-btn-accept{background:var(--blue);color:#fff;box-shadow:0 4px 16px var(--blue-glow)}
+.rgpd-btn-accept:hover{background:var(--blue-hover)}
+.rgpd-btn-refuse{background:transparent;color:var(--text-secondary);border:2px solid var(--border)}
+.rgpd-btn-refuse:hover{background:var(--bg);color:var(--text)}
+@media(max-width:600px){.rgpd-inner{flex-direction:column;text-align:center}.rgpd-buttons{width:100%;justify-content:center}}
 </style>
+<!-- Google Analytics 4 + Microsoft Clarity : conditionnes au consentement RGPD (CNIL) -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+function SOS44_loadClarity(){
+  if(window.SOS44_CLARITY_LOADED)return;window.SOS44_CLARITY_LOADED=true;
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","walmpshp6d");
+}
+function SOS44_loadGA4(){
+  if(window.SOS44_GA4_LOADED)return;window.SOS44_GA4_LOADED=true;
+  gtag('js',new Date());gtag('config','G-C39YPQWZ0T',{anonymize_ip:true});
+  var s=document.createElement('script');s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T';
+  document.head.appendChild(s);
+}
+(function(){
+  try{
+    if(localStorage.getItem('sos44_consent')==='accepted'){
+      if(document.readyState==='complete')setTimeout(function(){SOS44_loadGA4();SOS44_loadClarity()},3000);
+      else window.addEventListener('load',function(){setTimeout(function(){SOS44_loadGA4();SOS44_loadClarity()},3000)});
+    }
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 
 <a href="#main" class="skip-link">Aller au contenu</a>
+<!-- RGPD Cookie Consent Banner -->
+<div class="rgpd-banner" id="rgpdBanner">
+  <div class="rgpd-inner">
+    <div class="rgpd-text">
+      <p>Ce site utilise Google Analytics 4 (IP anonymis&eacute;e) et Microsoft Clarity pour mesurer son audience. En acceptant, vous consentez &agrave; ces traitements. Si vous refusez, aucun de ces services n'est charg&eacute;. <a href="/">Politique de confidentialit&eacute;</a></p>
+    </div>
+    <div class="rgpd-buttons">
+      <button class="rgpd-btn rgpd-btn-accept" onclick="acceptRGPD()">Accepter</button>
+      <button class="rgpd-btn rgpd-btn-refuse" onclick="refuseRGPD()">Refuser</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- Navigation -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
@@ -812,5 +864,31 @@ window.addEventListener('scroll',function(){
 });
 </script>
 
+<script>
+/* ===== RGPD CONSENT MANAGER ===== */
+var SOS44_CONSENT=(function(){
+  var KEY='sos44_consent';
+  var consent=localStorage.getItem(KEY);
+  function showBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='block'}
+  function hideBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='none'}
+  if(!consent){
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',showBanner)}else{showBanner()}
+  }
+  return{
+    hasConsented:function(){return consent==='accepted'},
+    isDecided:function(){return consent==='accepted'||consent==='refused'},
+    accept:function(){
+      consent='accepted';localStorage.setItem(KEY,'accepted');hideBanner();
+      if(typeof SOS44_loadGA4==='function')SOS44_loadGA4();
+      if(typeof SOS44_loadClarity==='function')SOS44_loadClarity();
+    },
+    refuse:function(){
+      consent='refused';localStorage.setItem(KEY,'refused');hideBanner();
+    }
+  };
+})();
+function acceptRGPD(){SOS44_CONSENT.accept()}
+function refuseRGPD(){SOS44_CONSENT.refuse()}
+</script>
 </body>
 </html>
