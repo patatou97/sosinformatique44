@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "protocole": "Qualité élevée, upscaling désactivé, ray tracing désactivé",
+    "sourceFichier": "comparatif-pc-gamer.html",
+    "dateExtraction": "2026-09-11",
+    "sourceValeursEstimees": "Tom's Hardware, TechSpot, TechPowerUp, KitGuru, checkfps, AMD, entre autres (2025-2026)"
+  },
+  "machines": {
+    "A": { "nom": "Entrée de gamme", "prix": 1190, "cpu": "AMD Ryzen 5 5600X", "gpu": "MSI GeForce RTX 5050 Ventus 2X OC 8 Go" },
+    "B": { "nom": "Milieu de gamme", "prix": 1690, "cpu": "AMD Ryzen 5 7600", "gpu": "Sapphire Radeon RX 9060 XT Pulse Gaming OC 16 Go" },
+    "C": { "nom": "Haut de gamme", "prix": 2490, "cpu": "AMD Ryzen 7 7700X", "gpu": "ASRock Radeon RX 9070 XT Taichi OC 16 Go" }
+  },
+  "jeux": {
+    "cyberpunk-2077": { "nom": "Cyberpunk 2077", "categorie": "exigeant" },
+    "alan-wake-2": { "nom": "Alan Wake 2", "categorie": "exigeant" },
+    "black-myth-wukong": { "nom": "Black Myth: Wukong", "categorie": "exigeant" },
+    "doom-dark-ages": { "nom": "Doom: The Dark Ages", "categorie": "exigeant" },
+    "counter-strike-2": { "nom": "Counter-Strike 2", "categorie": "competitif" },
+    "battlefield-6": { "nom": "Battlefield 6", "categorie": "competitif" },
+    "cod-black-ops-7": { "nom": "Call of Duty: Black Ops 7", "categorie": "competitif" },
+    "arc-raiders": { "nom": "ARC Raiders", "categorie": "competitif" }
+  },
+  "notesJeuxCompetitifs": "Pas de valeurs data-fps mesurées ou estimées dans la source pour CS2, Battlefield 6, Call of Duty: Black Ops 7 et ARC Raiders. Note qualitative existante : très fluides sur les trois machines en 1080p/1440p (souvent 100 à 200+ i/s), limités par le processeur — à mesurer à l'atelier. Aucune valeur chiffrée par machine/résolution n'existe pour ces 4 jeux : à ne pas inventer.",
+  "fps": [
+    { "machine": "A", "jeu": "cyberpunk-2077", "resolution": "1080p", "fps": 85, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "B", "jeu": "cyberpunk-2077", "resolution": "1080p", "fps": 95, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "cyberpunk-2077", "resolution": "1080p", "fps": 115, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "alan-wake-2", "resolution": "1080p", "fps": 62, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "B", "jeu": "alan-wake-2", "resolution": "1080p", "fps": 60, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "alan-wake-2", "resolution": "1080p", "fps": 95, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "black-myth-wukong", "resolution": "1080p", "fps": 50, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "black-myth-wukong", "resolution": "1080p", "fps": 85, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "black-myth-wukong", "resolution": "1080p", "fps": 140, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "doom-dark-ages", "resolution": "1080p", "fps": 85, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "B", "jeu": "doom-dark-ages", "resolution": "1080p", "fps": 120, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "doom-dark-ages", "resolution": "1080p", "fps": 150, "niveau": "fluide", "mesure": "estime" },
+
+    { "machine": "A", "jeu": "cyberpunk-2077", "resolution": "1440p", "fps": 50, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "cyberpunk-2077", "resolution": "1440p", "fps": 65, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "cyberpunk-2077", "resolution": "1440p", "fps": 85, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "alan-wake-2", "resolution": "1440p", "fps": 40, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "alan-wake-2", "resolution": "1440p", "fps": 42, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "C", "jeu": "alan-wake-2", "resolution": "1440p", "fps": 65, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "black-myth-wukong", "resolution": "1440p", "fps": 35, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "black-myth-wukong", "resolution": "1440p", "fps": 60, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "black-myth-wukong", "resolution": "1440p", "fps": 100, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "A", "jeu": "doom-dark-ages", "resolution": "1440p", "fps": 58, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "doom-dark-ages", "resolution": "1440p", "fps": 85, "niveau": "fluide", "mesure": "estime" },
+    { "machine": "C", "jeu": "doom-dark-ages", "resolution": "1440p", "fps": 110, "niveau": "fluide", "mesure": "estime" },
+
+    { "machine": "A", "jeu": "cyberpunk-2077", "resolution": "4k", "fps": 24, "niveau": "difficile", "mesure": "estime" },
+    { "machine": "B", "jeu": "cyberpunk-2077", "resolution": "4k", "fps": 32, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "C", "jeu": "cyberpunk-2077", "resolution": "4k", "fps": 47, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "A", "jeu": "alan-wake-2", "resolution": "4k", "fps": 18, "niveau": "difficile", "mesure": "estime" },
+    { "machine": "B", "jeu": "alan-wake-2", "resolution": "4k", "fps": 20, "niveau": "difficile", "mesure": "estime" },
+    { "machine": "C", "jeu": "alan-wake-2", "resolution": "4k", "fps": 34, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "A", "jeu": "black-myth-wukong", "resolution": "4k", "fps": 17, "niveau": "difficile", "mesure": "estime" },
+    { "machine": "B", "jeu": "black-myth-wukong", "resolution": "4k", "fps": 30, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "C", "jeu": "black-myth-wukong", "resolution": "4k", "fps": 58, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "A", "jeu": "doom-dark-ages", "resolution": "4k", "fps": 32, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "B", "jeu": "doom-dark-ages", "resolution": "4k", "fps": 48, "niveau": "jouable", "mesure": "estime" },
+    { "machine": "C", "jeu": "doom-dark-ages", "resolution": "4k", "fps": 62, "niveau": "fluide", "mesure": "estime" }
+  ]
+}
