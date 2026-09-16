@@ -87,7 +87,7 @@
   --bg-alt:#FFFFFF;
   --text:#0F172A;
   --text-secondary:#475569;
-  --text-muted:#94A3B8;
+  --text-muted:#5B6B85;
   --border:#E2E8F0;
   --green:#10B981;
   --whatsapp:#25D366;
@@ -563,7 +563,7 @@ function SOS44_loadGA4(){
 
 <!-- Entonnoir "Trouver mon PC" -->
 <div class="finder-overlay" id="finderOverlay" onclick="if(event.target===this)sos44CloseFinder()">
-  <div class="finder-modal">
+  <div class="finder-modal" role="dialog" aria-modal="true" aria-label="Trouver mon PC">
     <div class="finder-head">
       <button type="button" class="finder-close" onclick="sos44CloseFinder()" aria-label="Fermer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1100,7 +1100,10 @@ var FINDER_ORDER = ['A', 'B', 'C'];
 
 var finderState = { games: [], exigence: null, boitier: null };
 
+var finderTriggerEl = null;
+
 function sos44OpenFinder() {
+  finderTriggerEl = document.activeElement;
   finderState = { games: [], exigence: null, boitier: null };
   var gamesWrap = document.getElementById('finderGames');
   gamesWrap.innerHTML = FINDER_GAMES.map(function(g) {
@@ -1114,11 +1117,27 @@ function sos44OpenFinder() {
   sos44FinderGoStep(1);
   document.getElementById('finderOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.addEventListener('keydown', sos44FinderKeydown);
+  var closeBtn = document.querySelector('#finderOverlay .finder-close');
+  if (closeBtn) closeBtn.focus();
 }
 
 function sos44CloseFinder() {
   document.getElementById('finderOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  document.removeEventListener('keydown', sos44FinderKeydown);
+  if (finderTriggerEl && typeof finderTriggerEl.focus === 'function') finderTriggerEl.focus();
+}
+
+function sos44FinderKeydown(e) {
+  if (e.key === 'Escape') { sos44CloseFinder(); return; }
+  if (e.key !== 'Tab') return;
+  var modal = document.querySelector('#finderOverlay .finder-modal');
+  var focusables = modal.querySelectorAll('button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusables.length) return;
+  var first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
 function sos44FinderToggleGame(id, btn) {

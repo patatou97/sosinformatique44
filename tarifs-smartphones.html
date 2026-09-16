@@ -568,7 +568,7 @@ function SOS44_loadGA4(){
       <div class="mcnt" id="mcnt">Modèles</div>
       <div class="sbox">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="msearch" placeholder="Rechercher un modèle…">
+        <input type="text" id="msearch" placeholder="Rechercher un modèle…" aria-label="Rechercher un modèle">
       </div>
     </div>
     <div class="mgrid" id="mgrid"></div>
@@ -595,8 +595,8 @@ function SOS44_loadGA4(){
       <div class="rpanel">
         <div class="rptitle">📋 Votre demande</div>
         <div id="sumarea"><p class="sumempty">Cochez une réparation pour composer votre demande.</p></div>
-        <div class="cinput-wrap"><label>Votre prénom</label><input type="text" id="waname" placeholder="ex : Marie"></div>
-        <div class="cinput-wrap"><label>Votre numéro (optionnel)</label><input type="text" id="waphone" placeholder="06 XX XX XX XX"></div>
+        <div class="cinput-wrap"><label for="waname">Votre prénom</label><input type="text" id="waname" placeholder="ex : Marie"></div>
+        <div class="cinput-wrap"><label for="waphone">Votre numéro (optionnel)</label><input type="text" id="waphone" placeholder="06 XX XX XX XX"></div>
         <button class="wabtn" onclick="sendWA()">
           <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.958-1.42A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.073-1.118l-.292-.173-3.024.866.867-3.02-.19-.31A7.948 7.948 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
           Envoyer ma demande Contact rapide
@@ -611,10 +611,10 @@ function SOS44_loadGA4(){
 <div class="overlay" id="ov-price">
   <div class="modal">
     <h3>✏️ Modifier la réparation</h3>
-    <div class="frow"><label>Nom</label><input id="ep-nom" type="text"></div>
-    <div class="frow"><label>Prix € — vide = Sur devis</label><input id="ep-prix" type="text" placeholder="ex: 89"></div>
-    <div class="frow"><label>Durée</label><input id="ep-duree" type="text" placeholder="ex: 30 minutes"></div>
-    <div class="frow"><label>Description</label><textarea id="ep-desc"></textarea></div>
+    <div class="frow"><label for="ep-nom">Nom</label><input id="ep-nom" type="text"></div>
+    <div class="frow"><label for="ep-prix">Prix € — vide = Sur devis</label><input id="ep-prix" type="text" placeholder="ex: 89"></div>
+    <div class="frow"><label for="ep-duree">Durée</label><input id="ep-duree" type="text" placeholder="ex: 30 minutes"></div>
+    <div class="frow"><label for="ep-desc">Description</label><textarea id="ep-desc"></textarea></div>
     <div class="mactions">
       <button class="bcancel" onclick="closeOv('ov-price')">Annuler</button>
       <button class="bsave" onclick="savePrice()">💾 Enregistrer</button>
@@ -627,7 +627,7 @@ function SOS44_loadGA4(){
   <div class="modal">
     <h3>🖼️ Logo — <span id="crop-brand"></span></h3>
     <p class="crophint">Importez une image puis déplacez-la pour cadrer le logo dans le carré vert. Fonctionne avec PNG, JPEG, SVG, WEBP.</p>
-    <div class="cropzone" id="czone" onclick="document.getElementById('cfile').click()">
+    <div class="cropzone" id="czone" role="button" tabindex="0" aria-label="Importer une image de logo" onclick="document.getElementById('cfile').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('cfile').click()}">
       <svg width="34" height="34" fill="none" stroke="#9ca3af" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       <p>Cliquez ou glissez une image ici<br><small>PNG · JPEG · SVG · WEBP</small></p>
     </div>
@@ -655,11 +655,11 @@ function SOS44_loadGA4(){
 <div class="overlay" id="ov-upsell">
   <div class="modal">
     <h3>✏️ Modifier l'accessoire</h3>
-    <div class="frow"><label>Nom</label><input id="ue-name" type="text"></div>
-    <div class="frow"><label>Description</label><textarea id="ue-desc"></textarea></div>
+    <div class="frow"><label for="ue-name">Nom</label><input id="ue-name" type="text"></div>
+    <div class="frow"><label for="ue-desc">Description</label><textarea id="ue-desc"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-      <div class="frow" style="margin:0"><label>Ancien prix €</label><input id="ue-old" type="number"></div>
-      <div class="frow" style="margin:0"><label>Nouveau prix €</label><input id="ue-new" type="number"></div>
+      <div class="frow" style="margin:0"><label for="ue-old">Ancien prix €</label><input id="ue-old" type="number"></div>
+      <div class="frow" style="margin:0"><label for="ue-new">Nouveau prix €</label><input id="ue-new" type="number"></div>
     </div>
     <div class="frow"><label>Emoji</label><input id="ue-icon" maxlength="4" style="width:60px;text-align:center;font-size:1.2rem"></div>
     <div class="mactions">
