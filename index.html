@@ -2201,9 +2201,22 @@ document.addEventListener('click',function(e){
     var logo = localStorage.getItem('sos44_logo');
     if (!logo || logo.length < 10 || logo.indexOf('data:image/') !== 0) return;
     var navIcon = document.getElementById('siteLogoIcon');
-    if (navIcon) navIcon.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:32px;width:auto;border-radius:4px">';
+    if (navIcon) {
+      navIcon.innerHTML = '';
+      var img1 = document.createElement('img');
+      img1.src = logo; img1.alt = 'SOS Informatique 44';
+      img1.style.height = '32px'; img1.style.width = 'auto'; img1.style.borderRadius = '4px';
+      navIcon.appendChild(img1);
+    }
     var footerEl = document.getElementById('footerLogo');
-    if (footerEl) footerEl.innerHTML = '<img src="' + logo + '" alt="SOS Informatique 44" style="height:24px;width:auto;border-radius:3px"> SOS Informatique 44';
+    if (footerEl) {
+      footerEl.innerHTML = '';
+      var img2 = document.createElement('img');
+      img2.src = logo; img2.alt = 'SOS Informatique 44';
+      img2.style.height = '24px'; img2.style.width = 'auto'; img2.style.borderRadius = '3px';
+      footerEl.appendChild(img2);
+      footerEl.appendChild(document.createTextNode(' SOS Informatique 44'));
+    }
   } catch(e) {}
 })();
 
