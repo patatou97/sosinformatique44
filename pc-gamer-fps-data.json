@@ -3,12 +3,12 @@
     "protocole": "Qualité élevée, upscaling désactivé, ray tracing désactivé",
     "sourceFichier": "comparatif-pc-gamer.html",
     "dateExtraction": "2026-09-11",
-    "sourceValeursEstimees": "Tom's Hardware, TechSpot, TechPowerUp, KitGuru, checkfps, AMD, entre autres (2025-2026)"
+    "sourceValeursEstimees": "Tom's Hardware, TechSpot, TechPowerUp, KitGuru, checkfps, NVIDIA, entre autres (2025-2026)"
   },
   "machines": {
     "A": { "nom": "Entrée de gamme", "prix": 1190, "cpu": "AMD Ryzen 5 5600X", "gpu": "MSI GeForce RTX 5050 Ventus 2X OC 8 Go" },
-    "B": { "nom": "Milieu de gamme", "prix": 1690, "cpu": "AMD Ryzen 5 7600", "gpu": "Sapphire Radeon RX 9060 XT Pulse Gaming OC 16 Go" },
-    "C": { "nom": "Haut de gamme", "prix": 2490, "cpu": "AMD Ryzen 7 7700X", "gpu": "ASRock Radeon RX 9070 XT Taichi OC 16 Go" }
+    "B": { "nom": "Milieu de gamme", "prix": 2190, "cpu": "AMD Ryzen 7 7700X", "gpu": "Zotac GeForce RTX 5060 Ti AMP 16 Go" },
+    "C": { "nom": "Haut de gamme", "prix": 3280, "cpu": "AMD Ryzen 9 7900", "gpu": "PNY GeForce RTX 5070 Ti Triple Fan OC 16 Go" }
   },
   "jeux": {
     "cyberpunk-2077": { "nom": "Cyberpunk 2077", "categorie": "exigeant" },
