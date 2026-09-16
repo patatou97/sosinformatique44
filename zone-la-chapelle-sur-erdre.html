@@ -411,28 +411,7 @@ ul{list-style:none}
 @media(max-width:600px){.rgpd-inner{flex-direction:column;text-align:center}.rgpd-buttons{width:100%;justify-content:center}}
 </style>
 <!-- Google Analytics 4 + Microsoft Clarity : conditionnes au consentement RGPD (CNIL) -->
-<script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-function SOS44_loadClarity(){
-  if(window.SOS44_CLARITY_LOADED)return;window.SOS44_CLARITY_LOADED=true;
-  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","walmpshp6d");
-}
-function SOS44_loadGA4(){
-  if(window.SOS44_GA4_LOADED)return;window.SOS44_GA4_LOADED=true;
-  gtag('js',new Date());gtag('config','G-C39YPQWZ0T',{anonymize_ip:true});
-  var s=document.createElement('script');s.async=true;
-  s.src='https://www.googletagmanager.com/gtag/js?id=G-C39YPQWZ0T';
-  document.head.appendChild(s);
-}
-(function(){
-  try{
-    if(localStorage.getItem('sos44_consent')==='accepted'){
-      if(document.readyState==='complete')setTimeout(function(){SOS44_loadGA4();SOS44_loadClarity()},3000);
-      else window.addEventListener('load',function(){setTimeout(function(){SOS44_loadGA4();SOS44_loadClarity()},3000)});
-    }
-  }catch(e){}
-})();
-</script>
+<script src="assets/analytics.js"></script>
 </head>
 <body>
 <a href="#main" class="skip-link">Aller au contenu</a>
@@ -767,31 +746,6 @@ window.addEventListener('scroll',function(){
   document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>10);
 });
 </script>
-<script>
-/* ===== RGPD CONSENT MANAGER ===== */
-var SOS44_CONSENT=(function(){
-  var KEY='sos44_consent';
-  var consent=localStorage.getItem(KEY);
-  function showBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='block'}
-  function hideBanner(){var b=document.getElementById('rgpdBanner');if(b)b.style.display='none'}
-  if(!consent){
-    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',showBanner)}else{showBanner()}
-  }
-  return{
-    hasConsented:function(){return consent==='accepted'},
-    isDecided:function(){return consent==='accepted'||consent==='refused'},
-    accept:function(){
-      consent='accepted';localStorage.setItem(KEY,'accepted');hideBanner();
-      if(typeof SOS44_loadGA4==='function')SOS44_loadGA4();
-      if(typeof SOS44_loadClarity==='function')SOS44_loadClarity();
-    },
-    refuse:function(){
-      consent='refused';localStorage.setItem(KEY,'refused');hideBanner();
-    }
-  };
-})();
-function acceptRGPD(){SOS44_CONSENT.accept()}
-function refuseRGPD(){SOS44_CONSENT.refuse()}
-</script>
+<script src="assets/rgpd.js"></script>
 </body>
 </html>
