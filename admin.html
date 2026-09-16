@@ -2091,8 +2091,6 @@ async function handleLogin(e) {
   e.preventDefault();
   var pwd = document.getElementById('loginPwd').value;
 
-  if (pwd === 'sos44') { loginSuccess(); return false; }
-
   var storedSecure = getStoredHash();
   if (storedSecure) {
     var hash = await secureHash(pwd);
