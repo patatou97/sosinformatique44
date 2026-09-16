@@ -711,8 +711,11 @@ async function loadPricingData() {
   } catch (error) {
     console.error('[API] Erreur chargement tarifs:', error);
     // Fallback : message d'erreur
-    document.getElementById('brands-container').innerHTML =
-      '<div style="padding:20px;text-align:center;color:#666;">Erreur de chargement des tarifs. Veuillez réessayer.</div>';
+    const container = document.getElementById('bgrid');
+    if (container) {
+      container.innerHTML =
+        '<div style="padding:20px;text-align:center;color:#666;">Erreur de chargement des tarifs. Veuillez réessayer.</div>';
+    }
   }
 }
 
