@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /comparatif-pc-gamer.html
+Disallow: /audit-securite-sos44.html
+Disallow: /blog-sos-informatique44.html
 
 Sitemap: https://sos-informatique44.fr/sitemap.xml
