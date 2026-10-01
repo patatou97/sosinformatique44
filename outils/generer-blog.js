@@ -32,9 +32,12 @@ const CATEGORIES = {
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const dateFr = (iso) => new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' });
-const dateIso = (iso) => new Date(iso).toISOString();
-const dateJour = (iso) => dateIso(iso).slice(0, 10);
+/* Le CRM enregistre ses dates en UTC sans le préciser (« 2026-07-18 01:18:03 ») :
+   on les lit comme UTC, quel que soit le fuseau de la machine, et on affiche le jour à Paris. */
+const lireDate = (d) => new Date(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(d) ? d.replace(' ', 'T') + 'Z' : d);
+const dateFr = (d) => lireDate(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' });
+const dateIso = (d) => lireDate(d).toISOString();
+const dateJour = (d) => lireDate(d).toLocaleDateString('en-CA', { timeZone: 'Europe/Paris' });
 
 function imageUrl(art) {
   const u = art.image_url || '';
@@ -218,7 +221,7 @@ async function main() {
   if (!Array.isArray(brut)) throw new Error('API du CRM : réponse inattendue');
   const articles = brut
     .filter((a) => a && a.title && a.content && a.published_at && /^[a-z0-9-]+$/.test(a.slug || ''))
-    .sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+    .sort((a, b) => lireDate(b.published_at) - lireDate(a.published_at));
   /* Sécurité : une API vide ou en panne ne doit jamais effacer le blog. */
   if (articles.length === 0) throw new Error('Aucun article publié reçu : rien n\'est modifié');
 
