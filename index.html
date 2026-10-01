@@ -1420,7 +1420,7 @@ ul{list-style:none}
       <img src="quali-repare.webp" srcset="quali-repare-1x.webp 1x, quali-repare.webp 2x" alt="Label QualiRépare" class="quali-logo-calc reveal" loading="lazy" decoding="async" width="120" height="83">
       <div class="section-tag reveal">Économies</div>
       <h2 class="section-title reveal">Calculez vos économies</h2>
-      <p class="section-subtitle reveal">Sélectionnez votre réparation pour voir le prix après déduction du bonus QualiRépare.</p>
+      <p class="section-subtitle reveal">Sélectionnez votre réparation pour voir son prix, bonus QualiRépar déduit quand elle y est éligible.</p>
     </div>
     <div class="calc-wrap reveal">
       <label for="calcSelect" class="sr-only">Type de réparation</label>
@@ -2053,28 +2053,35 @@ var SOS44_MOBILE = (function(){ var wa=SOS44_WA; if(wa.indexOf('33')===0) return
 
 /* Calculator — dynamic prices from admin */
 (function(){
-  var defaultPrices=[
-    {name:'Écran iPhone',price:150},{name:'Connecteur de charge',price:90},
-    {name:'Écran MacBook',price:350},{name:'Batterie MacBook',price:180},
-    {name:'Remplacement SSD (PC)',price:120},{name:'Charnière PC portable',price:130},
-    {name:'Nettoyage interne',price:80},{name:'Récupération de données',price:150}
+  /* Bonus Réparation QualiRépar (barème ecosystem au 1er janvier 2026) :
+     téléphone 25 € ; ordinateur 50 € uniquement à partir de 150 € de réparation. */
+  var prices=[
+    {name:'Écran iPhone',price:150,type:'phone'},
+    {name:'Écran MacBook',price:400,type:'computer'},
+    {name:'Batterie MacBook',price:200,type:'computer'},
+    {name:'Remplacement SSD (PC)',price:230,type:'computer'},
+    {name:'Charnière PC portable',price:130,type:'computer'}
   ];
-  var prices=defaultPrices;
-  try{var _p=JSON.parse(localStorage.getItem('sos44_calc_prices'));if(Array.isArray(_p)&&_p.every(function(i){return typeof i.name==='string'&&typeof i.price==='number'&&i.price>0}))prices=_p}catch(e){}
-  var bonus=50;try{var _b=parseInt(localStorage.getItem('sos44_calc_bonus'));if(_b>0&&_b<500)bonus=_b}catch(e){}
-  var sel=document.getElementById('calcSelect');
   prices.forEach(function(p){
+    p.bonus=p.type==='phone'?25:(p.price>=150?50:0);
+    if(!p.bonus)p.why='Réparation d\'ordinateur sous 150 € : le Bonus Réparation ne s\'applique pas.';
+  });
+  var sel=document.getElementById('calcSelect');
+  prices.forEach(function(p,i){
     var o=document.createElement('option');
-    o.value=p.price;o.textContent=p.name+' — '+p.price+' €';
+    o.value=i;o.textContent=p.name+' — '+p.price+' €';
     sel.appendChild(o);
   });
-  document.getElementById('calcBadge').textContent='-'+bonus+' €';
   sel.addEventListener('change',function(){
-    var val=parseInt(this.value),res=document.getElementById('calcResult');
-    if(!val){res.classList.remove('visible');return}
-    document.getElementById('calcBefore').textContent=val+' €';
-    document.getElementById('calcAfter').textContent=(val-bonus)+' €';
-    document.getElementById('calcSaving').textContent='Vous économisez '+bonus+' € grâce au bonus QualiRépare';
+    var p=prices[this.value],res=document.getElementById('calcResult');
+    if(!p){res.classList.remove('visible');return}
+    var before=document.getElementById('calcBefore'),badge=document.getElementById('calcBadge'),saving=document.getElementById('calcSaving');
+    before.style.display=badge.style.display=p.bonus?'':'none';
+    before.textContent=p.price+' €';
+    badge.textContent='-'+p.bonus+' €';
+    document.getElementById('calcAfter').textContent=(p.price-p.bonus)+' €';
+    saving.textContent=p.bonus?'Vous économisez '+p.bonus+' € grâce au Bonus Réparation QualiRépar':p.why;
+    saving.style.color=p.bonus?'':'var(--text-secondary)';
     res.classList.remove('visible');void res.offsetWidth;res.classList.add('visible');
   });
 })();
@@ -2479,9 +2486,13 @@ function faqToggle(btn){
 
     <h3>&Eacute;diteur du site</h3>
     <p>Ce site est &eacute;dit&eacute; par :<br>
-    <strong>SOS INFORMATIQUE 44</strong><br>
-    <strong>Si&egrave;ge social :</strong> 9 all&eacute;e du Qu&eacute;bec, 44240 La Chapelle-sur-Erdre<br><br>
-    <strong>SIRET :</strong> 81919530600017<br>
+    <strong>PATRICK PIED MLT</strong>, SASU au capital de 500&nbsp;&euro;<br>
+    <strong>Nom commercial :</strong> SOS Informatique 44<br>
+    <strong>Si&egrave;ge social :</strong> 9 all&eacute;e du Qu&eacute;bec, 44240 La Chapelle-sur-Erdre<br>
+    <strong>Atelier :</strong> 27 rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre<br><br>
+    <strong>RCS :</strong> Nantes 819 195 306<br>
+    <strong>SIRET du si&egrave;ge :</strong> 819 195 306 00017<br>
+    <strong>TVA intracommunautaire :</strong> FR41819195306<br>
     <strong>E-mail :</strong> contact@sos-informatique44.fr<br>
     <strong>T&eacute;l&eacute;phone :</strong> 02.85.52.38.14 ou 06.58.45.80.91<br><br>
     <strong>Responsable de la publication :</strong> Patrick PIED</p>
@@ -2524,8 +2535,8 @@ function faqToggle(btn){
     <p><em>Derni&egrave;re mise &agrave; jour : 11 avril 2026</em></p>
 
     <h3>1. Responsable du traitement</h3>
-    <p>SOS INFORMATIQUE 44, 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.<br>
-    SIRET : 81919530600017<br>
+    <p>PATRICK PIED MLT (SOS Informatique 44), si&egrave;ge social : 9 all&eacute;e du Qu&eacute;bec ; atelier : 27 rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.<br>
+    SIRET : 819 195 306 00017<br>
     Contact : contact@sos-informatique44.fr<br>
     Responsable : Patrick PIED</p>
 
@@ -2606,7 +2617,7 @@ function faqToggle(btn){
     <p><em>Derni&egrave;re mise &agrave; jour : 11 avril 2026</em></p>
 
     <h3>Article 1 &mdash; Objet</h3>
-    <p>Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales de Vente (CGV) r&eacute;gissent les prestations de diagnostic et de r&eacute;paration d'appareils informatiques et mobiles (ordinateurs PC, Mac, smartphones, tablettes) fournies par <strong>SOS INFORMATIQUE 44</strong> &mdash; entreprise individuelle, SIRET 81919530600017 &mdash; &agrave; toute personne physique ou morale (&laquo;&nbsp;le Client&nbsp;&raquo;) d&eacute;posant un appareil &agrave; l'atelier situ&eacute; 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.</p>
+    <p>Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales de Vente (CGV) r&eacute;gissent les prestations de diagnostic et de r&eacute;paration d'appareils informatiques et mobiles (ordinateurs PC, Mac, smartphones, tablettes) fournies par <strong>PATRICK PIED MLT</strong>, soci&eacute;t&eacute; par actions simplifi&eacute;e &agrave; associ&eacute; unique au capital de 500&nbsp;&euro;, exploitant le nom commercial SOS Informatique 44, RCS Nantes 819 195 306, dont le si&egrave;ge social est 9 all&eacute;e du Qu&eacute;bec, 44240 La Chapelle-sur-Erdre, &agrave; toute personne physique ou morale (&laquo;&nbsp;le Client&nbsp;&raquo;) d&eacute;posant un appareil &agrave; l'atelier situ&eacute; 27 Rue de la Vri&egrave;re, 44240 La Chapelle-sur-Erdre.</p>
 
     <h3>Article 2 &mdash; Prise en charge et d&eacute;p&ocirc;t</h3>
     <p>Le d&eacute;p&ocirc;t d'un appareil donne lieu &agrave; la remise d'un <strong>bon de d&eacute;p&ocirc;t</strong> ou d'un num&eacute;ro de suivi (format <em>NNN-NOM</em>). Ce num&eacute;ro permet au Client de suivre l'avancement de sa r&eacute;paration sur le site ou sur le CRM <a href="https://crm.sos-informatique44.fr" target="_blank" rel="noopener noreferrer">crm.sos-informatique44.fr</a>. Le Client d&eacute;clare &ecirc;tre le propri&eacute;taire l&eacute;gitime de l'appareil ou disposer d'un mandat pour le faire r&eacute;parer.</p>
