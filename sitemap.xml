@@ -176,4 +176,61 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <!-- BLOG:DEBUT (généré par outils/generer-blog.js) -->
+  <url>
+    <loc>https://sos-informatique44.fr/blog/reparer-votre-iphone-ou-en-racheter-un-le-vrai-cout-a-la-chapelle-sur-erdre</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/micro-soudure-et-reparation-electronique-pour-qui-pour-quoi</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/ios-26-4-que-faire-si-votre-iphone-bug-apres-la-mise-a-jour</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/comment-proteger-efficacement-votre-ordinateur-et-smartphone-contre-les-virus-a-</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/failles-chrome-comment-savoir-si-votre-ordinateur-a-ete-infecte</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/votre-smartphone-pixel-perd-son-autonomie-ce-n-est-pas-toujours-l-ia</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/changement-de-batterie-samsung-galaxy-s26-ultra-ce-qu-il-faut-savoir-a-nantes</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/comment-reconnaitre-un-sms-de-phishing-et-proteger-son-smartphone</loc>
+    <lastmod>2026-04-11</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/ecran-anti-espion-du-samsung-s26-ultra-pourquoi-sa-reparation-est-si-delicate</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/smartphone-qui-ne-tient-plus-la-charge-diagnostic-et-solutions-a-la-chapelle-sur</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://sos-informatique44.fr/blog/votre-console-de-jeu-ne-demarre-plus-ou-surchauffe-solutions-et-reparation-a-la-</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <!-- BLOG:FIN -->
 </urlset>
