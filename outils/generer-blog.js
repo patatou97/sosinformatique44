@@ -10,7 +10,8 @@
  *   SITE_DIR=/opt/sosinformatique44 BLOG_API=http://127.0.0.1:3002/api/blog/public/articles node generer-blog.js
  * En local (sans variables) : écrit dans le dossier du site, lit l'API publique du CRM.
  *
- * Pour retirer un article du site : le passer en « archivé » dans le CRM.
+ * Pour retirer un article du site : le remettre « en attente de validation » dans le CRM
+ * (le CRM n'a pas de statut « archivé » : rewriting, pending_review, published).
  */
 'use strict';
 
