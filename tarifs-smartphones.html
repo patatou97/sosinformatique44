@@ -834,7 +834,7 @@ function renderRCards(repairs){
     const ptag=hasP
       ?`<div class="ptag${isAdmin?' ed':''}">${r.prix} €</div>`
       :`<div class="ptag dv${isAdmin?' ed':''}">Sur devis</div>`;
-    const badge=r.badge?`<div class="rbadge">🎁 QualiRépare −25€</div>`:'';
+    const badge=r.badge?`<div class="rbadge">🎁 QualiRépar −25€</div>`:'';
     const card=document.createElement('div');
     card.className='rcard'+(on?' on':'');
     card.setAttribute('tabindex','0');

@@ -40,7 +40,7 @@ Le reste est une liste d'améliorations incrémentales qui, cumulées, passent l
 | Schema.org `LocalBusiness` complet (adresse, GPS, horaires, `aggregateRating` 4.8/62, 8 villes `areaServed`) | ✅ index.html:28-81 |
 | Schema.org `FAQPage` (6 questions) | ✅ index.html:82-95 |
 | `robots.txt` | ✅ racine (Allow /, référence sitemap) |
-| `loading="lazy"` + `width`/`height` sur QualiRépare | ✅ index.html:1196 |
+| `loading="lazy"` + `width`/`height` sur QualiRépar | ✅ index.html:1196 |
 | `loading="lazy"` sur galerie atelier (5 images) | ✅ index.html:1333-1349 |
 | Page blog connectée au CRM | ✅ blog.html |
 | CNAME GitHub Pages | ✅ racine |
@@ -187,7 +187,7 @@ Le reste est une liste d'améliorations incrémentales qui, cumulées, passent l
 |---|---|
 | SIRET affiché (probable) | **CGV / CGU** |
 | `priceRange` Schema | **Politique de confidentialité RGPD** |
-| Label QualiRépare visible | Politique cookies |
+| Label QualiRépar visible | Politique cookies |
 | `aggregateRating` Schema | Badges Bonus Réparation cliquables |
 | | Section presse / ils parlent de nous |
 
@@ -248,7 +248,7 @@ Le `<head>` contient déjà `<meta property="og:image" content="https://sos-info
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SOS Informatique 44 – Réparation La Chapelle-sur-Erdre">
-<meta name="twitter:description" content="Réparation PC, Mac, iPhone. Bonus 50€ QualiRépare.">
+<meta name="twitter:description" content="Réparation PC, Mac, iPhone. Bonus 50€ QualiRépar.">
 <meta name="twitter:image" content="https://sos-informatique44.fr/og-image.jpg">
 ```
 
