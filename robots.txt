@@ -3,3 +3,4 @@ Allow: /
 Disallow: /api/
 
 Sitemap: https://sos-informatique44.fr/sitemap.xml
+Sitemap: https://sos-informatique44.fr/apps/sitemap.xml
